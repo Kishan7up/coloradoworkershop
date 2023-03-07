@@ -9,8 +9,6 @@ import 'package:app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'ui/screens/dashboard/Customer/search_customer_screen.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
