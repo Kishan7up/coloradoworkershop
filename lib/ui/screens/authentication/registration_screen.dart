@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/blocs/other/authentication/authentication_bloc.dart';
 import 'package:app/models/api_request/registraion/registration_request.dart';
 import 'package:app/models/api_response/company_details/company_details_response.dart';
@@ -10,7 +8,10 @@ import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/widgets/common_widgets.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:app/utils/shared_pref_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+//From Office
 class RegistrationScreen extends BaseStatefulWidget {
   static const routeName = '/RegistrationScreen';
 
@@ -99,7 +100,7 @@ class _RegistrationScreenState extends BaseState<RegistrationScreen>
           // width: MediaQuery.of(context).size.width / 1.5,
           child: Icon(
             Icons.vpn_key_outlined,
-            color: colorPrimary,
+            color: colorBlack,
             size: 78,
           ),
         ),
