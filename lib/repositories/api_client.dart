@@ -4,14 +4,14 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
-import 'package:html/parser.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as path;
 import 'package:app/models/common/globals.dart';
 import 'package:app/utils/date_time_extensions.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:app/utils/shared_pref_helper.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 
 import 'custom_exception.dart';
 import 'error_response_exception.dart';
@@ -19,7 +19,7 @@ import 'error_response_exception.dart';
 class ApiClient {
   ///set apis' base url here
 
-  static var BASE_URL = SharedPrefHelper.instance.getBaseURL();
+  static var BASE_URL = "http://122.169.111.101:108/";
   // "http://122.169.111.101:108/"; //
 
   /// General Flutter Test SerialKey = TEST-0000-SI0F-0208 / ID : admin / Pwd : Sharvaya / SiteURL : 122.169.11.101:3346
@@ -78,11 +78,47 @@ CartFlutterLive     : [BaseURL(API)]:	http://208.109.14.134:86/ [WebURL]:http://
   static const END_POINT_FOLLOWER_EMPLOYEE_LIST =
       'Inquiry/EmployeeFollowerList';
   static const END_POINT_INQUIRY_SEARCH_BY_FILLTER = 'Inquiry/SearchList';
+  static const END_POINT_RECENT_VIEW_LIST = 'Customer/1-3';
 
   //DailyAttendanceMode/0/Save
   final http.Client httpClient;
 
   ApiClient({this.httpClient});
+
+  Future<dynamic> apiCallrecentview(
+    String url,
+    Map<String, dynamic> requestJsonMap, {
+    /*String baseUrl = BASE_URL,*/
+    bool showSuccessDialog = false,
+    //dynamic jsontemparray,
+  }) async {
+    var responseJson;
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    print("Headers - $headers");
+    //String asd = json.encode(jsontemparray);
+
+    log("Api request url : $BASE_URL$url\nHeaders - $headers\nApi request params : $requestJsonMap" /*+ "JSON Array $asd"*/);
+    /*print(
+        "Api request url : $baseUrl$url\nHeaders - $headers\nApi request params : $requestJsonMap" */ /*+ "JSON Array $asd"*/ /*);*/
+    try {
+      final response = await httpClient
+          .post(Uri.parse("$BASE_URL$url"),
+              headers: headers,
+              body:
+                  (requestJsonMap == null) ? null : json.encode(requestJsonMap))
+          .timeout(const Duration(seconds: 60));
+
+      responseJson =
+          await _response(response, showSuccessDialog: showSuccessDialog);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    } on TimeoutException {
+      throw FetchDataException('Request time out');
+    }
+    return responseJson;
+  }
 
   ///GET api call
   Future<dynamic> apiCallGet(String url, {String query = ""}) async {
@@ -117,7 +153,7 @@ CartFlutterLive     : [BaseURL(API)]:	http://208.109.14.134:86/ [WebURL]:http://
       final response = await httpClient
           .get(Uri.parse(getUrl), headers: headers)
           .timeout(const Duration(seconds: 60));
-      responseJson = await _response(response);
+      responseJson = await _responseLogin(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }

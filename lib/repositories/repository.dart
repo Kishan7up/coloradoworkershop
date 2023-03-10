@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/api_request/customer/customer_add_edit_api_request.dart';
 import 'package:app/models/api_request/customer/customer_category_request.dart';
 import 'package:app/models/api_request/customer/customer_delete_request.dart';
@@ -48,7 +47,10 @@ import 'package:app/models/api_response/other/follower_employee_list_response.da
 import 'package:app/models/api_response/other/state_list_response.dart';
 import 'package:app/models/common/inquiry_product_model.dart';
 import 'package:app/repositories/error_response_exception.dart';
+import 'package:app/utils/offline_db_helper.dart';
 import 'package:app/utils/shared_pref_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'api_client.dart';
 
@@ -450,6 +452,27 @@ class Repository {
           ApiClient.END_POINT_INQUIRY_SEARCH_BY_FILLTER, request.toJson());
       InquiryListResponse response = InquiryListResponse.fromJson(json);
 
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CustomerDetailsResponse> getrecentviewapi(
+      CustomerPaginationRequest customerPaginationRequest) async {
+    try {
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_RECENT_VIEW_LIST,
+          customerPaginationRequest.toJson());
+      /*  Map<String, dynamic> json =
+          await apiClient.apiCallGet(ApiClient.END_POINT_RECENT_VIEW_LIST);*/
+      CustomerDetailsResponse response = CustomerDetailsResponse.fromJson(json);
+      await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
+      for (int i = 0; i < response.details.length; i++) {
+        await OfflineDbHelper.getInstance().insertRecentViewDBTable(
+            RecentViewDBTable(response.details[i].customerID.toString(),
+                response.details[i].customerName));
+      }
       return response;
     } on ErrorResponseException catch (e) {
       rethrow;

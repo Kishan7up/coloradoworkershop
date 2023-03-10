@@ -1,5 +1,6 @@
-import 'package:path/path.dart';
+import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/common/inquiry_product_model.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class OfflineDbHelper {
@@ -8,13 +9,14 @@ class OfflineDbHelper {
 
   static const TABLE_PRODUCT_CART = "product_cart";
   static const TABLE_INQUIRY_PRODUCT = "inquiry_product";
+  static const TABLE_RECENT_VIEW = "recent_view";
 
   static createInstance() async {
     _offlineDbHelper = OfflineDbHelper();
     database = await openDatabase(
         join(await getDatabasesPath(), 'grocery_shop_database.db'),
         onCreate: (db, version) => _createDb(db),
-        version: 2);
+        version: 3);
   }
 
   static void _createDb(Database db) {
@@ -26,6 +28,11 @@ class OfflineDbHelper {
     db.execute(
       'CREATE TABLE $TABLE_INQUIRY_PRODUCT(id INTEGER PRIMARY KEY AUTOINCREMENT, InquiryNo TEXT,LoginUserID TEXT, CompanyId TEXT, ProductName TEXT, ProductID TEXT, Quantity TEXT, UnitPrice TEXT,TotalAmount TEXT)',
     );
+
+    db.execute(
+      'CREATE TABLE $TABLE_RECENT_VIEW(id INTEGER PRIMARY KEY AUTOINCREMENT, CustomerID TEXT,CustomerName TEXT)',
+    );
+    //TABLE_RECENT_VIEW
   }
 
   static OfflineDbHelper getInstance() {
@@ -90,5 +97,58 @@ class OfflineDbHelper {
     final db = await database;
 
     await db.delete(TABLE_INQUIRY_PRODUCT);
+  }
+
+  ///Here Recent View Table Implimentation
+
+  Future<int> insertRecentViewDBTable(RecentViewDBTable model) async {
+    final db = await database;
+
+    return await db.insert(
+      TABLE_RECENT_VIEW,
+      model.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<RecentViewDBTable>> getRecentViewDBTable() async {
+    final db = await database;
+
+    final List<Map<String, dynamic>> maps = await db.query(TABLE_RECENT_VIEW);
+
+    return List.generate(maps.length, (i) {
+      return RecentViewDBTable(
+        maps[i]['CustomerID'],
+        maps[i]['CustomerName'],
+        id: maps[i]['id'],
+      );
+    });
+  }
+
+  Future<void> updateRecentViewDBTable(RecentViewDBTable model) async {
+    final db = await database;
+
+    await db.update(
+      TABLE_RECENT_VIEW,
+      model.toJson(),
+      where: 'id = ?',
+      whereArgs: [model.id],
+    );
+  }
+
+  Future<void> deleteRecentViewDBTable(int id) async {
+    final db = await database;
+
+    await db.delete(
+      TABLE_RECENT_VIEW,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<void> deleteALLRecentViewDBTable() async {
+    final db = await database;
+
+    await db.delete(TABLE_RECENT_VIEW);
   }
 }

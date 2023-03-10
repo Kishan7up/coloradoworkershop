@@ -1,13 +1,14 @@
 import 'package:app/ui/res/localizations/app_localizations.dart';
 import 'package:app/ui/res/style_resources.dart';
-import 'package:app/ui/screens/DashBoard/home_screen.dart';
-import 'package:app/ui/screens/authentication/login_screen.dart';
-import 'package:app/ui/screens/authentication/registration_screen.dart';
+import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/splash_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:app/utils/offline_db_helper.dart';
 import 'package:app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'ui/screens/dashboard/recent_cases_list_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,13 +29,12 @@ class MyApp extends StatefulWidget {
     // final GlobalKey<ScaffoldState> key = settings.arguments;
 
     switch (settings.name) {
-      case RegistrationScreen.routeName:
-        return getMaterialPageRoute(RegistrationScreen());
-      case LoginScreen.routeName:
-        return getMaterialPageRoute(LoginScreen());
+      case SplashScreen.routeName:
+        return getMaterialPageRoute(SplashScreen());
       case HomeScreen.routeName:
         return getMaterialPageRoute(HomeScreen());
-
+      case RecentCasesListScreen.routeName:
+        return getMaterialPageRoute(RecentCasesListScreen());
       default:
         return null;
     }
@@ -80,12 +80,6 @@ class _MyAppState extends State<MyApp> {
   String getInitialRoute() {
     // return LoginScreen.routeName;
 
-    if (SharedPrefHelper.instance.isLogIn()) {
-      return HomeScreen.routeName;
-    } else if (SharedPrefHelper.instance.isRegisteredIn()) {
-      return LoginScreen.routeName;
-    }
-
-    return RegistrationScreen.routeName;
+    return SplashScreen.routeName;
   }
 }
