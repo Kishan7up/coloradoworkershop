@@ -125,6 +125,45 @@ class OfflineDbHelper {
     });
   }
 
+  /*final List<Map<String, dynamic>> maps = await db.query(TABLE_QT_ASSEMBLY,
+  where: 'FinishProductID = ? ', whereArgs: [FinishProductID]);*/
+
+  Future<List<RecentViewDBTable>> getSearchRecentViewDBTable(
+      String keyword, String dropdownItem) async {
+    final db = await database;
+
+    //final List<Map<String, dynamic>> maps = await db.query(TABLE_RECENT_VIEW);
+    List<Map<String, dynamic>> maps;
+    if (keyword == "") {
+      if (dropdownItem == "ALL") {
+        maps = await db.query(TABLE_RECENT_VIEW);
+      } else {
+        maps = await db.query(TABLE_RECENT_VIEW,
+            where: "CustomerID = ?", whereArgs: [dropdownItem]);
+      }
+    } else {
+      if (dropdownItem == "ALL") {
+        maps = await db.query(TABLE_RECENT_VIEW,
+            where: "CustomerName LIKE ?", whereArgs: ['%$keyword%']);
+      } else {
+        maps = await db.query(TABLE_RECENT_VIEW,
+            where: "CustomerName LIKE and CustomerID = ?",
+            whereArgs: ['%$keyword%', dropdownItem]);
+      }
+
+      /*db.query(TABLE_RECENT_VIEW,
+          where: 'CustomerName = ? ', whereArgs: [keyword]);*/
+    }
+
+    return List.generate(maps.length, (i) {
+      return RecentViewDBTable(
+        maps[i]['CustomerID'],
+        maps[i]['CustomerName'],
+        id: maps[i]['id'],
+      );
+    });
+  }
+
   Future<void> updateRecentViewDBTable(RecentViewDBTable model) async {
     final db = await database;
 

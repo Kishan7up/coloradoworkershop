@@ -18,3 +18,11 @@ class RecentViewEvent extends MainEvent {
 class RecentViewRetriveEvent extends MainEvent {
   RecentViewRetriveEvent();
 }
+
+class SearchRecentViewRetriveEvent extends MainEvent {
+  String searchkeyword;
+  String dropdownItem;
+
+  SearchRecentViewRetriveEvent(this.searchkeyword, this.dropdownItem);
+}
+//getSearchRecentViewDBTable

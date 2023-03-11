@@ -31,6 +31,10 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       yield* _mapRecentViewRetriveEventToState(event);
     }
 
+    if (event is SearchRecentViewRetriveEvent) {
+      yield* _mapSearchRecentViewRetriveEventToState(event);
+    }
+
     //
   }
 
@@ -86,6 +90,23 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
           await OfflineDbHelper.getInstance().getRecentViewDBTable();
 
       yield RecentViewRetriveState(quotationOtherChargesListResponse);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
+  Stream<MainStates> _mapSearchRecentViewRetriveEventToState(
+      SearchRecentViewRetriveEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+      List<RecentViewDBTable> quotationOtherChargesListResponse =
+          await OfflineDbHelper.getInstance().getSearchRecentViewDBTable(
+              event.searchkeyword, event.dropdownItem);
+
+      yield SearchRecentViewRetriveState(quotationOtherChargesListResponse);
     } catch (error, stacktrace) {
       baseBloc.emit(ApiCallFailureState(error));
       print(stacktrace);

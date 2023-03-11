@@ -22,3 +22,9 @@ class RecentViewRetriveState extends MainStates {
 
   RecentViewRetriveState(this.recentViewDBTable);
 }
+
+class SearchRecentViewRetriveState extends MainStates {
+  final List<RecentViewDBTable> recentViewDBTable;
+
+  SearchRecentViewRetriveState(this.recentViewDBTable);
+}

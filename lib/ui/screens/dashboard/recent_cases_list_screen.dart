@@ -2,10 +2,12 @@ import 'package:app/blocs/other/mainbloc/main_bloc.dart';
 import 'package:app/models/api_request/customer/customer_paggination_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
+import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/dimen_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/widgets/common_widgets.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,11 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
   List<CustomerDetails> arrRecent_view_list = [];
   final TextEditingController edt_searchDetails = TextEditingController();
+  final TextEditingController edt_FollowupEmployeeList =
+      TextEditingController();
+
+  //
+  List<ALL_Name_ID> arr_ALL_Name_ID_For_Folowup_EmplyeeList = [];
 
   List<CustomerDetails> _allUsers = [];
   bool expanded = true;
@@ -74,7 +81,16 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
       ListMode: "L",
     )));
 
-    _CustomerBloc.add(RecentViewRetriveEvent());
+    edt_FollowupEmployeeList.text = "ALL";
+    _CustomerBloc.add(
+        SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));
+
+    edt_FollowupEmployeeList.addListener(() {
+      _CustomerBloc.add(
+          SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));
+      setState(() {});
+    });
+
 /*    edt_searchDetails.addListener(() {
       List<CustomerDetails> temp = [];
       _allUsers.forEach((item) {
@@ -102,23 +118,33 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
             _onInquiryListCallSuccess(state);
           }
 
+          if (state is SearchRecentViewRetriveState) {
+            _onsearchResult(state);
+          }
           if (state is RecentViewRetriveState) {
-            _onGetDetailsofrecentviewfromdb(state);
+            _ondropdownResult(state);
           }
 
           return super.build(context);
         },
         buildWhen: (oldState, currentState) {
           if (currentState is CustomerDetailsResponseState ||
+              currentState is SearchRecentViewRetriveState ||
               currentState is RecentViewRetriveState) {
             return true;
           }
           return false;
         },
         listener: (BuildContext context, MainStates state) {
+          if (state is SearchRecentViewRetriveState) {
+            _onsearchResult(state);
+          }
           return super.build(context);
         },
         listenWhen: (oldState, currentState) {
+          if (currentState is SearchRecentViewRetriveState) {
+            return true;
+          }
           return false;
         },
       ),
@@ -164,6 +190,8 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
+                    edt_searchDetails.text = "";
+                    edt_FollowupEmployeeList.text = "ALL";
                     _CustomerBloc.add(CustomerPaginationRequestEvent(
                         CustomerPaginationRequest(
                       companyId: 4132,
@@ -181,6 +209,10 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                     child: Column(
                       children: [
                         _buildSearchView(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _buildEmplyeeListView(),
                         Expanded(child: _buildInquiryList())
                       ],
                     ),
@@ -240,7 +272,10 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                     keyboardType: TextInputType.name,
                     textCapitalization: TextCapitalization.words,
                     onChanged: (value) {
-                      _runFilter(value);
+                      ///_runFilter(value);
+
+                      _CustomerBloc.add(SearchRecentViewRetriveEvent(
+                          value, edt_FollowupEmployeeList.text));
                     },
                     decoration: InputDecoration(
                       hintText: "Tap to search details",
@@ -284,8 +319,9 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
   ///updates data of inquiry list
   void _onInquiryListCallSuccess(CustomerDetailsResponseState state) async {
+    _CustomerBloc.add(
+        SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));
     _CustomerBloc.add(RecentViewRetriveEvent());
-
     //  getDBdetails();
 
     //arrRecent_view_list.add(state.response);
@@ -364,5 +400,116 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
             "resultFilter" + " Name : " + arrRecent_view_list[i].customerName);
       }
     });
+  }
+
+  Widget _buildEmplyeeListView() {
+    return InkWell(
+      onTap: () {
+        // _onTapOfSearchView(context);
+
+        showcustomdialogWithOnlyName(
+            values: arr_ALL_Name_ID_For_Folowup_EmplyeeList,
+            context1: context,
+            controller: edt_FollowupEmployeeList,
+            lable: "Select Item");
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text("Select Item",
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: colorPrimary,
+                      fontWeight: FontWeight
+                          .bold) // baseTheme.textTheme.headline2.copyWith(color: colorBlack),
+
+                  ),
+            ]),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          Card(
+            elevation: 5,
+            color: colorLightGray,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: Container(
+              padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 10),
+              width: double.maxFinite,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: /* Text(
+                        SelectedStatus =="" ?
+                        "Tap to select Status" : SelectedStatus.Name,
+                        style:TextStyle(fontSize: 12,color: Color(0xFF000000),fontWeight: FontWeight.bold)// baseTheme.textTheme.headline2.copyWith(color: colorBlack),
+
+                    ),*/
+
+                        TextField(
+                      controller: edt_FollowupEmployeeList,
+                      enabled: false,
+                      /*  onChanged: (value) => {
+                    print("StatusValue " + value.toString() )
+                },*/
+                      style: TextStyle(
+                          color: Colors.black, // <-- Change this
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                      decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: 15, bottom: 11, top: 11, right: 15),
+                          hintText: "Select"),
+                    ),
+                    // dropdown()
+                  ),
+                  /*  Icon(
+                    Icons.arrow_drop_down,
+                    color: colorGrayDark,
+                  )*/
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _onsearchResult(SearchRecentViewRetriveState state) {
+    arrRecent_view_list.clear();
+    _allUsers.clear();
+    for (int i = 0; i < state.recentViewDBTable.length; i++) {
+      CustomerDetails customerDetails = CustomerDetails();
+      customerDetails.customerID =
+          int.parse(state.recentViewDBTable[i].CustomerID);
+
+      customerDetails.customerName = state.recentViewDBTable[i].CustomerName;
+
+      arrRecent_view_list.add(customerDetails);
+      _allUsers.add(customerDetails);
+    }
+  }
+
+  void _ondropdownResult(RecentViewRetriveState state) {
+    arr_ALL_Name_ID_For_Folowup_EmplyeeList.clear();
+
+    ALL_Name_ID all_name_id = ALL_Name_ID();
+    all_name_id.Name = "ALL";
+    arr_ALL_Name_ID_For_Folowup_EmplyeeList.add(all_name_id);
+    for (int i = 0; i < state.recentViewDBTable.length; i++) {
+      ALL_Name_ID all_name_id = ALL_Name_ID();
+      all_name_id.Name = state.recentViewDBTable[i].CustomerID;
+      arr_ALL_Name_ID_For_Folowup_EmplyeeList.add(all_name_id);
+    }
   }
 }
