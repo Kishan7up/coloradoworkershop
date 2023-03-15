@@ -9,4 +9,5 @@ const RECENT_CASES = "assets/images/dashboard/recent_cases.png";
 const PPD_AWARD = "assets/images/dashboard/cal_ppd_award.png";
 const NET_PRESENT_VALUE = "assets/images/dashboard/net_present_value.png";
 const MAX_BENEFIT = "assets/images/dashboard/max_benefit.png";
-const COLORADO_LOGO = "assets/images/dashboard/colorado_logo.png";
+const COLORADO_LOGO = "assets/images/coloradofinallogo.png";
+const SPLASH_SCREEN_BACKGOUND = "assets/images/dashboard/Splash_background.png";
