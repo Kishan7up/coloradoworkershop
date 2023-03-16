@@ -115,8 +115,6 @@ class _SplashScreenState extends State<SplashScreen> {
       setState(() {
         _isAnimate = true;
       });
-
-      /// navigateTo(context, HomeScreen.routeName);
     });
 
     Future.delayed(const Duration(seconds: 5), () {
