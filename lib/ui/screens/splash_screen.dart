@@ -1,3 +1,4 @@
+/*
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
 import 'package:app/utils/general_utils.dart';
@@ -22,23 +23,9 @@ class _SplashScreenState extends State<SplashScreen>
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     //  SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     super.initState();
-    /* controller
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
 
-    offset = Tween(begin: Offset.zero, end: const Offset(0.0, 1.0))
-        .animate(controller);
-*/
     const delay = const Duration(seconds: 5);
 
-    /* switch (controller.status) {
-      case AnimationStatus.completed:
-        controller.reverse();
-        break;
-      case AnimationStatus.dismissed:
-        controller.forward();
-        break;
-      default:
-    }*/
     Future.delayed(delay, () => onTimerFinished());
   }
 
@@ -57,16 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
       ),
       child: Stack(
         children: [
-          /* Align(
-            alignment: Alignment.bottomCenter,
-            child: SlideTransition(
-              position: offset,
-              child: Padding(
-                padding: EdgeInsets.all(70.0),
-                child: LOGO(),
-              ),
-            ),
-          )*/
+
           Center(child: LOGO()),
         ],
       ),
@@ -91,20 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),
-            /*height: 200,
-            width: 200,
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                    color: Colors.white, // Set border color
-                    width: 3.0), // Set border width
-                borderRadius: BorderRadius.all(
-                    Radius.circular(10.0)), // Set rounded corner radius
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 10, color: Colors.white, offset: Offset(1, 3))
-                ] // Make rounded corner of border
-                ),*/
+
             child: Image.asset(
               COLORADO_LOGO,
             ),
@@ -122,6 +87,87 @@ class _SplashScreenState extends State<SplashScreen>
                 fontFamily: "Poppins"),
           ),
         ],
+      ),
+    );
+  }
+}
+*/
+import 'package:app/ui/res/image_resources.dart';
+import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:flutter/material.dart';
+
+import '../../main.dart';
+import '../../utils/general_utils.dart';
+
+class SplashScreen extends StatefulWidget {
+  static const routeName = '/SplashScreen';
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  bool _isAnimate = false;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isAnimate = true;
+      });
+
+      /// navigateTo(context, HomeScreen.routeName);
+    });
+
+    Future.delayed(const Duration(seconds: 5), () {
+      navigateTo(context, HomeScreen.routeName);
+
+      /// navigateTo(context, HomeScreen.routeName);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    mq = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Scaffold(
+        body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(SPLASH_SCREEN_BACKGOUND), fit: BoxFit.cover),
+          ),
+          child: Stack(children: [
+            Container(
+              child: AnimatedPositioned(
+                  left: mq.width * .25,
+                  top: mq.height * .15,
+                  width: mq.width * .5,
+                  bottom: _isAnimate ? mq.width * .25 : -mq.width * .15,
+                  duration: const Duration(seconds: 2),
+                  child: Image.asset(
+                    COLORADO_LOGO,
+                    height: 200,
+                    width: 200,
+                  )),
+            ),
+            /*Container(
+              padding: EdgeInsets.only(top: 400),
+              child: AnimatedTextKit(
+                animatedTexts: [
+                  RotateAnimatedText('Instagram',
+                      textStyle: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          backgroundColor: Colors.blue)),
+                ],
+                isRepeatingAnimation: false,
+                totalRepeatCount: 1,
+                pause: Duration(milliseconds: 1000),
+              ),
+            ),*/
+          ]),
+        ),
       ),
     );
   }

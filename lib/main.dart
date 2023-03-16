@@ -10,6 +10,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'ui/screens/dashboard/recent_cases_list_screen.dart';
 
+Size mq;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
