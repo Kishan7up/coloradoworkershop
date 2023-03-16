@@ -73,13 +73,13 @@ class _MyAppState extends State<MyApp> {
         },
         title: "Flutter base app",
         theme: buildAppTheme(),
-        initialRoute: getInitialRoute());
+        home: SplashScreen());
   }
 
   ///returns initial route based on condition of logged in/out
-  String getInitialRoute() {
+/*  getInitialRoute() {
     // return LoginScreen.routeName;
 
     return SplashScreen.routeName;
-  }
+  }*/
 }
