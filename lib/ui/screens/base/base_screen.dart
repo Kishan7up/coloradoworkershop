@@ -1,16 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/blocs/base/base_bloc.dart';
 import 'package:app/models/common/globals.dart';
 import 'package:app/repositories/custom_exception.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/localizations/app_localizations.dart';
 import 'package:app/utils/general_utils.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class BaseStatefulWidget extends StatefulWidget
     with WidgetsBindingObserver {}
-
 
 abstract class BaseState<Screen extends BaseStatefulWidget>
     extends State<Screen> with RouteAware {}
@@ -102,7 +100,7 @@ mixin BasicScreen<Screen extends BaseStatefulWidget> on BaseState<Screen> {
               builder: (BuildContext context,
                   void Function(void Function()) setState) {
                 return AppBar(
-                  backgroundColor: screenStatusBarColor ?? colorBlack,
+                  backgroundColor: screenStatusBarColor ?? colorPrimary,
                   elevation: 0,
                 );
               },

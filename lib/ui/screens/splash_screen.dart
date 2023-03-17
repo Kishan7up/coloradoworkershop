@@ -92,12 +92,15 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 */
+import 'dart:io';
+
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/utils/general_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../main.dart';
-import '../../utils/general_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/SplashScreen';
@@ -108,17 +111,21 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isAnimate = false;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    /* Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _isAnimate = true;
       });
-    });
+    });*/
 
-    Future.delayed(const Duration(seconds: 5), () {
-      navigateTo(context, HomeScreen.routeName);
+    /// GIF related Site : https://ezgif.com/loop-count/ezgif-2-6885959fb6.gif
+    /// https://onlinegiftools.com/
+
+    Future.delayed(const Duration(seconds: 3), () {
+      navigateTo(context, HomeScreen.routeName, clearAllStack: true);
 
       /// navigateTo(context, HomeScreen.routeName);
     });
@@ -127,46 +134,64 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Scaffold(
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
         body: Container(
-          constraints: BoxConstraints.expand(),
+            /* constraints: BoxConstraints.expand(),
           decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(SPLASH_SCREEN_BACKGOUND), fit: BoxFit.cover),
-          ),
-          child: Stack(children: [
-            Container(
-              child: AnimatedPositioned(
-                  left: mq.width * .25,
-                  top: mq.height * .15,
-                  width: mq.width * .5,
-                  bottom: _isAnimate ? mq.width * .25 : -mq.width * .15,
-                  duration: const Duration(seconds: 2),
-                  child: Image.asset(
-                    COLORADO_LOGO,
-                    height: 200,
-                    width: 200,
-                  )),
+          ),*/
+
+            height: double.infinity,
+            width: double.infinity,
+            child: Image.asset(SPLASH_SCREEN_BACKGOUND,
+                gaplessPlayback: false, fit: BoxFit.fill)
+            // child:,
             ),
-            /*Container(
-              padding: EdgeInsets.only(top: 400),
-              child: AnimatedTextKit(
-                animatedTexts: [
-                  RotateAnimatedText('Instagram',
-                      textStyle: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          backgroundColor: Colors.blue)),
-                ],
-                isRepeatingAnimation: false,
-                totalRepeatCount: 1,
-                pause: Duration(milliseconds: 1000),
-              ),
-            ),*/
-          ]),
-        ),
       ),
     );
+  }
+
+  Widget getbackupanimation() {
+    return Stack(children: [
+      Container(
+        child: AnimatedPositioned(
+            left: mq.width * .25,
+            top: mq.height * .15,
+            width: mq.width * .5,
+            bottom: _isAnimate ? mq.width * .25 : -mq.width * .15,
+            duration: const Duration(seconds: 1),
+            child: Image.asset(
+              COLORADO_LOGO,
+              height: 200,
+              width: 200,
+            )),
+      ),
+      /*Container(
+                padding: EdgeInsets.only(top: 400),
+                child: AnimatedTextKit(
+                  animatedTexts: [
+                    RotateAnimatedText('Instagram',
+                        textStyle: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            backgroundColor: Colors.blue)),
+                  ],
+                  isRepeatingAnimation: false,
+                  totalRepeatCount: 1,
+                  pause: Duration(milliseconds: 1000),
+                ),
+              ),*/
+    ]);
+  }
+
+  Future<bool> _onBackPressed() {
+    if (Platform.isAndroid) {
+      SystemNavigator.pop();
+    } else if (Platform.isIOS) {
+      exit(0);
+    }
   }
 }
