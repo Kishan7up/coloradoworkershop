@@ -12,3 +12,9 @@ const MAX_BENEFIT = "assets/images/dashboard/max_benefit.png";
 const COLORADO_LOGO = "assets/images/Colorado_Logo_with_Name.png";
 const SPLASH_SCREEN_BACKGOUND =
     "assets/images/dashboard/oneTimeReapt.gif"; //"assets/images/dashboard/Splash_background.png";
+const PPD_AWARD_ICON = "assets/icons/PPD_AWARD.png";
+const PRESENT_VALUE_ICON = "assets/icons/PRESENT_VALUE.png";
+const MAXIMUM_BENEFIT_ICON = "assets/icons/MAXIMUM_BENEFIT.png";
+const ABOUT_US = "assets/icons/ABOUT_US.png";
+
+//

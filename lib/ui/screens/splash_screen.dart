@@ -124,7 +124,7 @@ class _SplashScreenState extends State<SplashScreen> {
     /// GIF related Site : https://ezgif.com/loop-count/ezgif-2-6885959fb6.gif
     /// https://onlinegiftools.com/
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 5), () {
       navigateTo(context, HomeScreen.routeName, clearAllStack: true);
 
       /// navigateTo(context, HomeScreen.routeName);
