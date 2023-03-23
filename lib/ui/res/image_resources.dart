@@ -16,5 +16,6 @@ const PPD_AWARD_ICON = "assets/icons/PPD_AWARD.png";
 const PRESENT_VALUE_ICON = "assets/icons/PRESENT_VALUE.png";
 const MAXIMUM_BENEFIT_ICON = "assets/icons/MAXIMUM_BENEFIT.png";
 const ABOUT_US = "assets/icons/ABOUT_US.png";
+const CALL_SMS = "assets/icons/call_sms.png";
 
 //

@@ -43,97 +43,17 @@ class _HomeScreenState extends BaseState<HomeScreen>
             children: [HeaderPart(), ListingPart()],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showCommonDialogWithSingleOption(context, "Coming Soon !",
+                positiveButtonTitle: "OK");
+          },
+          backgroundColor: colorYellow,
+          child: Image.asset(CALL_SMS),
+        ),
       ),
     );
   }
-
-  /* Widget DashboardItems() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  navigateTo(context, RecentCasesListScreen.routeName);
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      RECENT_CASES,
-                      height: 100,
-                      width: 100,
-                    ),
-                    Text(
-                      "Recent Cases",
-                      style: TextStyle(fontSize: 12, color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    PPD_AWARD,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Text(
-                    "Calc.PPD AWARD",
-                    style: TextStyle(fontSize: 12, color: Colors.black),
-                  )
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    NET_PRESENT_VALUE,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Text("Net Present Value",
-                      style: TextStyle(fontSize: 12, color: Colors.black)),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                //MAX_BENEFIT
-                children: [
-                  Image.asset(
-                    MAX_BENEFIT,
-                    height: 100,
-                    width: 100,
-                  ),
-                  Text("Max.Benefits",
-                      style: TextStyle(fontSize: 12, color: Colors.black))
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }*/
 
   Future<bool> _onBackPressed() {
     if (Platform.isAndroid) {
@@ -204,6 +124,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                     // margin: EdgeInsets.only(left: 25),
                     decoration: BoxDecoration(
                         border: Border.all(
+                          width: 0.3,
                           color: Colors.white,
                         ),
                         color: colorPrimary,
@@ -215,6 +136,9 @@ class _HomeScreenState extends BaseState<HomeScreen>
                           PPD_AWARD_ICON,
                           height: 40,
                           width: 40,
+                        ),
+                        SizedBox(
+                          height: 22,
                         ),
                         Text("Calculate\nPPD Award",
                             style: TextStyle(
@@ -237,6 +161,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                     margin: EdgeInsets.only(left: 25),
                     decoration: BoxDecoration(
                         border: Border.all(
+                          width: 0.3,
                           color: Colors.white,
                         ),
                         color: colorPrimary,
@@ -248,6 +173,9 @@ class _HomeScreenState extends BaseState<HomeScreen>
                           PRESENT_VALUE_ICON,
                           height: 40,
                           width: 40,
+                        ),
+                        SizedBox(
+                          height: 22,
                         ),
                         Text("Calculate Net\nPresent value",
                             style: TextStyle(
@@ -313,7 +241,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 children: [
                   //ABOUT_US
                   Container(
-                    margin: EdgeInsets.only(left: 50),
+                    margin: EdgeInsets.only(left: 55),
                     child: Image.asset(
                       ABOUT_US,
                       height: 35,
@@ -392,7 +320,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                             color: Colors.black),
                       ),
                       Text(
-                        arrRecentCase[index].Name,
+                        arrRecentCase[index].Name1,
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -400,7 +328,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                       ),
                       Container(
                         height: 1,
-                        margin: EdgeInsets.only(top: 5, bottom: 5, right: 30),
+                        margin: EdgeInsets.only(top: 10, bottom: 10, right: 30),
                         color: Colors.grey,
                       )
                     ],
