@@ -98,12 +98,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 ),
                 Spacer(),
                 Container(
-                  margin: EdgeInsets.only(right: 28),
-                  child: Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  ),
-                )
+                    margin: EdgeInsets.only(right: 28),
+                    child: Image.asset(SETTING_ICON))
               ],
             )),
             SizedBox(
