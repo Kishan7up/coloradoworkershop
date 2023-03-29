@@ -18,4 +18,6 @@ const MAXIMUM_BENEFIT_ICON = "assets/icons/MAXIMUM_BENEFIT.png";
 const ABOUT_US = "assets/icons/ABOUT_US.png";
 const CALL_SMS = "assets/icons/call_sms.png";
 const SETTING_ICON = "assets/icons/setting_img.png";
-//
+//final_splash_one.gif
+const FINAL_SPLASH_ONE = "assets/gifs/final_splash_one.gif";
+const FINAL_SPLASH_TWO = "assets/gifs/final_splash_two.gif";

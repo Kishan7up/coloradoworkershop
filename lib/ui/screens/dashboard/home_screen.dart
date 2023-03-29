@@ -150,6 +150,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                   onTap: () {
                     showCommonDialogWithSingleOption(context, "Coming Soon !",
                         positiveButtonTitle: "OK");
+                    // navigateTo(context, RestaurantList.routeName);
                   },
                   child: Container(
                     height: 140,

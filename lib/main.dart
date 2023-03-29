@@ -37,6 +37,9 @@ class MyApp extends StatefulWidget {
         return getMaterialPageRoute(HomeScreen());
       case RecentCasesListScreen.routeName:
         return getMaterialPageRoute(RecentCasesListScreen());
+
+      /* case RestaurantList.routeName:
+        return getMaterialPageRoute(RestaurantList());*/
       default:
         return null;
     }
