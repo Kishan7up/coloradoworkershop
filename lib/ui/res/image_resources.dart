@@ -21,3 +21,4 @@ const SETTING_ICON = "assets/icons/setting_img.png";
 //final_splash_one.gif
 const FINAL_SPLASH_ONE = "assets/gifs/final_splash_one.gif";
 const FINAL_SPLASH_TWO = "assets/gifs/final_splash_two.gif";
+const FILLTER_ICON = "assets/icons/fillter_icon.png";

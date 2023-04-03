@@ -5,13 +5,16 @@ import 'package:app/models/api_response/recent_view_list/recent_view_list_respon
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/dimen_resources.dart';
+import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/widgets/common_widgets.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:readmore/readmore.dart';
 
 //import 'package:whatsapp_share/whatsapp_share.dart';
 
@@ -59,9 +62,52 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   bool _hasCallSupport = false;
   Future<void> _launched;
   String _phone = '';
+
   //var _url = "https://api.whatsapp.com/send?phone=91";
   var _url = "https://wa.me/91";
   bool isDeleteVisible = true;
+
+  List<ALL_Name_ID> listStatus = [];
+  List<ALL_Name_ID> selectedlistStatus = [];
+
+  List<CheckBoxData> checkboxDataList = [
+    new CheckBoxData(
+        id: '1', displayId: 'Appellate Review (125)', checked: false),
+    new CheckBoxData(id: '2', displayId: 'Apportionment (87)', checked: false),
+    new CheckBoxData(id: '3', displayId: 'Bad Faith (62)', checked: false),
+    new CheckBoxData(id: '4', displayId: 'Case Closure (14)', checked: false),
+    new CheckBoxData(
+        id: '5', displayId: 'Compensability (281)', checked: false),
+    new CheckBoxData(
+        id: '6', displayId: 'Course & Scope (652)', checked: false),
+  ];
+
+  /*if (i == 0) {
+        all_name_id.Name = "Appellate Review (125)";
+        all_name_id.isChecked = false;
+      } else if (i == 1) {
+        all_name_id.Name = "Apportionment (87)";
+        all_name_id.isChecked = false;
+      } else if (i == 2) {
+        all_name_id.Name = "Bad Faith (62)";
+        all_name_id.isChecked = false;
+      }
+      if (i == 3) {
+        all_name_id.Name = "Case Closure (14)";
+        all_name_id.isChecked = false;
+      } else if (i == 4) {
+        all_name_id.Name = "Compensability (281)";
+        all_name_id.isChecked = false;
+      } else if (i == 5) {
+        all_name_id.Name = "Course & Scope (652)";
+        all_name_id.isChecked = false;
+      }
+
+      listStatus.add(all_name_id);
+    }*/
+
+  // a simple usage
+
 /*
   bool _hasPermission;
 */
@@ -74,6 +120,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 */
     _CustomerBloc = MainBloc(baseBloc);
     //_CustomerBloc.add(RecentListCallEvent());
+    getListStatus();
     _CustomerBloc.add(CustomerPaginationRequestEvent(CustomerPaginationRequest(
       companyId: 4132,
       loginUserID: "admin",
@@ -156,21 +203,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Recent List'),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.water_damage_sharp,
-                  color: colorWhite,
-                ),
-                onPressed: () {
-                  //_onTapOfLogOut();
-                  navigateTo(context, HomeScreen.routeName,
-                      clearAllStack: true);
-                })
-          ],
-        ),
+        backgroundColor: Color(0xffe1e1e1),
         /* AppBar(
           backgroundColor: colorPrimary,
           title: Text("Customer List"),
@@ -187,6 +220,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
         body: Container(
           child: Column(
             children: [
+              HeaderPart(),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {
@@ -212,7 +246,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                         SizedBox(
                           height: 10,
                         ),
-                        _buildEmplyeeListView(),
+                        //_buildEmplyeeListView(),
                         Expanded(child: _buildInquiryList())
                       ],
                     ),
@@ -240,60 +274,81 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
   ///builds header and title view
   Widget _buildSearchView() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.only(left: 10, right: 20),
-          child: Text("Min. 3 chars to search details",
-              style: TextStyle(
-                  fontSize: 12,
-                  color: colorPrimary,
-                  fontWeight: FontWeight.bold)),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Card(
-          elevation: 5,
-          color: colorLightGray,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: Container(
-            height: 60,
-            padding: EdgeInsets.only(left: 20, right: 20),
-            width: double.maxFinite,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    autofocus: true,
-                    controller: edt_searchDetails,
-                    keyboardType: TextInputType.name,
-                    textCapitalization: TextCapitalization.words,
-                    onChanged: (value) {
-                      ///_runFilter(value);
-
-                      _CustomerBloc.add(SearchRecentViewRetriveEvent(
-                          value, edt_FollowupEmployeeList.text));
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Tap to search details",
-                      border: InputBorder.none,
+    return Container(
+      margin: EdgeInsets.all(15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              height: 42,
+              padding: EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(
+                        10.0) //                 <--- border radius here
                     ),
-                    style: baseTheme.textTheme.subtitle2
-                        .copyWith(color: colorBlack),
+              ),
+              width: double.maxFinite,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      autofocus: true,
+                      controller: edt_searchDetails,
+                      keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.words,
+                      onChanged: (value) {
+                        ///_runFilter(value);
+
+                        _CustomerBloc.add(SearchRecentViewRetriveEvent(
+                            value, edt_FollowupEmployeeList.text));
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Tap to search details",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(bottom: 5),
+                      ),
+                      style: baseTheme.textTheme.subtitle2
+                          .copyWith(color: colorBlack),
+                    ),
                   ),
-                ),
-                Icon(
-                  Icons.search,
-                  color: colorGrayDark,
-                )
-              ],
+                  Icon(
+                    Icons.search,
+                    color: colorGrayDark,
+                  )
+                ],
+              ),
             ),
           ),
-        )
-      ],
+          SizedBox(
+            width: 10,
+          ),
+          InkWell(
+            onTap: () {
+              _showModalSheet();
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  // border: Border.all(width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(
+                          10.0) //                 <--- border radius here
+                      ),
+                ),
+                height: 42,
+                width: 42,
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  FILLTER_ICON,
+                  color: Colors.white,
+                  height: 24,
+                  width: 24,
+                )),
+          )
+        ],
+      ),
     );
   }
 
@@ -305,7 +360,58 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     return ListView.builder(
       key: Key('selected $selected'),
       itemBuilder: (context, index) {
-        return _buildInquiryListItem(index);
+        //return _buildInquiryListItem(index);
+
+        return InkWell(
+          onTap: () {
+            navigateTo(context, RecentCasesDetailsScreen.routeName,
+                    arguments: RecentCasesDetailsScreenArgument(
+                        "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
+                .then((value) {
+              //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+            });
+          },
+          child: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.white70, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              margin: EdgeInsets.all(5),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    arrRecent_view_list[index].customerName,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                  Text("W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                      style: TextStyle(color: Colors.black, fontSize: 13)),
+                  /* Text(
+                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                      Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
+                */
+                  ReadMoreText(
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                    trimLines: 2,
+                    colorClickableText: Colors.pink,
+                    trimMode: TrimMode.Line,
+                    trimCollapsedText: '..Read More',
+                    style: TextStyle(fontSize: 13),
+                    trimExpandedText: ' Less',
+                  ),
+                  //Text(arrRecent_view_list[index].contactNo1)
+                ],
+              ),
+            ),
+          ),
+        );
       },
       shrinkWrap: true,
       itemCount: arrRecent_view_list.length,
@@ -512,4 +618,240 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
       arr_ALL_Name_ID_For_Folowup_EmplyeeList.add(all_name_id);
     }
   }
+
+  HeaderPart() {
+    return Container(
+      height: 80,
+      decoration: BoxDecoration(
+          /* border: Border.all(
+            color: Colors.red[500],
+          ),*/
+
+          color: Color(0xff181142),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          )),
+      child: Container(
+        margin: EdgeInsets.only(top: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                margin: EdgeInsets.only(left: 10, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        // margin: EdgeInsets.only(left: 10),
+                        child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    )),
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            "Recent Cases",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void getListStatus() {
+    listStatus.clear();
+
+    for (int i = 0; i < 5; i++) {
+      ALL_Name_ID all_name_id = ALL_Name_ID();
+      if (i == 0) {
+        all_name_id.Name = "Appellate Review (125)";
+        all_name_id.isChecked = false;
+      } else if (i == 1) {
+        all_name_id.Name = "Apportionment (87)";
+        all_name_id.isChecked = false;
+      } else if (i == 2) {
+        all_name_id.Name = "Bad Faith (62)";
+        all_name_id.isChecked = false;
+      }
+      if (i == 3) {
+        all_name_id.Name = "Case Closure (14)";
+        all_name_id.isChecked = false;
+      } else if (i == 4) {
+        all_name_id.Name = "Compensability (281)";
+        all_name_id.isChecked = false;
+      } else if (i == 5) {
+        all_name_id.Name = "Course & Scope (652)";
+        all_name_id.isChecked = false;
+      }
+
+      listStatus.add(all_name_id);
+    }
+  }
+
+  void _showModalSheet() {
+    showModalBottomSheet<void>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter state) {
+            return SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 20, bottom: 10),
+                      child: Text(
+                        "Filter(210)",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      height: 2,
+                      color: Colors.grey,
+                    ),
+                    LimitedBox(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: checkboxDataList.map<Widget>(
+                          (data) {
+                            return Container(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  CheckboxListTile(
+                                    checkColor: Colors.red,
+                                    activeColor: Colors.white,
+                                    value: data.checked,
+                                    title: Text(
+                                      data.displayId,
+                                      style: TextStyle(
+                                          fontSize: 12, color: colorBlack),
+                                    ),
+                                    controlAffinity:
+                                        ListTileControlAffinity.trailing,
+                                    selectedTileColor: Colors.white,
+                                    onChanged: (bool val) {
+                                      state(() {
+                                        data.checked = !data.checked;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 38,
+                              margin: EdgeInsets.only(left: 20, right: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1.0),
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                        10.0) //                 <--- border radius here
+                                    ),
+                              ),
+                              child: Center(
+                                child: Text("Reset",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              margin: EdgeInsets.only(left: 10, right: 20),
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          10.0) //                 <--- border radius here
+                                      )),
+                              child: Center(
+                                child: Text("Apply",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class CheckBoxData {
+  String id;
+  String displayId;
+  bool checked;
+
+  CheckBoxData({
+    this.id,
+    this.displayId,
+    this.checked,
+  });
+
+  factory CheckBoxData.fromJson(Map<String, dynamic> json) => CheckBoxData(
+        id: json["id"] == null ? null : json["id"],
+        displayId: json["displayId"] == null ? null : json["displayId"],
+        checked: json["checked"] == null ? null : json["checked"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "displayId": displayId == null ? null : displayId,
+        "checked": checked == null ? null : checked,
+      };
 }

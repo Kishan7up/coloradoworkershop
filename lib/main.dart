@@ -1,6 +1,7 @@
 import 'package:app/ui/res/localizations/app_localizations.dart';
 import 'package:app/ui/res/style_resources.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/screens/splash_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:app/utils/offline_db_helper.dart';
@@ -38,8 +39,9 @@ class MyApp extends StatefulWidget {
       case RecentCasesListScreen.routeName:
         return getMaterialPageRoute(RecentCasesListScreen());
 
-      /* case RestaurantList.routeName:
-        return getMaterialPageRoute(RestaurantList());*/
+      case RecentCasesDetailsScreen.routeName:
+        return getMaterialPageRoute(
+            RecentCasesDetailsScreen(settings.arguments));
       default:
         return null;
     }
