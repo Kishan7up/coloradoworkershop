@@ -22,3 +22,6 @@ const SETTING_ICON = "assets/icons/setting_img.png";
 const FINAL_SPLASH_ONE = "assets/gifs/final_splash_one.gif";
 const FINAL_SPLASH_TWO = "assets/gifs/final_splash_two.gif";
 const FILLTER_ICON = "assets/icons/fillter_icon.png";
+const CALENDAR = "assets/icons/calendar.png";
+const NET_PRESENT_LABEL = "assets/images/Net_present_label.png";
+const NOTIFICATION_ICON = "assets/icons/notification_icon.png";

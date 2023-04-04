@@ -1,6 +1,12 @@
 import 'package:app/ui/res/localizations/app_localizations.dart';
 import 'package:app/ui/res/style_resources.dart';
+import 'package:app/ui/screens/dashboard/about_us.dart';
+import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
+import 'package:app/ui/screens/dashboard/contact_us.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
+import 'package:app/ui/screens/dashboard/notification_screen.dart';
+import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/screens/splash_screen.dart';
 import 'package:app/utils/general_utils.dart';
@@ -42,6 +48,24 @@ class MyApp extends StatefulWidget {
       case RecentCasesDetailsScreen.routeName:
         return getMaterialPageRoute(
             RecentCasesDetailsScreen(settings.arguments));
+      case PpdAwardScreen.routeName:
+        return getMaterialPageRoute(PpdAwardScreen(settings.arguments));
+      case CalculateNetPresentValue.routeName:
+        return getMaterialPageRoute(
+            CalculateNetPresentValue(settings.arguments));
+
+      case MaximumBenefitsScreen.routeName:
+        return getMaterialPageRoute(MaximumBenefitsScreen(settings.arguments));
+
+      case AboutUsScreen.routeName:
+        return getMaterialPageRoute(AboutUsScreen(settings.arguments));
+
+      case ContactUsScreen.routeName:
+        return getMaterialPageRoute(ContactUsScreen(settings.arguments));
+      case NotificationScreen.routeName:
+        return getMaterialPageRoute(NotificationScreen(settings.arguments));
+
+      //NotificationScreen
       default:
         return null;
     }

@@ -38,6 +38,9 @@ const colorYellowDark = const Color(0xff917435);
 const colorRedProgress = const Color(0xffeb5757);
 const colorRedDark = const Color(0xffef1d27);
 const colorRed = const Color(0xffBF0C0C);
+
+const APPButtonRed = const Color(0xffc61b2d); //background: #C61B2D;
+
 const colorLightBlack = const Color(0xff2e303c);
 const colorOrangeLight = const Color(0xfffcf7de);
 const colorLightYellow = const Color(0xfffff8d9);
