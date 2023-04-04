@@ -7,6 +7,7 @@ import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/dashboard/web_view_remote_page.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -542,8 +543,18 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                             margin: EdgeInsets.all(10),
                             child: InkWell(
                               onTap: () {
-                                _launchURL(
-                                    "https://www.lipsum.com/privacy.pdf");
+                                ALL_Name_ID all_name_model = ALL_Name_ID();
+                                all_name_model.Name = "Privacy Policy";
+                                all_name_model.Name1 =
+                                    "https://www.lipsum.com/privacy.pdf";
+
+                                navigateTo(context, WebViewRemotePage.routeName,
+                                        arguments: all_name_model)
+                                    .then((value) {
+                                  setState(() {});
+                                });
+                                /* _launchURL(
+                                    "https://www.lipsum.com/privacy.pdf");*/
                                 //
                               },
                               child: Text(

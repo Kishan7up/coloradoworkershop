@@ -5,8 +5,8 @@ import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
-import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/dashboard/ppd_award_next_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -704,8 +704,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
                         InkWell(
                           onTap: () {
-                            navigateTo(
-                                context, CalculateNetPresentValue.routeName);
+                            navigateTo(context, PpdAwardNextScreen.routeName);
                           },
                           child: Container(
                             margin: EdgeInsets.all(10),

@@ -153,7 +153,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-        backgroundColor: Color(0xffe1e1e1),
+        backgroundColor: Color(0xfff5f5f5),
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -161,10 +161,12 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
             children: [
               HeaderPart(),
               Container(
-                  margin: EdgeInsets.all(10),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   child: Image.asset(NET_PRESENT_LABEL)),
               Container(
-                margin: EdgeInsets.all(10),
+                margin:
+                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
                   "For a free accurate quote reflecting the injured worker's and the market's unique circumstances please contact:",
                   style: TextStyle(fontSize: 14, color: colorBlack),
@@ -174,6 +176,8 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                 child: SingleChildScrollView(
                   child: Container(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           width: 20,
@@ -538,31 +542,98 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                             navigateTo(
                                 context, MaximumBenefitsScreen.routeName);
                           },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            child: Card(
-                                elevation: 10,
-                                color: APPButtonRed,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Container(
-                                  width: 100,
-                                  margin: EdgeInsets.only(
-                                      left: 20, right: 20, top: 10, bottom: 10),
-                                  child: Center(
-                                    child: Text("Next >",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
+                          child: Center(
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: Card(
+                                  elevation: 10,
+                                  color: APPButtonRed,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                )),
+                                  child: Container(
+                                    width: 100,
+                                    margin: EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 10,
+                                        bottom: 10),
+                                    child: Center(
+                                      child: Text("Reset",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  )),
+                            ),
                           ),
                         ),
                         SizedBox(
                           width: 20,
                         ),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, top: 10, bottom: 10),
+                            child: Text(
+                              "While the calculation closely replicate the DOWC website, please contact Settlement Partners to obtain a free quote that reflacts the worker's and the market's unique circumstances.",
+                              style: TextStyle(fontSize: 14, color: colorBlack),
+                            )),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          height: 3,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          child: Text(
+                            "Settlement Partners",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                letterSpacing: 2),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          child: Row(
+                            children: [
+                              Image.asset(CALL_ICON),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "303.691.9090s",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          child: Row(
+                            children: [
+                              Image.asset(MESSAGE_ICON),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "mdavis@settlementpartners.com",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -630,11 +701,146 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                         ),
                       ),
                     ),
+                    InkWell(
+                      onTap: () {
+                        _showModalSheet();
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Image.asset(INFO_ICON)),
+                    ),
                   ],
                 )),
           ],
         ),
       ),
+    );
+  }
+
+  void _showModalSheet() {
+    showModalBottomSheet<void>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter state) {
+            return SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.only(top: 5, bottom: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20, bottom: 10),
+                        child: Text(
+                          "Info",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      height: 2,
+                      color: Colors.grey,
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10),
+                        child: Text(
+                          "While the calculation closely replicate the DOWC website, please contact Settlement Partners to obtain a free quote that reflacts the worker's and the market's unique circumstances.",
+                          style: TextStyle(fontSize: 14, color: colorBlack),
+                        )),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Text(
+                        "Settlement Partners",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            letterSpacing: 2),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Image.asset(CALL_ICON),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "303.691.9090s",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Image.asset(MESSAGE_ICON),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "mdavis@settlementpartners.com",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Card(
+                              elevation: 10,
+                              color: APPButtonRed,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Container(
+                                width: 100,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 10, bottom: 10),
+                                child: Center(
+                                  child: Text("Close",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              )),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 

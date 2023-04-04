@@ -10,6 +10,7 @@ import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/widgets/common_widgets.dart';
+import 'package:app/utils/date_time_extensions.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
@@ -314,9 +315,10 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                           .copyWith(color: colorBlack),
                     ),
                   ),
-                  Icon(
-                    Icons.search,
-                    color: colorGrayDark,
+                  Image.asset(
+                    SEARCH_ICON,
+                    height: 15,
+                    width: 15,
                   )
                 ],
               ),
@@ -331,7 +333,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
             },
             child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Color(0xfff9e910),
                   // border: Border.all(width: 1.0),
                   borderRadius: BorderRadius.all(Radius.circular(
                           10.0) //                 <--- border radius here
@@ -342,7 +344,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                 padding: EdgeInsets.all(10),
                 child: Image.asset(
                   FILLTER_ICON,
-                  color: Colors.white,
+                  color: Colors.black,
                   height: 24,
                   width: 24,
                 )),
@@ -372,44 +374,75 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
               //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
             });
           },
-          child: Card(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.white70, width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Container(
-              margin: EdgeInsets.all(5),
-              padding: EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    arrRecent_view_list[index].customerName,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  margin: EdgeInsets.only(top: 10, right: 15),
+                  child: Text(
+                    index == 0
+                        ? "26-01-2020".getFormattedDate(
+                            fromFormat: "yyyy-MM-ddTHH:mm:ss",
+                            toFormat: "yyyy-MM-dd")
+                        : "27-0$index-2020".getFormattedDate(
+                            fromFormat: "yyyy-MM-ddTHH:mm:ss",
+                            toFormat: "yyyy-MM-dd"),
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 14),
                   ),
-                  Text("W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
-                      style: TextStyle(color: Colors.black, fontSize: 13)),
-                  /* Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                      Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
-                */
-                  ReadMoreText(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                    trimLines: 2,
-                    colorClickableText: Colors.pink,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: '..Read More',
-                    style: TextStyle(fontSize: 13),
-                    trimExpandedText: ' Less',
-                  ),
-                  //Text(arrRecent_view_list[index].contactNo1)
-                ],
+                ),
               ),
-            ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.white70, width: 1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        arrRecent_view_list[index].customerName,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      Text("W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                          style: TextStyle(color: Colors.black, fontSize: 13)),
+                      /* Text(
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
+                    */
+                      ReadMoreText(
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                          trimLines: 2,
+                          colorClickableText: Colors.pink,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: '..Read More',
+                          style: TextStyle(fontSize: 13), callback: (v) {
+                        navigateTo(context, RecentCasesDetailsScreen.routeName,
+                                arguments: RecentCasesDetailsScreenArgument(
+                                    "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
+                            .then((value) {
+                          //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+                        });
+                      }
+                          //trimExpandedText: ' Less',
+                          ),
+                      //Text(arrRecent_view_list[index].contactNo1)
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

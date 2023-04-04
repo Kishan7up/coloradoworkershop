@@ -21,7 +21,11 @@ const SETTING_ICON = "assets/icons/setting_img.png";
 //final_splash_one.gif
 const FINAL_SPLASH_ONE = "assets/gifs/final_splash_one.gif";
 const FINAL_SPLASH_TWO = "assets/gifs/final_splash_two.gif";
-const FILLTER_ICON = "assets/icons/fillter_icon.png";
+const FILLTER_ICON = "assets/icons/filter_icon.png";
 const CALENDAR = "assets/icons/calendar.png";
 const NET_PRESENT_LABEL = "assets/images/Net_present_label.png";
 const NOTIFICATION_ICON = "assets/icons/notification_icon.png";
+const CALL_ICON = "assets/icons/ic_calll.png";
+const MESSAGE_ICON = "assets/icons/ic_message.png";
+const SEARCH_ICON = "assets/icons/search_icon.png";
+const INFO_ICON = "assets/icons/info_Icon.png";

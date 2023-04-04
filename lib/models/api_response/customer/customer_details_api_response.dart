@@ -65,45 +65,45 @@ class CustomerDetails {
   bool blockCustomer;
   String parentName;
 
-  CustomerDetails({
-    this.rowNum,
-    this.customerID,
-    this.customerName,
-    this.customerType,
-    this.blockCustomer,
-    this.address,
-    this.area,
-    this.pinCode,
-    this.cityCode,
-    this.cityName,
-    this.stateCode,
-    this.stateName,
-    this.address1,
-    this.area1,
-    this.pinCode1,
-    this.cityCode1,
-    this.cityName1,
-    this.stateCode1,
-    this.stateName1,
-    this.gSTNO,
-    this.pANNO,
-    this.cINNO,
-    this.contactNo1,
-    this.contactNo2,
-    this.emailAddress,
-    this.websiteAddress,
-    this.birthDate,
-    this.anniversaryDate,
-    this.orgTypeCode,
-    this.parentID,
-    this.parentName,
-    this.customerSourceID,
-    this.customerSourceName,
-    this.countryCode,
-    this.countryName,
-    this.countryCode1,
-    this.countryName1,
-  });
+  CustomerDetails(
+      {this.rowNum,
+      this.customerID,
+      this.customerName,
+      this.customerType,
+      this.blockCustomer,
+      this.address,
+      this.area,
+      this.pinCode,
+      this.cityCode,
+      this.cityName,
+      this.stateCode,
+      this.stateName,
+      this.address1,
+      this.area1,
+      this.pinCode1,
+      this.cityCode1,
+      this.cityName1,
+      this.stateCode1,
+      this.stateName1,
+      this.gSTNO,
+      this.pANNO,
+      this.cINNO,
+      this.contactNo1,
+      this.contactNo2,
+      this.emailAddress,
+      this.websiteAddress,
+      this.birthDate,
+      this.anniversaryDate,
+      this.orgTypeCode,
+      this.parentID,
+      this.parentName,
+      this.customerSourceID,
+      this.customerSourceName,
+      this.countryCode,
+      this.countryName,
+      this.countryCode1,
+      this.countryName1,
+      this.createdDate});
 
   CustomerDetails.fromJson(Map<String, dynamic> json) {
     rowNum = json['RowNum'] != null ? json['RowNum'] : 0;
@@ -149,6 +149,7 @@ class CustomerDetails {
     countryName = json['CountryName'] != null ? json['CountryName'] : "";
     countryCode1 = json['CountryCode1'] != null ? json['CountryCode1'] : "";
     countryName1 = json['CountryName1'] != null ? json['CountryName1'] : "";
+    createdDate = json['CreatedDate'] != null ? json['CreatedDate'] : "";
   }
 
   Map<String, dynamic> toJson() {
@@ -191,6 +192,7 @@ class CustomerDetails {
     data['CountryName'] = this.countryName;
     data['CountryCode1'] = this.countryCode1;
     data['CountryName1'] = this.countryName1;
+    data['CreatedDate'] = this.createdDate;
 
     return data;
   }

@@ -6,8 +6,10 @@ import 'package:app/ui/screens/dashboard/contact_us.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
 import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
 import 'package:app/ui/screens/dashboard/notification_screen.dart';
+import 'package:app/ui/screens/dashboard/ppd_award_next_screen.dart';
 import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
+import 'package:app/ui/screens/dashboard/web_view_remote_page.dart';
 import 'package:app/ui/screens/splash_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:app/utils/offline_db_helper.dart';
@@ -65,7 +67,12 @@ class MyApp extends StatefulWidget {
       case NotificationScreen.routeName:
         return getMaterialPageRoute(NotificationScreen(settings.arguments));
 
-      //NotificationScreen
+      case WebViewRemotePage.routeName:
+        return getMaterialPageRoute(WebViewRemotePage(settings.arguments));
+
+      case PpdAwardNextScreen.routeName:
+        return getMaterialPageRoute(PpdAwardNextScreen(settings.arguments));
+      //PpdAwardNextScreen
       default:
         return null;
     }
