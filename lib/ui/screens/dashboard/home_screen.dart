@@ -4,6 +4,12 @@ import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
+import 'package:app/ui/screens/dashboard/about_us.dart';
+import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
+import 'package:app/ui/screens/dashboard/contact_us.dart';
+import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
+import 'package:app/ui/screens/dashboard/notification_screen.dart';
+import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +55,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showCommonDialogWithSingleOption(context, "Coming Soon !",
-                positiveButtonTitle: "OK");
+            navigateTo(context, ContactUsScreen.routeName);
           },
           backgroundColor: colorYellow,
           child: Image.asset(CALL_SMS),
@@ -101,9 +106,14 @@ class _HomeScreenState extends BaseState<HomeScreen>
                   ),
                 ),
                 Spacer(),
-                Container(
-                    margin: EdgeInsets.only(right: 28),
-                    child: Image.asset(SETTING_ICON))
+                InkWell(
+                  onTap: () {
+                    navigateTo(context, NotificationScreen.routeName);
+                  },
+                  child: Container(
+                      margin: EdgeInsets.only(right: 28),
+                      child: Image.asset(NOTIFICATION_ICON)),
+                )
               ],
             )),
             SizedBox(
@@ -115,8 +125,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 Flexible(
                     child: InkWell(
                   onTap: () {
-                    showCommonDialogWithSingleOption(context, "Coming Soon !",
-                        positiveButtonTitle: "OK");
+                    navigateTo(context, PpdAwardScreen.routeName);
                   },
                   child: Container(
                     height: 140,
@@ -152,9 +161,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 Flexible(
                     child: InkWell(
                   onTap: () {
-                    showCommonDialogWithSingleOption(context, "Coming Soon !",
-                        positiveButtonTitle: "OK");
-                    // navigateTo(context, RestaurantList.routeName);
+                    navigateTo(context, CalculateNetPresentValue.routeName);
                   },
                   child: Container(
                     height: 140,
@@ -194,8 +201,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
             ),
             InkWell(
               onTap: () {
-                showCommonDialogWithSingleOption(context, "Coming Soon !",
-                    positiveButtonTitle: "OK");
+                navigateTo(context, MaximumBenefitsScreen.routeName);
               },
               child: Row(
                 children: [
@@ -235,8 +241,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
             ),
             InkWell(
               onTap: () {
-                showCommonDialogWithSingleOption(context, "Coming Soon !",
-                    positiveButtonTitle: "OK");
+                navigateTo(context, AboutUsScreen.routeName);
               },
               child: Row(
                 children: [

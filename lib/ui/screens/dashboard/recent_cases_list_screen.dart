@@ -621,7 +621,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
   HeaderPart() {
     return Container(
-      height: 80,
+      height: 100,
       decoration: BoxDecoration(
           /* border: Border.all(
             color: Colors.red[500],
