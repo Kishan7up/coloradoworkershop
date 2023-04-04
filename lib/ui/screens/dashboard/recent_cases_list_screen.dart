@@ -644,12 +644,17 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        // margin: EdgeInsets.only(left: 10),
-                        child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    )),
+                    InkWell(
+                      onTap: () {
+                        navigateTo(context, HomeScreen.routeName);
+                      },
+                      child: Container(
+                          // margin: EdgeInsets.only(left: 10),
+                          child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      )),
+                    ),
                     Expanded(
                       child: Container(
                         width: double.infinity,

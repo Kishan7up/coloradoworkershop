@@ -4,10 +4,11 @@ import 'package:app/models/api_response/recent_view_list/recent_view_list_respon
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
-import 'package:app/ui/screens/dashboard/home_screen.dart';
+import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:whatsapp_share/whatsapp_share.dart';
 
@@ -117,7 +118,7 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xffe1e1e1),
         body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -125,30 +126,83 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
             children: [
               HeaderPart(),
               Container(
-                child: Text(
-                  _editModel.toString(),
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                margin: EdgeInsets.all(10),
+                child: Card(
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //Tapia v. Lowe Enterprise
+
+                        Container(
+                          child: Text(
+                            "Tapia v. Lowe Enterprise",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            _editModel.toString(),
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                          width: double.infinity,
+                          height: 2,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          child: Text(
+                            _editModel2.toString() +
+                                "\n" +
+                                _editModel2.toString(),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Container(
-                height: 2,
-                color: colorLightGray,
-              ),
-              Container(
-                child: Text(_editModel2.toString()),
               ),
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _launchURL("https://www.buds.com.ua/images/Lorem_ipsum.pdf");
+            },
+            backgroundColor: Colors.yellow,
+            child: Icon(
+              Icons.download,
+              color: Colors.black,
+            )),
       ),
     );
   }
 
+  _launchURL(String pdfURL) async {
+    var url123 = pdfURL;
+    if (await canLaunch(url123)) {
+      await launch(url123);
+    } else {
+      throw 'Could not launch $url123';
+    }
+  }
+
   Future<bool> _onBackPressed() {
-    navigateTo(context, HomeScreen.routeName, clearAllStack: true);
+    navigateTo(context, RecentCasesListScreen.routeName, clearAllStack: true);
   }
 
   HeaderPart() {
@@ -176,12 +230,17 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        // margin: EdgeInsets.only(left: 10),
-                        child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    )),
+                    InkWell(
+                      onTap: () {
+                        navigateTo(context, RecentCasesListScreen.routeName);
+                      },
+                      child: Container(
+                          // margin: EdgeInsets.only(left: 10),
+                          child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      )),
+                    ),
                     Expanded(
                       child: Container(
                         width: double.infinity,

@@ -4,6 +4,7 @@ import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
+import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/material.dart';
@@ -305,30 +306,42 @@ class _HomeScreenState extends BaseState<HomeScreen>
               margin: EdgeInsets.only(left: 25, top: 30),
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        arrRecentCase[index].Name,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                      Text(
-                        arrRecentCase[index].Name1,
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                      ),
-                      Container(
-                        height: 1,
-                        margin: EdgeInsets.only(top: 10, bottom: 10, right: 30),
-                        color: Colors.grey,
-                      )
-                    ],
+                  return InkWell(
+                    onTap: () {
+                      navigateTo(context, RecentCasesDetailsScreen.routeName,
+                              arguments: RecentCasesDetailsScreenArgument(
+                                  "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
+                          .then((value) {
+                        //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          arrRecentCase[index].Name,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        Text(
+                          arrRecentCase[index].Name1,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                        ),
+                        Container(
+                          height: 1,
+                          margin:
+                              EdgeInsets.only(top: 10, bottom: 10, right: 30),
+                          color: Colors.grey,
+                        )
+                      ],
+                    ),
                   );
                 },
                 shrinkWrap: true,
