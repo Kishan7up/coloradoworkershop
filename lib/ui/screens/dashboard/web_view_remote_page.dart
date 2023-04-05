@@ -40,8 +40,6 @@ class _WebViewRemotePageState extends State<WebViewRemotePage> {
   PullToRefreshController pullToRefreshController;
   ContextMenu contextMenu;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -113,18 +111,15 @@ class _WebViewRemotePageState extends State<WebViewRemotePage> {
               child: Container(
                 margin: EdgeInsets.all(10),
                 child: InAppWebView(
-
                   initialUrlRequest: URLRequest(
                       url: Uri.parse(
                           "https://www.w3schools.com/about/about_privacy.asp")),
                   initialUserScripts: UnmodifiableListView<UserScript>([]),
                   initialOptions: options,
                   pullToRefreshController: pullToRefreshController,
-
                   onWebViewCreated: (controller) {
                     webViewController = controller;
                   },
-
                   onLoadStart: (controller, url) {
                     setState(() {
                       this.url = url.toString();
