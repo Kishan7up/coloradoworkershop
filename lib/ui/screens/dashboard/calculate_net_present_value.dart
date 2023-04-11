@@ -6,7 +6,6 @@ import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
-import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -230,7 +229,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                                             top: 10.0,
                                                             bottom: 10.0),
                                                     child: Text(
-                                                      "\%",
+                                                      "\$",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -279,7 +278,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                                             top: 10.0,
                                                             bottom: 10.0),
                                                     child: Text(
-                                                      "\%",
+                                                      "\$",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -327,7 +326,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                                             top: 10.0,
                                                             bottom: 10.0),
                                                     child: Text(
-                                                      "\%",
+                                                      "\$",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -376,7 +375,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                                             top: 10.0,
                                                             bottom: 10.0),
                                                     child: Text(
-                                                      "\%",
+                                                      "\$",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
@@ -492,6 +491,21 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                               textInputAction:
                                                   TextInputAction.done,
                                               decoration: InputDecoration(
+                                                  suffixIcon: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10.0,
+                                                            bottom: 10.0),
+                                                    child: Text(
+                                                      "\%",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
                                                   border:
                                                       UnderlineInputBorder(),
                                                   labelText:
@@ -516,6 +530,21 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                               textInputAction:
                                                   TextInputAction.done,
                                               decoration: InputDecoration(
+                                                  suffixIcon: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10.0,
+                                                            bottom: 10.0),
+                                                    child: Text(
+                                                      "\%",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black),
+                                                    ),
+                                                  ),
                                                   border:
                                                       UnderlineInputBorder(),
                                                   labelText:
@@ -540,7 +569,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                         InkWell(
                           onTap: () {
                             navigateTo(
-                                context, MaximumBenefitsScreen.routeName);
+                                context, CalculateNetPresentValue.routeName);
                           },
                           child: Center(
                             child: Container(
@@ -753,7 +782,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                         margin: EdgeInsets.only(
                             left: 20, right: 20, top: 10, bottom: 10),
                         child: Text(
-                          "While the calculation closely replicate the DOWC website, please contact Settlement Partners to obtain a free quote that reflacts the worker's and the market's unique circumstances.",
+                          "This application is designed to provide accurate and authoritative information regarding the workers’ compensation law.  This information is given with the understanding that this application does not create an attorney client relationship.  Since the details of your situation are fact dependent; you should contact us to advise you how the law affects your particular circumstances.",
                           style: TextStyle(fontSize: 14, color: colorBlack),
                         )),
                     Container(

@@ -188,7 +188,7 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.amber,
+          backgroundColor: Color(0xFFF9E910),
           onPressed: () {
             _launchURL("https://www.buds.com.ua/images/Lorem_ipsum.pdf");
             //https://www.buds.com.ua/images/Lorem_ipsum.pdf

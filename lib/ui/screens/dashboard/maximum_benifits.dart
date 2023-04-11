@@ -98,6 +98,12 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
       TextEditingController();
   final TextEditingController edt_left_lower_extremity_rating =
       TextEditingController();
+
+  final TextEditingController Whole_Person_Impairment_More_than_19 =
+      TextEditingController();
+  final TextEditingController Whole_Person_Impairment_Less_than_19 =
+      TextEditingController();
+  //
   bool IS_TTD = false;
 
   @override
@@ -393,48 +399,55 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         bottom: 20,
                                         left: 20,
                                         right: 20),
-                                    child: Column(
+                                    child: Row(
                                       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextFormField(
-                                            controller:
-                                                edt_W_O_Extensive_Scar_or_Stumps,
-                                            decoration: InputDecoration(
-                                              // border: UnderlineInputBorder(),
-                                              labelText:
-                                                  'W/O Extensive Scar or Stumps',
-                                              labelStyle: TextStyle(
-                                                  overflow: TextOverflow.clip),
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                            )),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        TextFormField(
-                                            maxLines: null,
-                                            keyboardType:
-                                                TextInputType.multiline,
-                                            /*keyboardType: TextInputType
-                                                .numberWithOptions(
-                                                    decimal: true),*/
-                                            controller:
-                                                edt_W_Extensive_Scars_Stumps_or_Burns,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
+                                        Expanded(
+                                          child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              maxLines: null,
+                                              textInputAction:
+                                                  TextInputAction.newline,
+                                              controller:
+                                                  edt_W_O_Extensive_Scar_or_Stumps,
+                                              decoration: InputDecoration(
+                                                // border: UnderlineInputBorder(),
                                                 labelText:
-                                                    'W Extensive Scars, Stumps, or Burns',
+                                                    'W/O Extensive Scar\nor Stumps',
                                                 labelStyle: TextStyle(
                                                     overflow:
                                                         TextOverflow.clip),
-                                                hintText: "0.00"),
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: Color(0xFF000000),
-                                            )),
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                            child: TextFormField(
+                                                keyboardType:
+                                                    TextInputType.multiline,
+                                                maxLines: null,
+                                                controller:
+                                                    edt_W_Extensive_Scars_Stumps_or_Burns,
+                                                textInputAction:
+                                                    TextInputAction.newline,
+                                                decoration: InputDecoration(
+                                                    border:
+                                                        UnderlineInputBorder(),
+                                                    labelText:
+                                                        'W Extensive Scars,\nStumps, or Burns',
+                                                    labelStyle: TextStyle(
+                                                        overflow:
+                                                            TextOverflow.clip),
+                                                    hintText: "0.00"),
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color(0xFF000000),
+                                                ))),
                                       ],
                                     ),
                                   ),
@@ -483,48 +496,128 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         bottom: 20,
                                         left: 20,
                                         right: 20),
-                                    child: Column(
+                                    child: Row(
                                       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextFormField(
-                                            controller:
-                                                edt_Whole_Person_Impairment_Less,
-                                            decoration: InputDecoration(
-                                              // border: UnderlineInputBorder(),
-                                              labelText:
-                                                  'Whole Person Impairment, 25% or Less',
-                                              labelStyle: TextStyle(
-                                                  overflow: TextOverflow.clip),
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                            )),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        TextFormField(
-                                            maxLines: null,
-                                            keyboardType:
-                                                TextInputType.multiline,
-                                            /*keyboardType: TextInputType
-                                                .numberWithOptions(
-                                                    decimal: true),*/
-                                            controller:
-                                                Whole_Person_Impairment_More_than,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
+                                        Expanded(
+                                          child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              maxLines: null,
+                                              textInputAction:
+                                                  TextInputAction.newline,
+                                              controller:
+                                                  edt_Whole_Person_Impairment_Less,
+                                              decoration: InputDecoration(
+                                                // border: UnderlineInputBorder(),
                                                 labelText:
-                                                    'Whole Person Impairment, More than 25%',
+                                                    'Whole Person\nImpairment, 25% or Less',
                                                 labelStyle: TextStyle(
                                                     overflow:
                                                         TextOverflow.clip),
-                                                hintText: "0.00"),
-                                            style: TextStyle(
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              textInputAction:
+                                                  TextInputAction.newline,
+                                              maxLines: null,
+                                              /*keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),*/
+                                              controller:
+                                                  Whole_Person_Impairment_More_than,
+                                              decoration: InputDecoration(
+                                                border: UnderlineInputBorder(),
+                                                labelText:
+                                                    'Whole Person\nImpairment, More than 25%',
+                                                labelStyle: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.clip),
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                          top: 5,
+                                          bottom: 10,
+                                          left: 20,
+                                          right: 20),
+                                      child: Text(
+                                          "For injuries on or after 9/7/2021:",
+                                          style: TextStyle(
                                               fontSize: 15,
-                                              color: Color(0xFF000000),
-                                            )),
+                                              fontWeight: FontWeight.bold))),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 20,
+                                        left: 20,
+                                        right: 20),
+                                    child: Row(
+                                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              maxLines: null,
+                                              textInputAction:
+                                                  TextInputAction.newline,
+                                              controller:
+                                                  Whole_Person_Impairment_Less_than_19,
+                                              decoration: InputDecoration(
+                                                // border: UnderlineInputBorder(),
+                                                labelText:
+                                                    'Whole Person\nImpairment, 19% or Less',
+                                                labelStyle: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.clip),
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              maxLines: null,
+                                              textInputAction:
+                                                  TextInputAction.newline,
+                                              /*keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),*/
+                                              controller:
+                                                  Whole_Person_Impairment_More_than_19,
+                                              decoration: InputDecoration(
+                                                border: UnderlineInputBorder(),
+                                                labelText:
+                                                    'Whole Person\nImpairment, More than 19%',
+                                                labelStyle: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.clip),
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -636,11 +729,146 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                         ),
                       ),
                     ),
+                    InkWell(
+                      onTap: () {
+                        _showModalSheet();
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: Image.asset(INFO_ICON)),
+                    ),
                   ],
                 )),
           ],
         ),
       ),
+    );
+  }
+
+  void _showModalSheet() {
+    showModalBottomSheet<void>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter state) {
+            return SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.only(top: 5, bottom: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 20, bottom: 10),
+                        child: Text(
+                          "Info",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      height: 2,
+                      color: Colors.grey,
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10),
+                        child: Text(
+                          "This application is designed to provide accurate and authoritative information regarding the workers’ compensation law.  This information is given with the understanding that this application does not create an attorney client relationship.  Since the details of your situation are fact dependent; you should contact us to advise you how the law affects your particular circumstances.",
+                          style: TextStyle(fontSize: 14, color: colorBlack),
+                        )),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Text(
+                        "Settlement Partners",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            letterSpacing: 2),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Image.asset(CALL_ICON),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "303.691.9090s",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Image.asset(MESSAGE_ICON),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "mdavis@settlementpartners.com",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Card(
+                              elevation: 10,
+                              color: APPButtonRed,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Container(
+                                width: 100,
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 10, bottom: 10),
+                                child: Center(
+                                  child: Text("Close",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              )),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 

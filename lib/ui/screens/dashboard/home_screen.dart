@@ -57,7 +57,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
           onPressed: () {
             navigateTo(context, ContactUsScreen.routeName);
           },
-          backgroundColor: colorYellow,
+          backgroundColor: Color(0xFFF9E910),
           child: Image.asset(CALL_SMS),
         ),
       ),
@@ -333,7 +333,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                             color: Colors.grey),
                       ),
                       Container(
-                        height: 1,
+                        height: 0.5,
                         margin: EdgeInsets.only(top: 10, bottom: 10, right: 30),
                         color: Colors.grey,
                       )
