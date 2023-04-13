@@ -240,6 +240,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                               Expanded(
                                                 child: InkWell(
                                                   child: TextFormField(
+                                                      textInputAction:
+                                                          TextInputAction.next,
                                                       controller:
                                                           edt_Ave_Weekly_Wage,
                                                       keyboardType: TextInputType
@@ -249,7 +251,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                           border:
                                                               UnderlineInputBorder(),
                                                           labelText:
-                                                              'Ave. Weekly Wage',
+                                                              'Avg. Weekly Wage',
                                                           labelStyle: TextStyle(
                                                               overflow:
                                                                   TextOverflow
@@ -276,16 +278,22 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                             children: [
                                               Expanded(
                                                 child: TextFormField(
+                                                    keyboardType: TextInputType
+                                                        .numberWithOptions(
+                                                            decimal: true),
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     controller:
                                                         edt_PPD_Weekly_Rate,
                                                     decoration: InputDecoration(
-                                                      // border: UnderlineInputBorder(),
-                                                      labelText:
-                                                          'PPD Weekly Rate',
-                                                      labelStyle: TextStyle(
-                                                          overflow: TextOverflow
-                                                              .clip),
-                                                    ),
+                                                        // border: UnderlineInputBorder(),
+                                                        labelText:
+                                                            'PPD Weekly Rate',
+                                                        labelStyle: TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip),
+                                                        hintText: "0.00"),
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       color: Color(0xFF000000),
@@ -296,13 +304,13 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                               ),
                                               Expanded(
                                                 child: TextFormField(
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
                                                     controller:
                                                         edt_TTD_Weekly_Rate,
-                                                    textInputAction:
-                                                        TextInputAction.next,
                                                     decoration: InputDecoration(
                                                         border:
                                                             UnderlineInputBorder(),
@@ -327,13 +335,13 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
+                                              textInputAction:
+                                                  TextInputAction.next,
                                               keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
                                               controller:
                                                   edt_Scheduled_Impairment_Weekly_Rate,
-                                              textInputAction:
-                                                  TextInputAction.next,
                                               decoration: InputDecoration(
                                                   border:
                                                       UnderlineInputBorder(),
@@ -404,21 +412,22 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                       children: [
                                         Expanded(
                                           child: TextFormField(
-                                              keyboardType:
-                                                  TextInputType.multiline,
-                                              maxLines: null,
                                               textInputAction:
-                                                  TextInputAction.newline,
+                                                  TextInputAction.next,
+                                              keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),
+                                              maxLines: null,
                                               controller:
                                                   edt_W_O_Extensive_Scar_or_Stumps,
                                               decoration: InputDecoration(
-                                                // border: UnderlineInputBorder(),
-                                                labelText:
-                                                    'W/O Extensive Scar\nor Stumps',
-                                                labelStyle: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.clip),
-                                              ),
+                                                  // border: UnderlineInputBorder(),
+                                                  labelText:
+                                                      'W/O Extensive Scar\nor Stumps',
+                                                  labelStyle: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                  hintText: "0.00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                               )),
@@ -428,13 +437,14 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         ),
                                         Expanded(
                                             child: TextFormField(
-                                                keyboardType:
-                                                    TextInputType.multiline,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        decimal: true),
                                                 maxLines: null,
                                                 controller:
                                                     edt_W_Extensive_Scars_Stumps_or_Burns,
-                                                textInputAction:
-                                                    TextInputAction.newline,
                                                 decoration: InputDecoration(
                                                     border:
                                                         UnderlineInputBorder(),
@@ -501,21 +511,22 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                       children: [
                                         Expanded(
                                           child: TextFormField(
-                                              keyboardType:
-                                                  TextInputType.multiline,
-                                              maxLines: null,
                                               textInputAction:
-                                                  TextInputAction.newline,
+                                                  TextInputAction.next,
+                                              keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),
+                                              maxLines: null,
                                               controller:
                                                   edt_Whole_Person_Impairment_Less,
                                               decoration: InputDecoration(
-                                                // border: UnderlineInputBorder(),
-                                                labelText:
-                                                    'Whole Person\nImpairment, 25% or Less',
-                                                labelStyle: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.clip),
-                                              ),
+                                                  // border: UnderlineInputBorder(),
+                                                  labelText:
+                                                      'Whole Person\nImpairment, 25% or Less',
+                                                  labelStyle: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                  hintText: "0.00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                               )),
@@ -525,10 +536,11 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         ),
                                         Expanded(
                                           child: TextFormField(
-                                              keyboardType:
-                                                  TextInputType.multiline,
+                                              keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),
                                               textInputAction:
-                                                  TextInputAction.newline,
+                                                  TextInputAction.next,
                                               maxLines: null,
                                               /*keyboardType: TextInputType
                                                   .numberWithOptions(
@@ -536,13 +548,14 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                               controller:
                                                   Whole_Person_Impairment_More_than,
                                               decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
-                                                labelText:
-                                                    'Whole Person\nImpairment, More than 25%',
-                                                labelStyle: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.clip),
-                                              ),
+                                                  border:
+                                                      UnderlineInputBorder(),
+                                                  labelText:
+                                                      'Whole Person\nImpairment, More than 25%',
+                                                  labelStyle: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                  hintText: "0.00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                               )),
@@ -572,21 +585,22 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                       children: [
                                         Expanded(
                                           child: TextFormField(
-                                              keyboardType:
-                                                  TextInputType.multiline,
-                                              maxLines: null,
                                               textInputAction:
-                                                  TextInputAction.newline,
+                                                  TextInputAction.next,
+                                              keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),
+                                              maxLines: null,
                                               controller:
                                                   Whole_Person_Impairment_Less_than_19,
                                               decoration: InputDecoration(
-                                                // border: UnderlineInputBorder(),
-                                                labelText:
-                                                    'Whole Person\nImpairment, 19% or Less',
-                                                labelStyle: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.clip),
-                                              ),
+                                                  // border: UnderlineInputBorder(),
+                                                  labelText:
+                                                      'Whole Person\nImpairment, 19% or Less',
+                                                  labelStyle: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                  hintText: "0.00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                               )),
@@ -596,24 +610,27 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         ),
                                         Expanded(
                                           child: TextFormField(
-                                              keyboardType:
-                                                  TextInputType.multiline,
+                                              keyboardType: TextInputType
+                                                  .numberWithOptions(
+                                                      decimal: true),
                                               maxLines: null,
                                               textInputAction:
-                                                  TextInputAction.newline,
+                                                  TextInputAction.done,
+
                                               /*keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),*/
                                               controller:
                                                   Whole_Person_Impairment_More_than_19,
                                               decoration: InputDecoration(
-                                                border: UnderlineInputBorder(),
-                                                labelText:
-                                                    'Whole Person\nImpairment, More than 19%',
-                                                labelStyle: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.clip),
-                                              ),
+                                                  border:
+                                                      UnderlineInputBorder(),
+                                                  labelText:
+                                                      'Whole Person\nImpairment, More than 19%',
+                                                  labelStyle: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                  hintText: "0.00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                               )),
@@ -627,34 +644,38 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                           ),
                         ),
 
-                        InkWell(
-                          onTap: () {
-                            navigateTo(
-                                context, CalculateNetPresentValue.routeName);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            child: InkWell(
-                              onTap: () {
-                                ALL_Name_ID all_name_model = ALL_Name_ID();
-                                all_name_model.Name = "Privacy Policy";
-                                all_name_model.Name1 =
-                                    "https://www.lipsum.com/privacy.pdf";
+                        Visibility(
+                          visible: false,
+                          child: InkWell(
+                            onTap: () {
+                              navigateTo(
+                                  context, CalculateNetPresentValue.routeName);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: InkWell(
+                                onTap: () {
+                                  ALL_Name_ID all_name_model = ALL_Name_ID();
+                                  all_name_model.Name = "Privacy Policy";
+                                  all_name_model.Name1 =
+                                      "https://www.lipsum.com/privacy.pdf";
 
-                                navigateTo(context, WebViewRemotePage.routeName,
-                                        arguments: all_name_model)
-                                    .then((value) {
-                                  setState(() {});
-                                });
-                                /* _launchURL(
-                                    "https://www.lipsum.com/privacy.pdf");*/
-                                //
-                              },
-                              child: Text(
-                                "Privacy Policy",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    decoration: TextDecoration.underline),
+                                  navigateTo(
+                                          context, WebViewRemotePage.routeName,
+                                          arguments: all_name_model)
+                                      .then((value) {
+                                    setState(() {});
+                                  });
+                                  /* _launchURL(
+                                      "https://www.lipsum.com/privacy.pdf");*/
+                                  //
+                                },
+                                child: Text(
+                                  "Privacy Policy",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      decoration: TextDecoration.underline),
+                                ),
                               ),
                             ),
                           ),

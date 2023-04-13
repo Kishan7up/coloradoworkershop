@@ -389,6 +389,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               ),
                                               Expanded(
                                                 child: TextFormField(
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
@@ -715,7 +717,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               controller:
                                                   edt_left_lower_extremity_rating,
                                               textInputAction:
-                                                  TextInputAction.done,
+                                                  TextInputAction.next,
                                               decoration: InputDecoration(
                                                   suffixIcon: Padding(
                                                     padding:
@@ -821,18 +823,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   children: [
                                                     Expanded(
                                                       child: TextFormField(
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .numberWithOptions(
+                                                                      decimal:
+                                                                          true),
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
                                                           controller:
                                                               edt_Whole_Person_Rating,
                                                           decoration:
                                                               InputDecoration(
-                                                            contentPadding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10.0),
-                                                            // border: UnderlineInputBorder(),
-                                                            labelText:
-                                                                'Whole Person Rating',
-                                                          ),
+                                                                  contentPadding:
+                                                                      const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              10.0),
+                                                                  // border: UnderlineInputBorder(),
+                                                                  labelText:
+                                                                      'Whole Person Rating',
+                                                                  hintText:
+                                                                      "0.00"),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Color(
@@ -844,6 +856,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                     ),
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
                                                           keyboardType:
                                                               TextInputType
                                                                   .numberWithOptions(
@@ -951,18 +966,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   children: [
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .numberWithOptions(
+                                                                      decimal:
+                                                                          true),
                                                           controller:
                                                               edt_Impairment_Rating_Right_Upper,
                                                           decoration:
                                                               InputDecoration(
-                                                            contentPadding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10.0),
-                                                            // border: UnderlineInputBorder(),
-                                                            labelText:
-                                                                'Impairment Rating',
-                                                          ),
+                                                                  contentPadding:
+                                                                      const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              10.0),
+                                                                  // border: UnderlineInputBorder(),
+                                                                  labelText:
+                                                                      'Impairment Rating',
+                                                                  hintText:
+                                                                      "0.00"),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Color(
@@ -974,6 +999,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                     ),
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
                                                           keyboardType:
                                                               TextInputType
                                                                   .numberWithOptions(
@@ -1081,18 +1109,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   children: [
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .numberWithOptions(
+                                                                      decimal:
+                                                                          true),
                                                           controller:
                                                               edt_Impairment_Rating_Left_Upper,
                                                           decoration:
                                                               InputDecoration(
-                                                            contentPadding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10.0),
-                                                            // border: UnderlineInputBorder(),
-                                                            labelText:
-                                                                'Impairment Rating',
-                                                          ),
+                                                                  contentPadding:
+                                                                      const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              10.0),
+                                                                  // border: UnderlineInputBorder(),
+                                                                  labelText:
+                                                                      'Impairment Rating',
+                                                                  hintText:
+                                                                      "0.00"),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Color(
@@ -1104,6 +1142,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                     ),
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
                                                           keyboardType:
                                                               TextInputType
                                                                   .numberWithOptions(
@@ -1211,18 +1252,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   children: [
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .numberWithOptions(
+                                                                      decimal:
+                                                                          true),
                                                           controller:
                                                               edt_Impairment_Rating_Right_Lower,
                                                           decoration:
                                                               InputDecoration(
-                                                            contentPadding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10.0),
-                                                            // border: UnderlineInputBorder(),
-                                                            labelText:
-                                                                'Impairment Rating',
-                                                          ),
+                                                                  contentPadding:
+                                                                      const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              10.0),
+                                                                  // border: UnderlineInputBorder(),
+                                                                  labelText:
+                                                                      'Impairment Rating',
+                                                                  hintText:
+                                                                      "0.00"),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Color(
@@ -1234,6 +1285,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                     ),
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
                                                           keyboardType:
                                                               TextInputType
                                                                   .numberWithOptions(
@@ -1341,18 +1395,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   children: [
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .numberWithOptions(
+                                                                      decimal:
+                                                                          true),
                                                           controller:
                                                               edt_Impairment_Rating_Left_Lower,
                                                           decoration:
                                                               InputDecoration(
-                                                            contentPadding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10.0),
-                                                            // border: UnderlineInputBorder(),
-                                                            labelText:
-                                                                'Impairment Rating',
-                                                          ),
+                                                                  contentPadding:
+                                                                      const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              10.0),
+                                                                  // border: UnderlineInputBorder(),
+                                                                  labelText:
+                                                                      'Impairment Rating',
+                                                                  hintText:
+                                                                      "0.00"),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Color(
@@ -1364,6 +1428,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                     ),
                                                     Expanded(
                                                       child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .next,
                                                           keyboardType:
                                                               TextInputType
                                                                   .numberWithOptions(
@@ -1425,6 +1492,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               Container(
                                                 margin: EdgeInsets.all(10),
                                                 child: TextFormField(
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
@@ -1441,8 +1510,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                                     controller:
                                                         edt_Total_Scheduled_Rate,
-                                                    textInputAction:
-                                                        TextInputAction.next,
                                                     decoration: InputDecoration(
                                                         border:
                                                             UnderlineInputBorder(),
@@ -1460,6 +1527,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               Container(
                                                 margin: EdgeInsets.all(10),
                                                 child: TextFormField(
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
@@ -1476,8 +1545,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                                     controller:
                                                         edt_Combined_Whole_Person_Rate,
-                                                    textInputAction:
-                                                        TextInputAction.next,
                                                     decoration: InputDecoration(
                                                         border:
                                                             UnderlineInputBorder(),
@@ -1495,6 +1562,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               Container(
                                                 margin: EdgeInsets.all(10),
                                                 child: TextFormField(
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
@@ -1511,8 +1580,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                                     controller:
                                                         edt_Total_Award_Value_With_Current_Conversations,
-                                                    textInputAction:
-                                                        TextInputAction.next,
                                                     decoration: InputDecoration(
                                                         border:
                                                             UnderlineInputBorder(),
@@ -1589,13 +1656,13 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               Container(
                                                 margin: EdgeInsets.all(10),
                                                 child: TextFormField(
+                                                    textInputAction:
+                                                        TextInputAction.next,
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
                                                     controller:
                                                         Total_TTD_TPD_benefits_you_have_received,
-                                                    textInputAction:
-                                                        TextInputAction.done,
                                                     decoration: InputDecoration(
                                                         border:
                                                             UnderlineInputBorder(),
@@ -1849,56 +1916,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           "This application is designed to provide accurate and authoritative information regarding the workers’ compensation law.  This information is given with the understanding that this application does not create an attorney client relationship.  Since the details of your situation are fact dependent; you should contact us to advise you how the law affects your particular circumstances.",
                           style: TextStyle(fontSize: 14, color: colorBlack),
                         )),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 10),
-                      child: Text(
-                        "Settlement Partners",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            letterSpacing: 2),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 10),
-                      child: Row(
-                        children: [
-                          Image.asset(CALL_ICON),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "303.691.9090s",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 10),
-                      child: Row(
-                        children: [
-                          Image.asset(MESSAGE_ICON),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "mdavis@settlementpartners.com",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);

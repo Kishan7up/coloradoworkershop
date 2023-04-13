@@ -1,5 +1,4 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
-import 'package:app/models/api_request/customer/customer_paggination_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
@@ -122,12 +121,12 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     _CustomerBloc = MainBloc(baseBloc);
     //_CustomerBloc.add(RecentListCallEvent());
     getListStatus();
-    _CustomerBloc.add(CustomerPaginationRequestEvent(CustomerPaginationRequest(
+    /*  _CustomerBloc.add(CustomerPaginationRequestEvent(CustomerPaginationRequest(
       companyId: 4132,
       loginUserID: "admin",
       CustomerID: "",
       ListMode: "L",
-    )));
+    )));*/
 
     edt_FollowupEmployeeList.text = "ALL";
     _CustomerBloc.add(
@@ -227,13 +226,13 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                   onRefresh: () async {
                     edt_searchDetails.text = "";
                     edt_FollowupEmployeeList.text = "ALL";
-                    _CustomerBloc.add(CustomerPaginationRequestEvent(
+                    /*  _CustomerBloc.add(CustomerPaginationRequestEvent(
                         CustomerPaginationRequest(
                       companyId: 4132,
                       loginUserID: "admin",
                       CustomerID: "",
                       ListMode: "L",
-                    )));
+                    )));*/
                   },
                   child: Container(
                     padding: EdgeInsets.only(
@@ -356,99 +355,102 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
   ///builds inquiry list
   Widget _buildInquiryList() {
-    if (arrRecent_view_list.isEmpty) {
+    /* if (arrRecent_view_list.isEmpty) {
       return Container();
-    }
+    }*/
     return ListView.builder(
-      key: Key('selected $selected'),
-      itemBuilder: (context, index) {
-        //return _buildInquiryListItem(index);
+        key: Key('selected $selected'),
+        itemBuilder: (context, index) {
+          //return _buildInquiryListItem(index);
 
-        return InkWell(
-          onTap: () {
-            navigateTo(context, RecentCasesDetailsScreen.routeName,
-                    arguments: RecentCasesDetailsScreenArgument(
-                        "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
-                .then((value) {
-              //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
-            });
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  margin: EdgeInsets.only(top: 10, right: 15),
-                  child: Text(
-                    index == 0
-                        ? "26-01-2020".getFormattedDate(
-                            fromFormat: "yyyy-MM-ddTHH:mm:ss",
-                            toFormat: "yyyy-MM-dd")
-                        : "27-0$index-2020".getFormattedDate(
-                            fromFormat: "yyyy-MM-ddTHH:mm:ss",
-                            toFormat: "yyyy-MM-dd"),
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 14),
+          return InkWell(
+            onTap: () {
+              navigateTo(context, RecentCasesDetailsScreen.routeName,
+                      arguments: RecentCasesDetailsScreenArgument(
+                          "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
+                  .then((value) {
+                //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+              });
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10, right: 15),
+                    child: Text(
+                      index == 0
+                          ? "26-01-2020".getFormattedDate(
+                              fromFormat: "yyyy-MM-ddTHH:mm:ss",
+                              toFormat: "yyyy-MM-dd")
+                          : "27-0$index-2020".getFormattedDate(
+                              fromFormat: "yyyy-MM-ddTHH:mm:ss",
+                              toFormat: "yyyy-MM-dd"),
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ),
                 ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.white70, width: 1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        arrRecent_view_list[index].customerName,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                      Text("W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
-                          style: TextStyle(color: Colors.black, fontSize: 13)),
-                      /* Text(
+                Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Burren v Destination Maternity",
+                          //arrRecent_view_list[index].customerName,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
+                        Text("W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 13)),
+                        /* Text(
                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                           Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
                     */
-                      ReadMoreText(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                          trimLines: 2,
-                          colorClickableText: Colors.pink,
-                          trimMode: TrimMode.Line,
-                          trimCollapsedText: '..Read More',
-                          style: TextStyle(fontSize: 13), callback: (v) {
-                        navigateTo(context, RecentCasesDetailsScreen.routeName,
-                                arguments: RecentCasesDetailsScreenArgument(
-                                    "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
-                                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
-                            .then((value) {
-                          //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
-                        });
-                      }
-                          //trimExpandedText: ' Less',
-                          ),
-                      //Text(arrRecent_view_list[index].contactNo1)
-                    ],
+                        ReadMoreText(
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                            trimLines: 2,
+                            colorClickableText: Colors.pink,
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: '..Read More',
+                            style: TextStyle(fontSize: 13), callback: (v) {
+                          navigateTo(
+                                  context, RecentCasesDetailsScreen.routeName,
+                                  arguments: RecentCasesDetailsScreenArgument(
+                                      "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
+                              .then((value) {
+                            //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+                          });
+                        }
+                            //trimExpandedText: ' Less',
+                            ),
+                        //Text(arrRecent_view_list[index].contactNo1)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          );
+        },
+        shrinkWrap: true,
+        itemCount: 5 // arrRecent_view_list.length,
         );
-      },
-      shrinkWrap: true,
-      itemCount: arrRecent_view_list.length,
-    );
   }
 
   ///builds row item view of inquiry list

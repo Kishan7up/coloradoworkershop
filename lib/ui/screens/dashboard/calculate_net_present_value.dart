@@ -405,7 +405,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                                       decimal: true),
                                               controller: edt_Discount_rate,
                                               textInputAction:
-                                                  TextInputAction.done,
+                                                  TextInputAction.next,
                                               decoration: InputDecoration(
                                                   suffixIcon: Padding(
                                                     padding:
@@ -437,19 +437,18 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
+                                              keyboardType:
+                                                  TextInputType.number,
                                               controller:
                                                   Age_or_rated_age_at_MMI,
                                               textInputAction:
-                                                  TextInputAction.done,
+                                                  TextInputAction.next,
                                               decoration: InputDecoration(
                                                   border:
                                                       UnderlineInputBorder(),
                                                   labelText:
                                                       'Age or rated age at MMI',
-                                                  hintText: "0.00"),
+                                                  hintText: "00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 color: Color(0xFF000000),
@@ -461,17 +460,16 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
+                                              keyboardType:
+                                                  TextInputType.number,
                                               controller: Life_expectancy,
                                               textInputAction:
-                                                  TextInputAction.done,
+                                                  TextInputAction.next,
                                               decoration: InputDecoration(
                                                   border:
                                                       UnderlineInputBorder(),
                                                   labelText: 'Life expectancy',
-                                                  hintText: "0.00"),
+                                                  hintText: "00"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 color: Color(0xFF000000),
@@ -489,7 +487,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                               controller:
                                                   edt_Net_present_value_before_PPD_benefits_already_paid,
                                               textInputAction:
-                                                  TextInputAction.done,
+                                                  TextInputAction.next,
                                               decoration: InputDecoration(
                                                   suffixIcon: Padding(
                                                     padding:
