@@ -28,3 +28,15 @@ class SearchRecentViewRetriveState extends MainStates {
 
   SearchRecentViewRetriveState(this.recentViewDBTable);
 }
+
+class ContactUsResponseState extends MainStates {
+  final ContactUsResponse contactUsResponse;
+
+  ContactUsResponseState(this.contactUsResponse);
+}
+
+class AboutUsResponseState extends MainStates {
+  final AboutUsResponse aboutUsResponse;
+
+  AboutUsResponseState(this.aboutUsResponse);
+}

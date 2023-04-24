@@ -1,6 +1,10 @@
 import 'package:app/blocs/base/base_bloc.dart';
 import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
+import 'package:app/models/api_request/about_us/about_us_request.dart';
+import 'package:app/models/api_request/contact_us/contact_us_request.dart';
 import 'package:app/models/api_request/customer/customer_paggination_request.dart';
+import 'package:app/models/api_response/about_Us/about_us_response.dart';
+import 'package:app/models/api_response/contact_Us/contact_us_response.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/repositories/repository.dart';
 import 'package:app/utils/offline_db_helper.dart';
@@ -35,6 +39,12 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       yield* _mapSearchRecentViewRetriveEventToState(event);
     }
 
+    if (event is AboutUsRequestEvent) {
+      yield* _mapAboutUsRequestEventToState(event);
+    }
+    if (event is ContactUsRequestEvent) {
+      yield* _mapContactUsRequestEventToState(event);
+    }
     //
   }
 
@@ -111,6 +121,42 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       baseBloc.emit(ApiCallFailureState(error));
       print(stacktrace);
     } finally {
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
+  Stream<MainStates> _mapAboutUsRequestEventToState(
+      AboutUsRequestEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+
+      AboutUsResponse arrrecent =
+          await userRepository.aboutUsAPI(event.aboutUsRequest);
+
+      yield AboutUsResponseState(arrrecent);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
+  Stream<MainStates> _mapContactUsRequestEventToState(
+      ContactUsRequestEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+
+      ContactUsResponse response =
+          await userRepository.contactUsAPI(event.contactUsRequest);
+
+      yield ContactUsResponseState(response);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
       baseBloc.emit(ShowProgressIndicatorState(false));
     }
   }

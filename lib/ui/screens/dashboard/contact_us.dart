@@ -1,4 +1,5 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/api_request/contact_us/contact_us_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
@@ -124,9 +125,15 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
           return false;
         },
         listener: (BuildContext context, MainStates state) {
+          if (state is ContactUsResponseState) {
+            getContactUsResponse(state);
+          }
           return super.build(context);
         },
         listenWhen: (oldState, currentState) {
+          if (currentState is ContactUsResponseState) {
+            return true;
+          }
           return false;
         },
       ),
@@ -336,7 +343,15 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
                                 if (edt_EmailAddress.text != "") {
                                   if (edt_EmailAddress.text != "") {
                                     if (edt_Message.text != "") {
-                                      _showModalSheet();
+                                      _CustomerBloc.add(ContactUsRequestEvent(
+                                          ContactUsRequest(
+                                              firstName: edt_FirstName.text,
+                                              lastName: edt_LastName.text,
+                                              email: edt_EmailAddress.text,
+                                              message: edt_Message.text,
+                                              phoneNumber:
+                                                  edt_PhoneNumber.text)));
+                                      // _showModalSheet();
                                     } else {
                                       showCommonDialogWithSingleOption(
                                           context, "Message is required!",
@@ -501,7 +516,7 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
             ));
   }
 
-  void _showModalSheet() {
+  void _showModalSheet(String apiMessage) {
     showModalBottomSheet<void>(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -531,8 +546,7 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
                     ),
                     Container(
                       margin: EdgeInsets.all(20),
-                      child: Text(
-                          "Thank you for your contacting us. Our team will get back to you within 24hr."),
+                      child: Text(apiMessage),
                     ),
                     SizedBox(
                       height: 30,
@@ -571,5 +585,9 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
         );
       },
     );
+  }
+
+  void getContactUsResponse(ContactUsResponseState state) {
+    _showModalSheet(state.contactUsResponse.message);
   }
 }

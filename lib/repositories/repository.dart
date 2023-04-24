@@ -1,4 +1,6 @@
 import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
+import 'package:app/models/api_request/about_us/about_us_request.dart';
+import 'package:app/models/api_request/contact_us/contact_us_request.dart';
 import 'package:app/models/api_request/customer/customer_add_edit_api_request.dart';
 import 'package:app/models/api_request/customer/customer_category_request.dart';
 import 'package:app/models/api_request/customer/customer_delete_request.dart';
@@ -23,7 +25,9 @@ import 'package:app/models/api_request/other/country_list_request.dart';
 import 'package:app/models/api_request/other/follower_employee_list_request.dart';
 import 'package:app/models/api_request/other/state_list_request.dart';
 import 'package:app/models/api_request/registraion/registration_request.dart';
+import 'package:app/models/api_response/about_Us/about_us_response.dart';
 import 'package:app/models/api_response/company_details/company_details_response.dart';
+import 'package:app/models/api_response/contact_Us/contact_us_response.dart';
 import 'package:app/models/api_response/customer/customer_add_edit_response.dart';
 import 'package:app/models/api_response/customer/customer_category_list.dart';
 import 'package:app/models/api_response/customer/customer_delete_response.dart';
@@ -327,12 +331,12 @@ class Repository {
   Future<InquiryProductSaveResponse> inquiryProductSaveDetails(
       List<InquiryProductModel> inquiryProductModel) async {
     try {
-      Map<String, dynamic> json =
+      /* Map<String, dynamic> json =
           await apiClient.apiCallPostforMultipleJSONArray(
               ApiClient.END_POINT_INQUIRY_PRODUCT_SAVE, inquiryProductModel);
       InquiryProductSaveResponse inquiryProductSaveResponse =
           InquiryProductSaveResponse.fromJson(json);
-      return inquiryProductSaveResponse;
+      return inquiryProductSaveResponse;*/
     } on ErrorResponseException catch (e) {
       rethrow;
     }
@@ -473,6 +477,32 @@ class Repository {
             RecentViewDBTable(response.details[i].customerID.toString(),
                 response.details[i].customerName));
       }
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AboutUsResponse> aboutUsAPI(AboutUsRequest request) async {
+    try {
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_ABOUT_US, request.toJson());
+      AboutUsResponse response = AboutUsResponse.fromJson(json);
+
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ContactUsResponse> contactUsAPI(ContactUsRequest request) async {
+    try {
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_CONTACT_US, request.toJson());
+
+      print("APIRESPONSE" + json.toString());
+      ContactUsResponse response = ContactUsResponse.fromJson(json);
+
       return response;
     } on ErrorResponseException catch (e) {
       rethrow;

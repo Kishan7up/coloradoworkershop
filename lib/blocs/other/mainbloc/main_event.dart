@@ -25,4 +25,16 @@ class SearchRecentViewRetriveEvent extends MainEvent {
 
   SearchRecentViewRetriveEvent(this.searchkeyword, this.dropdownItem);
 }
+
 //getSearchRecentViewDBTable
+class AboutUsRequestEvent extends MainEvent {
+  AboutUsRequest aboutUsRequest;
+
+  AboutUsRequestEvent(this.aboutUsRequest);
+}
+
+class ContactUsRequestEvent extends MainEvent {
+  ContactUsRequest contactUsRequest;
+
+  ContactUsRequestEvent(this.contactUsRequest);
+}

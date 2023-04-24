@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "365304355639",
+    "project_id": "coloradodemo-ec27c",
+    "storage_bucket": "coloradodemo-ec27c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365304355639:android:72ce52fe22471cf93d18b2",
+        "android_client_info": {
+          "package_name": "com.coloradoworkerscomp.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365304355639-k6jkubdmthteu7kn982va3kitccg0876.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWX5tDaC7NVMzfc5nhRs9aJlTHZPotjjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365304355639-k6jkubdmthteu7kn982va3kitccg0876.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
