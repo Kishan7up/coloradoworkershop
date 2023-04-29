@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
+import 'package:app/models/api_request/view_recent_cases/view_recent_cases_request.dart';
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/image_resources.dart';
@@ -14,6 +17,7 @@ import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///Added New Commit
 ///
@@ -29,6 +33,8 @@ class HomeScreen extends BaseStatefulWidget {
 class _HomeScreenState extends BaseState<HomeScreen>
     with BasicScreen, WidgetsBindingObserver {
   List<ALL_Name_ID> arrRecentCase = [];
+  MainBloc _CustomerBloc;
+  List<RecentViewDBTable> arrRecent_view_list = [];
 
   @override
   void initState() {
@@ -37,8 +43,43 @@ class _HomeScreenState extends BaseState<HomeScreen>
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     //  SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     super.initState();
+    _CustomerBloc = MainBloc(baseBloc);
+    _CustomerBloc.add(
+        ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all")));
 
+    _CustomerBloc.add(SearchRecentViewRetriveEvent("", "ALL"));
     getrecentCases();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => _CustomerBloc,
+      child: BlocConsumer<MainBloc, MainStates>(
+        builder: (BuildContext context, MainStates state) {
+          if (state is ViewRecentCasesResponseState) {
+            _OnViewRecentCasesResponse(state);
+          }
+          if (state is SearchRecentViewRetriveState) {
+            _onsearchResult(state);
+          }
+          return super.build(context);
+        },
+        buildWhen: (oldState, currentState) {
+          if (currentState is ViewRecentCasesResponseState ||
+              currentState is SearchRecentViewRetriveState) {
+            return true;
+          }
+          return false;
+        },
+        listener: (BuildContext context, MainStates state) {
+          return super.build(context);
+        },
+        listenWhen: (oldState, currentState) {
+          return false;
+        },
+      ),
+    );
   }
 
   @override
@@ -319,14 +360,14 @@ class _HomeScreenState extends BaseState<HomeScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        arrRecentCase[index].Name,
+                        arrRecent_view_list[index].title,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                       Text(
-                        arrRecentCase[index].Name1,
+                        arrRecent_view_list[index].caseDetailShort,
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -341,7 +382,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                   );
                 },
                 shrinkWrap: true,
-                itemCount: arrRecentCase.length,
+                itemCount: arrRecent_view_list.length,
               ))
         ],
       ),
@@ -369,6 +410,66 @@ class _HomeScreenState extends BaseState<HomeScreen>
       all_name_id.Name1 = "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]";
 
       arrRecentCase.add(all_name_id);
+    }
+  }
+
+  void _OnViewRecentCasesResponse(ViewRecentCasesResponseState state) async {
+    // arrRecent_view_list.clear();
+    print("KeyRecentResponse" +
+        "API Response and Bind data details" +
+        state.viewRecentCasesResponse.data.details[0].title);
+    /*_CustomerBloc.add(
+        SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));*/
+    /* for (int i = 0;
+        i < state.viewRecentCasesResponse.data.details.length;
+        i++) {
+      print("KeyRecentResponse" +
+          "API Response and Bind data details" +
+          state.viewRecentCasesResponse.data.details[i].title);
+
+      for (int i = 0;
+          i < state.viewRecentCasesResponse.data.details.length;
+          i++) {
+        arrRecent_view_list.add(RecentViewDBTable(
+          state.viewRecentCasesResponse.data.details[i].title,
+          state.viewRecentCasesResponse.data.details[i].caseNo.toString(),
+          state.viewRecentCasesResponse.data.details[i].caseDetailShort,
+          state.viewRecentCasesResponse.data.details[i].caseDetailLong,
+          state.viewRecentCasesResponse.data.details[i].filter,
+          state.viewRecentCasesResponse.data.details[i].link,
+        ));
+      }*/
+
+    /* await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
+      for (int i = 0;
+          i < state.viewRecentCasesResponse.data.details.length;
+          i++) {
+        await OfflineDbHelper.getInstance()
+            .insertRecentViewDBTable(RecentViewDBTable(
+          state.viewRecentCasesResponse.data.details[i].title,
+          state.viewRecentCasesResponse.data.details[i].caseNo,
+          state.viewRecentCasesResponse.data.details[i].caseDetailShort,
+          state.viewRecentCasesResponse.data.details[i].caseDetailLong,
+          state.viewRecentCasesResponse.data.details[i].filter,
+          state.viewRecentCasesResponse.data.details[i].link,
+        ));
+
+        _CustomerBloc.add(
+            SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));*/
+  }
+
+  void _onsearchResult(SearchRecentViewRetriveState state) {
+    arrRecent_view_list.clear();
+    //_allUsers.clear();
+    for (int i = 0; i < state.recentViewDBTable.length; i++) {
+      /*RecentViewDBTable customerDetails = RecentViewDBTable();
+      customerDetails.customerID =
+          int.parse(state.recentViewDBTable[i].CustomerID);
+
+      customerDetails.customerName = state.recentViewDBTable[i].CustomerName;*/
+
+      arrRecent_view_list.add(state.recentViewDBTable[i]);
+      //_allUsers.add(state.recentViewDBTable[i]);
     }
   }
 }

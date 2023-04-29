@@ -1,4 +1,5 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
@@ -14,10 +15,9 @@ import 'package:url_launcher/url_launcher.dart';
 //import 'package:whatsapp_share/whatsapp_share.dart';
 
 class RecentCasesDetailsScreenArgument {
-  String editModel;
-  String editModel2;
+  RecentViewDBTable recentViewDBTable;
 
-  RecentCasesDetailsScreenArgument(this.editModel, this.editModel2);
+  RecentCasesDetailsScreenArgument(this.recentViewDBTable);
 }
 
 class RecentCasesDetailsScreen extends BaseStatefulWidget {
@@ -77,8 +77,7 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
   List<ALL_Name_ID> listStatus = [];
   List<ALL_Name_ID> selectedlistStatus = [];
 
-  String _editModel;
-  String _editModel2;
+  RecentViewDBTable _editModel;
 
   @override
   void initState() {
@@ -87,8 +86,8 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
     _CustomerBloc = MainBloc(baseBloc);
 
     if (widget.arguments != null) {
-      _editModel = widget.arguments.editModel;
-      _editModel2 = widget.arguments.editModel2;
+      _editModel = widget.arguments.recentViewDBTable;
+      // _editModel2 = widget.arguments.editModel2;
     }
     //_CustomerBloc.add(RecentListCallEvent());
   }
@@ -141,7 +140,7 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                       children: [
                         Container(
                           child: Text(
-                            "Tepla v. Lows Enterprise",
+                            _editModel.title,
                             style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -153,7 +152,7 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                         ),
                         Container(
                           child: Text(
-                            _editModel.toString(),
+                            _editModel.caseDetailShort.toString(),
                             style: TextStyle(
                               fontSize: 15,
                               color: Colors.black,
@@ -171,10 +170,7 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                           height: 10,
                         ),
                         Container(
-                          child: Text(
-                              _editModel2.toString() +
-                                  "\n" +
-                                  _editModel2.toString(),
+                          child: Text(_editModel.caseDetailLong.toString(),
                               style: TextStyle(
                                 fontSize: 13,
                               )),
@@ -190,7 +186,16 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xFFF9E910),
           onPressed: () {
-            _launchURL("https://www.buds.com.ua/images/Lorem_ipsum.pdf");
+            if (_editModel.link != "") {
+              _launchURL(
+                  "https://admin.appcoloworkcomp.com/" + _editModel.link);
+            } else {
+              showCommonDialogWithSingleOption(
+                  context, "Download Link is Not Valid !",
+                  positiveButtonTitle: "OK", onTapOfPositiveButton: () {
+                Navigator.pop(context);
+              });
+            }
             //https://www.buds.com.ua/images/Lorem_ipsum.pdf
           },
           child: Icon(

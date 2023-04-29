@@ -38,3 +38,15 @@ class ContactUsRequestEvent extends MainEvent {
 
   ContactUsRequestEvent(this.contactUsRequest);
 }
+
+class ViewRecentCasesRequestEvent extends MainEvent {
+  ViewRecentCasesRequest viewRecentCasesRequest;
+
+  ViewRecentCasesRequestEvent(this.viewRecentCasesRequest);
+}
+
+class NotificationListRequestEvent extends MainEvent {
+  NotificationListRequest notificationListRequest;
+
+  NotificationListRequestEvent(this.notificationListRequest);
+}

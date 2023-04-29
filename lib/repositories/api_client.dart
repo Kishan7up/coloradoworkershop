@@ -81,7 +81,10 @@ CartFlutterLive     : [BaseURL(API)]:	http://208.109.14.134:86/ [WebURL]:http://
 
   static const END_POINT_ABOUT_US = 'aboutUs';
   static const END_POINT_CONTACT_US = 'contactUs';
+  static const END_POINT_VIEW_RECENT_CASES = 'view_recent_cases';
+  static const END_POINT_VIEW_NOTIFICATION_LIST = 'notificationLIst';
 
+  //view_recent_cases
   //DailyAttendanceMode/0/Save
   final http.Client httpClient;
 

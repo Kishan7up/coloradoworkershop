@@ -1,5 +1,7 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/api_request/notification/notification_list_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
+import 'package:app/models/api_response/notification/notification_list_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
@@ -97,11 +99,16 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
   bool value = true;
   bool state = false;
 
+  List<NotificationListResponseDetails> notificationList = [];
+
   @override
   void initState() {
     super.initState();
 
     _CustomerBloc = MainBloc(baseBloc);
+
+    _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
+        notification: "1", device_token: "dfsdssdfdfffffs")));
 
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
@@ -123,9 +130,15 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
       create: (BuildContext context) => _CustomerBloc,
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
+          if (state is NotificationListResponseState) {
+            _onGetNotificationAPI(state);
+          }
           return super.build(context);
         },
         buildWhen: (oldState, currentState) {
+          if (currentState is NotificationListResponseState) {
+            return true;
+          }
           return false;
         },
         listener: (BuildContext context, MainStates state) {
@@ -219,15 +232,33 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
+                                        ListView.builder(
+                                            key: Key('selected $selected'),
+                                            itemBuilder: (context, index) {
+                                              //return _buildInquiryListItem(index);
+
+                                              return Text(
+                                                notificationList[index].body,
+                                                //arrRecent_view_list[index].customerName,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18),
+                                              );
+                                            },
+                                            shrinkWrap: true,
+                                            itemCount: notificationList
+                                                .length // arrRecent_view_list.length,
+                                            ),
+                                        /*Container(
                                             margin: EdgeInsets.all(5),
                                             child: Text(
-                                              "Uploaded new case, W.C. 4-962-740 by  ALJ Felter",
+                                              notificationList[0].body,
                                               style: TextStyle(
                                                   fontSize: 13,
                                                   color: Colors.black),
-                                            )),
-                                        SizedBox(
+                                            )),*/
+                                        /* SizedBox(
                                           height: 10,
                                         ),
                                         Container(
@@ -297,7 +328,7 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                             )),
                                         SizedBox(
                                           height: 10,
-                                        ),
+                                        ),*/
                                       ],
                                     ),
                                   ),
@@ -492,5 +523,10 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
         );
       },
     );
+  }
+
+  void _onGetNotificationAPI(NotificationListResponseState state) {
+    notificationList.clear();
+    notificationList.add(state.notificationListResponse.data.details);
   }
 }

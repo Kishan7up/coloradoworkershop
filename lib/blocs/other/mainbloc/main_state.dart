@@ -40,3 +40,17 @@ class AboutUsResponseState extends MainStates {
 
   AboutUsResponseState(this.aboutUsResponse);
 }
+
+//ViewRecentCasesResponse
+class ViewRecentCasesResponseState extends MainStates {
+  final ViewRecentCasesResponse viewRecentCasesResponse;
+
+  ViewRecentCasesResponseState(this.viewRecentCasesResponse);
+}
+//NotificationListResponse
+
+class NotificationListResponseState extends MainStates {
+  final NotificationListResponse notificationListResponse;
+
+  NotificationListResponseState(this.notificationListResponse);
+}

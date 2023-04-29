@@ -1,5 +1,6 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
-import 'package:app/models/api_response/customer/customer_details_api_response.dart';
+import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
+import 'package:app/models/api_request/view_recent_cases/view_recent_cases_request.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
@@ -31,7 +32,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   int _pageNo = 0;
   Recent_view_list _inquiryListResponse;
 
-  List<CustomerDetails> arrRecent_view_list = [];
+  List<RecentViewDBTable> arrRecent_view_list = [];
   final TextEditingController edt_searchDetails = TextEditingController();
   final TextEditingController edt_FollowupEmployeeList =
       TextEditingController();
@@ -39,7 +40,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   //
   List<ALL_Name_ID> arr_ALL_Name_ID_For_Folowup_EmplyeeList = [];
 
-  List<CustomerDetails> _allUsers = [];
+  List<RecentViewDBTable> _allUsers = [];
   bool expanded = true;
 
   double sizeboxsize = 12;
@@ -115,52 +116,36 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   @override
   void initState() {
     super.initState();
-/*
-    _askPermissions();
-*/
+
     _CustomerBloc = MainBloc(baseBloc);
-    //_CustomerBloc.add(RecentListCallEvent());
+
     getListStatus();
-    /*  _CustomerBloc.add(CustomerPaginationRequestEvent(CustomerPaginationRequest(
-      companyId: 4132,
-      loginUserID: "admin",
-      CustomerID: "",
-      ListMode: "L",
-    )));*/
 
     edt_FollowupEmployeeList.text = "ALL";
-    _CustomerBloc.add(
-        SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));
 
-    edt_FollowupEmployeeList.addListener(() {
+    /* edt_FollowupEmployeeList.addListener(() {
       _CustomerBloc.add(
           SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));
       setState(() {});
-    });
-
-/*    edt_searchDetails.addListener(() {
-      List<CustomerDetails> temp = [];
-      _allUsers.forEach((item) {
-        if (item.customerName
-            .toLowerCase()
-            .contains(edt_searchDetails.text.toLowerCase())) {
-          temp.add(item);
-        }
-      });
-      setState(() {
-        arrRecent_view_list = temp;
-      });
     });*/
-    //RecentViewEvent
-    //getDBdetails();
+
+    _CustomerBloc.add(
+        SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));
+
+    /*_CustomerBloc.add(
+        ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all")));*/
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => _CustomerBloc,
+      create: (BuildContext context) => _CustomerBloc..add(
+          SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text)),
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
+          if (state is ViewRecentCasesResponseState) {
+            _OnViewRecentCasesResponse(state);
+          }
           if (state is CustomerDetailsResponseState) {
             _onInquiryListCallSuccess(state);
           }
@@ -177,7 +162,8 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
         buildWhen: (oldState, currentState) {
           if (currentState is CustomerDetailsResponseState ||
               currentState is SearchRecentViewRetriveState ||
-              currentState is RecentViewRetriveState) {
+              currentState is RecentViewRetriveState ||
+              currentState is ViewRecentCasesResponseState) {
             return true;
           }
           return false;
@@ -226,6 +212,9 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                   onRefresh: () async {
                     edt_searchDetails.text = "";
                     edt_FollowupEmployeeList.text = "ALL";
+
+                    _CustomerBloc.add(
+                        ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all")));
                     /*  _CustomerBloc.add(CustomerPaginationRequestEvent(
                         CustomerPaginationRequest(
                       companyId: 4132,
@@ -367,8 +356,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
             onTap: () {
               navigateTo(context, RecentCasesDetailsScreen.routeName,
                       arguments: RecentCasesDetailsScreenArgument(
-                          "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
+                          arrRecent_view_list[index]))
                   .then((value) {
                 //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
               });
@@ -400,6 +388,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Container(
+                    width: double.infinity,
                     margin: EdgeInsets.all(5),
                     padding: EdgeInsets.all(10),
                     child: Column(
@@ -407,35 +396,34 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Burren v Destination Maternity",
+                          arrRecent_view_list[index].title,
                           //arrRecent_view_list[index].customerName,
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 18),
                         ),
-                        Text("W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
+                        Text(arrRecent_view_list[index].caseDetailShort,
                             style:
                                 TextStyle(color: Colors.black, fontSize: 13)),
                         /* Text(
                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                           Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
                     */
-                        ReadMoreText(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                        ReadMoreText(arrRecent_view_list[index].caseDetailLong,
                             trimLines: 2,
                             colorClickableText: Colors.pink,
                             trimMode: TrimMode.Line,
                             trimCollapsedText: '..Read More',
                             style: TextStyle(fontSize: 13), callback: (v) {
-                          navigateTo(
+                          /* navigateTo(
                                   context, RecentCasesDetailsScreen.routeName,
                                   arguments: RecentCasesDetailsScreenArgument(
                                       "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
                                       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
                               .then((value) {
                             //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
-                          });
+                          });*/
                         }
                             //trimExpandedText: ' Less',
                             ),
@@ -449,7 +437,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
           );
         },
         shrinkWrap: true,
-        itemCount: 5 // arrRecent_view_list.length,
+        itemCount: arrRecent_view_list.length // arrRecent_view_list.length,
         );
   }
 
@@ -469,7 +457,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   }
 
   ExpantionCustomer(BuildContext context, int index) {
-    CustomerDetails model = arrRecent_view_list[index];
+    RecentViewDBTable model = arrRecent_view_list[index];
 
     return Container(
         padding: EdgeInsets.all(15),
@@ -490,7 +478,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                 width: 35,
               )),
           title: Text(
-            model.customerID.toString(),
+            model.title.toString(),
             style: TextStyle(color: Colors.black),
           ),
 
@@ -500,7 +488,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
               height: 1.0,
             ),
             Text(
-              model.customerName,
+              model.title,
               style: TextStyle(color: Colors.black),
             ),
           ],
@@ -511,7 +499,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     navigateTo(context, HomeScreen.routeName, clearAllStack: true);
   }
 
-  void _onGetDetailsofrecentviewfromdb(RecentViewRetriveState state) {
+/*  void _onGetDetailsofrecentviewfromdb(RecentViewRetriveState state) {
     arrRecent_view_list.clear();
     _allUsers.clear();
     for (int i = 0; i < state.recentViewDBTable.length; i++) {
@@ -524,9 +512,9 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
       arrRecent_view_list.add(customerDetails);
       _allUsers.add(customerDetails);
     }
-  }
+  }*/
 
-  Future<void> _runFilter(String query) async {
+  /* Future<void> _runFilter(String query) async {
     List<CustomerDetails> temp = [];
     _allUsers.forEach((item) {
       if (item.customerName.toLowerCase().contains(query.toLowerCase())) {
@@ -541,7 +529,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
             "resultFilter" + " Name : " + arrRecent_view_list[i].customerName);
       }
     });
-  }
+  }*/
 
   Widget _buildEmplyeeListView() {
     return InkWell(
@@ -628,16 +616,16 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
   void _onsearchResult(SearchRecentViewRetriveState state) {
     arrRecent_view_list.clear();
-    _allUsers.clear();
+    //_allUsers.clear();
     for (int i = 0; i < state.recentViewDBTable.length; i++) {
-      CustomerDetails customerDetails = CustomerDetails();
+      /*RecentViewDBTable customerDetails = RecentViewDBTable();
       customerDetails.customerID =
           int.parse(state.recentViewDBTable[i].CustomerID);
 
-      customerDetails.customerName = state.recentViewDBTable[i].CustomerName;
+      customerDetails.customerName = state.recentViewDBTable[i].CustomerName;*/
 
-      arrRecent_view_list.add(customerDetails);
-      _allUsers.add(customerDetails);
+      arrRecent_view_list.add(state.recentViewDBTable[i]);
+      //_allUsers.add(state.recentViewDBTable[i]);
     }
   }
 
@@ -647,11 +635,11 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     ALL_Name_ID all_name_id = ALL_Name_ID();
     all_name_id.Name = "ALL";
     arr_ALL_Name_ID_For_Folowup_EmplyeeList.add(all_name_id);
-    for (int i = 0; i < state.recentViewDBTable.length; i++) {
+    /* for (int i = 0; i < state.recentViewDBTable.length; i++) {
       ALL_Name_ID all_name_id = ALL_Name_ID();
       all_name_id.Name = state.recentViewDBTable[i].CustomerID;
       arr_ALL_Name_ID_For_Folowup_EmplyeeList.add(all_name_id);
-    }
+    }*/
   }
 
   HeaderPart() {
@@ -869,6 +857,51 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
         );
       },
     );
+  }
+
+  void _OnViewRecentCasesResponse(ViewRecentCasesResponseState state) async {
+    // arrRecent_view_list.clear();
+    print("KeyRecentResponse" +
+        "API Response and Bind data details" +
+        state.viewRecentCasesResponse.data.details[0].title);
+    /*_CustomerBloc.add(
+        SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));*/
+    /* for (int i = 0;
+        i < state.viewRecentCasesResponse.data.details.length;
+        i++) {
+      print("KeyRecentResponse" +
+          "API Response and Bind data details" +
+          state.viewRecentCasesResponse.data.details[i].title);
+
+      for (int i = 0;
+          i < state.viewRecentCasesResponse.data.details.length;
+          i++) {
+        arrRecent_view_list.add(RecentViewDBTable(
+          state.viewRecentCasesResponse.data.details[i].title,
+          state.viewRecentCasesResponse.data.details[i].caseNo.toString(),
+          state.viewRecentCasesResponse.data.details[i].caseDetailShort,
+          state.viewRecentCasesResponse.data.details[i].caseDetailLong,
+          state.viewRecentCasesResponse.data.details[i].filter,
+          state.viewRecentCasesResponse.data.details[i].link,
+        ));
+      }*/
+
+    /* await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
+      for (int i = 0;
+          i < state.viewRecentCasesResponse.data.details.length;
+          i++) {
+        await OfflineDbHelper.getInstance()
+            .insertRecentViewDBTable(RecentViewDBTable(
+          state.viewRecentCasesResponse.data.details[i].title,
+          state.viewRecentCasesResponse.data.details[i].caseNo,
+          state.viewRecentCasesResponse.data.details[i].caseDetailShort,
+          state.viewRecentCasesResponse.data.details[i].caseDetailLong,
+          state.viewRecentCasesResponse.data.details[i].filter,
+          state.viewRecentCasesResponse.data.details[i].link,
+        ));
+
+        _CustomerBloc.add(
+            SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));*/
   }
 }
 

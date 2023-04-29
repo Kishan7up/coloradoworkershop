@@ -1,4 +1,3 @@
-import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/api_request/about_us/about_us_request.dart';
 import 'package:app/models/api_request/contact_us/contact_us_request.dart';
 import 'package:app/models/api_request/customer/customer_add_edit_api_request.dart';
@@ -19,12 +18,14 @@ import 'package:app/models/api_request/inquiry/search_inquiry_fillter_request.da
 import 'package:app/models/api_request/inquiry/search_inquiry_list_by_name_request.dart';
 import 'package:app/models/api_request/inquiry/search_inquiry_list_by_number_request.dart';
 import 'package:app/models/api_request/login/login_request.dart';
+import 'package:app/models/api_request/notification/notification_list_request.dart';
 import 'package:app/models/api_request/other/city_list_request.dart';
 import 'package:app/models/api_request/other/closer_reason_list_request.dart';
 import 'package:app/models/api_request/other/country_list_request.dart';
 import 'package:app/models/api_request/other/follower_employee_list_request.dart';
 import 'package:app/models/api_request/other/state_list_request.dart';
 import 'package:app/models/api_request/registraion/registration_request.dart';
+import 'package:app/models/api_request/view_recent_cases/view_recent_cases_request.dart';
 import 'package:app/models/api_response/about_Us/about_us_response.dart';
 import 'package:app/models/api_response/company_details/company_details_response.dart';
 import 'package:app/models/api_response/contact_Us/contact_us_response.dart';
@@ -43,15 +44,16 @@ import 'package:app/models/api_response/inquiry/inquiry_product_search_response.
 import 'package:app/models/api_response/inquiry/inquiry_status_list_response.dart';
 import 'package:app/models/api_response/inquiry/search_inquiry_list_response.dart';
 import 'package:app/models/api_response/login/login_user_details_api_response.dart';
+import 'package:app/models/api_response/notification/notification_list_response.dart';
 import 'package:app/models/api_response/other/city_api_response.dart';
 import 'package:app/models/api_response/other/closer_reason_list_response.dart';
 import 'package:app/models/api_response/other/country_list_response.dart';
 import 'package:app/models/api_response/other/country_list_response_for_packing_checking.dart';
 import 'package:app/models/api_response/other/follower_employee_list_response.dart';
 import 'package:app/models/api_response/other/state_list_response.dart';
+import 'package:app/models/api_response/view_recent_cases/view_recent_cases_response.dart';
 import 'package:app/models/common/inquiry_product_model.dart';
 import 'package:app/repositories/error_response_exception.dart';
-import 'package:app/utils/offline_db_helper.dart';
 import 'package:app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -462,14 +464,14 @@ class Repository {
     }
   }
 
-  Future<CustomerDetailsResponse> getrecentviewapi(
+  /* Future<CustomerDetailsResponse> getrecentviewapi(
       CustomerPaginationRequest customerPaginationRequest) async {
     try {
       Map<String, dynamic> json = await apiClient.apiCallPost(
           ApiClient.END_POINT_RECENT_VIEW_LIST,
           customerPaginationRequest.toJson());
-      /*  Map<String, dynamic> json =
-          await apiClient.apiCallGet(ApiClient.END_POINT_RECENT_VIEW_LIST);*/
+      */ /*  Map<String, dynamic> json =
+          await apiClient.apiCallGet(ApiClient.END_POINT_RECENT_VIEW_LIST);*/ /*
       CustomerDetailsResponse response = CustomerDetailsResponse.fromJson(json);
       await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
       for (int i = 0; i < response.details.length; i++) {
@@ -481,7 +483,7 @@ class Repository {
     } on ErrorResponseException catch (e) {
       rethrow;
     }
-  }
+  }*/
 
   Future<AboutUsResponse> aboutUsAPI(AboutUsRequest request) async {
     try {
@@ -502,6 +504,39 @@ class Repository {
 
       print("APIRESPONSE" + json.toString());
       ContactUsResponse response = ContactUsResponse.fromJson(json);
+
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<NotificationListResponse> notificationAPI(
+      NotificationListRequest request) async {
+    try {
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_VIEW_NOTIFICATION_LIST, request.toJson());
+
+      print("APIRESPONSE" + json.toString());
+      NotificationListResponse response =
+          NotificationListResponse.fromJson(json);
+
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ViewRecentCasesResponse> viewRecentCasesAPI(
+      ViewRecentCasesRequest request) async {
+    try {
+      ///ApiClient.END_POINT_CONTACT_US ma End_Point Decalre karvanu baki che e kari dejo
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_VIEW_RECENT_CASES, request.toJson());
+
+      print("sdffAPIResponse" + json.toString());
+
+      ViewRecentCasesResponse response = ViewRecentCasesResponse.fromJson(json);
 
       return response;
     } on ErrorResponseException catch (e) {

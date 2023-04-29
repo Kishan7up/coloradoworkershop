@@ -29,8 +29,15 @@ class OfflineDbHelper {
       'CREATE TABLE $TABLE_INQUIRY_PRODUCT(id INTEGER PRIMARY KEY AUTOINCREMENT, InquiryNo TEXT,LoginUserID TEXT, CompanyId TEXT, ProductName TEXT, ProductID TEXT, Quantity TEXT, UnitPrice TEXT,TotalAmount TEXT)',
     );
 
+    /* int id;
+  String title;
+  String caseNo;
+  String caseDetailShort;
+  String caseDetailLong;
+  String filter;
+  String link;*/
     db.execute(
-      'CREATE TABLE $TABLE_RECENT_VIEW(id INTEGER PRIMARY KEY AUTOINCREMENT, CustomerID TEXT,CustomerName TEXT)',
+      'CREATE TABLE $TABLE_RECENT_VIEW(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,caseNo TEXT , caseDetailShort TEXT, caseDetailLong TEXT,filter TEXT,link TEXT)',
     );
     //TABLE_RECENT_VIEW
   }
@@ -116,10 +123,21 @@ class OfflineDbHelper {
 
     final List<Map<String, dynamic>> maps = await db.query(TABLE_RECENT_VIEW);
 
+    /* int id;
+  String title;
+  String caseNo;
+  String caseDetailShort;
+  String caseDetailLong;
+  String filter;
+  String link;*/
     return List.generate(maps.length, (i) {
       return RecentViewDBTable(
-        maps[i]['CustomerID'],
-        maps[i]['CustomerName'],
+        maps[i]['title'],
+        maps[i]['caseNo'],
+        maps[i]['caseDetailShort'],
+        maps[i]['caseDetailLong'],
+        maps[i]['filter'],
+        maps[i]['link'],
         id: maps[i]['id'],
       );
     });
@@ -134,7 +152,15 @@ class OfflineDbHelper {
 
     //final List<Map<String, dynamic>> maps = await db.query(TABLE_RECENT_VIEW);
     List<Map<String, dynamic>> maps;
+
     if (keyword == "") {
+      maps = await db.query(TABLE_RECENT_VIEW);
+    } else {
+      maps = await db.query(TABLE_RECENT_VIEW,
+          where: "title LIKE ?", whereArgs: ['%$keyword%']);
+    }
+
+/*    if (keyword == "") {
       if (dropdownItem == "ALL") {
         maps = await db.query(TABLE_RECENT_VIEW);
       } else {
@@ -151,14 +177,18 @@ class OfflineDbHelper {
             whereArgs: ['%$keyword%', dropdownItem]);
       }
 
-      /*db.query(TABLE_RECENT_VIEW,
-          where: 'CustomerName = ? ', whereArgs: [keyword]);*/
-    }
+      */ /*db.query(TABLE_RECENT_VIEW,
+          where: 'CustomerName = ? ', whereArgs: [keyword]);*/ /*
+    }*/
 
     return List.generate(maps.length, (i) {
       return RecentViewDBTable(
-        maps[i]['CustomerID'],
-        maps[i]['CustomerName'],
+        maps[i]['title'],
+        maps[i]['caseNo'],
+        maps[i]['caseDetailShort'],
+        maps[i]['caseDetailLong'],
+        maps[i]['filter'],
+        maps[i]['link'],
         id: maps[i]['id'],
       );
     });
