@@ -14,6 +14,7 @@ import 'package:app/ui/screens/splash_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:app/utils/offline_db_helper.dart';
 import 'package:app/utils/shared_pref_helper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -23,6 +24,7 @@ Size mq;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   await SharedPrefHelper.createInstance();
   await OfflineDbHelper.createInstance();

@@ -283,8 +283,8 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
-                                              keyboardType:
-                                                  TextInputType.number,
+                                              maxLength: 14,
+                                              keyboardType: TextInputType.phone,
                                               controller: edt_PhoneNumber,
                                               textInputAction:
                                                   TextInputAction.next,
@@ -319,7 +319,7 @@ class _ContactUsScreenState extends BaseState<ContactUsScreen>
                                                   labelStyle: TextStyle(
                                                       overflow:
                                                           TextOverflow.clip),
-                                                  hintText: "0.00"),
+                                                  hintText: "Enter Details"),
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 color: Color(0xFF000000),

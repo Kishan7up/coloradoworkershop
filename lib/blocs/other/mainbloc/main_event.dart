@@ -50,3 +50,16 @@ class NotificationListRequestEvent extends MainEvent {
 
   NotificationListRequestEvent(this.notificationListRequest);
 }
+
+class NotificationActivateRequestEvent extends MainEvent {
+  NotificationActivateRequest notificationActivateRequest;
+
+  NotificationActivateRequestEvent(this.notificationActivateRequest);
+}
+//
+
+class MaxBenifitRequestEvent extends MainEvent {
+  MaxBenifitRequest maxBenifitRequest;
+
+  MaxBenifitRequestEvent(this.maxBenifitRequest);
+}

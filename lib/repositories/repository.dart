@@ -18,6 +18,8 @@ import 'package:app/models/api_request/inquiry/search_inquiry_fillter_request.da
 import 'package:app/models/api_request/inquiry/search_inquiry_list_by_name_request.dart';
 import 'package:app/models/api_request/inquiry/search_inquiry_list_by_number_request.dart';
 import 'package:app/models/api_request/login/login_request.dart';
+import 'package:app/models/api_request/max_benifit/max_benifit_request.dart';
+import 'package:app/models/api_request/notification/notification_activate_request.dart';
 import 'package:app/models/api_request/notification/notification_list_request.dart';
 import 'package:app/models/api_request/other/city_list_request.dart';
 import 'package:app/models/api_request/other/closer_reason_list_request.dart';
@@ -44,6 +46,8 @@ import 'package:app/models/api_response/inquiry/inquiry_product_search_response.
 import 'package:app/models/api_response/inquiry/inquiry_status_list_response.dart';
 import 'package:app/models/api_response/inquiry/search_inquiry_list_response.dart';
 import 'package:app/models/api_response/login/login_user_details_api_response.dart';
+import 'package:app/models/api_response/max_benifit/max_benifit_response.dart';
+import 'package:app/models/api_response/notification/notification_activate_response.dart';
 import 'package:app/models/api_response/notification/notification_list_response.dart';
 import 'package:app/models/api_response/other/city_api_response.dart';
 import 'package:app/models/api_response/other/closer_reason_list_response.dart';
@@ -520,6 +524,36 @@ class Repository {
       print("APIRESPONSE" + json.toString());
       NotificationListResponse response =
           NotificationListResponse.fromJson(json);
+
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<NotificationActivateResponse> notificationActivateAPI(
+      NotificationActivateRequest request) async {
+    try {
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_VIEW_NOTIFICATION_ACTIVATE, request.toJson());
+
+      print("APIRESPONSE" + json.toString());
+      NotificationActivateResponse response =
+          NotificationActivateResponse.fromJson(json);
+
+      return response;
+    } on ErrorResponseException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<MaxBenifitResponse> max_benifit_api(MaxBenifitRequest request) async {
+    try {
+      Map<String, dynamic> json = await apiClient.apiCallPost(
+          ApiClient.END_POINT_MAX_BENIFIT, request.toJson());
+
+      print("APIRESPONSE" + json.toString());
+      MaxBenifitResponse response = MaxBenifitResponse.fromJson(json);
 
       return response;
     } on ErrorResponseException catch (e) {

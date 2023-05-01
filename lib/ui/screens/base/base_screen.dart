@@ -133,7 +133,7 @@ mixin BasicScreen<Screen extends BaseStatefulWidget> on BaseState<Screen> {
                 color: Colors.black26,
                 child: Center(
                     child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(colorPrimary),
+                  valueColor: AlwaysStoppedAnimation<Color>(colorRED),
                 )),
               ),
             );

@@ -16,8 +16,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class RecentCasesDetailsScreenArgument {
   RecentViewDBTable recentViewDBTable;
+  String IsFromScreen;
 
-  RecentCasesDetailsScreenArgument(this.recentViewDBTable);
+  RecentCasesDetailsScreenArgument(this.IsFromScreen, this.recentViewDBTable);
 }
 
 class RecentCasesDetailsScreen extends BaseStatefulWidget {
@@ -208,7 +209,11 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
   }
 
   Future<bool> _onBackPressed() {
-    navigateTo(context, HomeScreen.routeName, clearAllStack: true);
+    if (widget.arguments.IsFromScreen == "homescreen") {
+      navigateTo(context, HomeScreen.routeName, clearAllStack: true);
+    } else {
+      navigateTo(context, RecentCasesListScreen.routeName);
+    }
   }
 
   HeaderPart() {
@@ -238,7 +243,13 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                   children: [
                     InkWell(
                       onTap: () {
-                        navigateTo(context, RecentCasesListScreen.routeName);
+                        if (widget.arguments.IsFromScreen == "homescreen") {
+                          navigateTo(context, HomeScreen.routeName,
+                              clearAllStack: true);
+                        } else {
+                          navigateTo(context, RecentCasesListScreen.routeName);
+                        }
+                        // navigateTo(context, RecentCasesListScreen.routeName);
                       },
                       child: Container(
                           margin: EdgeInsets.only(left: 10),

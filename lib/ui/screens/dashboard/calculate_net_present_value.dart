@@ -124,6 +124,10 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
       edt_date_of_mmi.text = CurrentDate;
     }
     //_CustomerBloc.add(RecentListCallEvent());
+
+    edt_PPD_benefits_already_paid.addListener(calculationNetpresentvalue());
+    edt_TTD_rate.addListener(calculationNetpresentvalue());
+    edt_Discount_rate.addListener(calculationNetpresentvalue());
   }
 
   @override
@@ -207,17 +211,11 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                               keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
-                                              /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                          setState(() {
-                                            IS_TTD = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            IS_TTD = false;
-                                          });
-                                        }
-                                      },*/
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  calculationNetpresentvalue();
+                                                });
+                                              },
                                               controller:
                                                   edt_PPD_benefits_already_paid,
                                               textInputAction:
@@ -269,6 +267,11 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         }
                                       },*/
                                               controller: edt_TTD_rate,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  calculationNetpresentvalue();
+                                                });
+                                              },
                                               textInputAction:
                                                   TextInputAction.next,
                                               decoration: InputDecoration(
@@ -404,6 +407,11 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                                   .numberWithOptions(
                                                       decimal: true),
                                               controller: edt_Discount_rate,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  calculationNetpresentvalue();
+                                                });
+                                              },
                                               textInputAction:
                                                   TextInputAction.next,
                                               decoration: InputDecoration(
@@ -437,6 +445,11 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  calculationNetpresentvalue();
+                                                });
+                                              },
                                               keyboardType:
                                                   TextInputType.number,
                                               controller:
@@ -460,6 +473,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
+                                              // enabled: false,
                                               keyboardType:
                                                   TextInputType.number,
                                               controller: Life_expectancy,
@@ -481,6 +495,12 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
+                                              // enabled: false,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  calculationNetpresentvalue();
+                                                });
+                                              },
                                               keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
@@ -520,6 +540,12 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
+                                              // enabled: false,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  calculationNetpresentvalue();
+                                                });
+                                              },
                                               keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
@@ -633,7 +659,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                                 width: 20,
                               ),
                               Text(
-                                "303.691.9090s",
+                                "303.691.9090",
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
@@ -805,7 +831,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                             width: 20,
                           ),
                           Text(
-                            "303.691.9090s",
+                            "303.691.9090",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -965,5 +991,44 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                 ],
               ),
             ));
+  }
+
+  calculationNetpresentvalue() {
+    double ppd = edt_PPD_benefits_already_paid.text.toString() == "null" ||
+            edt_PPD_benefits_already_paid.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_PPD_benefits_already_paid.text);
+
+    double ttd = edt_TTD_rate.text.toString() == "null" ||
+            edt_TTD_rate.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_TTD_rate.text);
+    //double ssd = edt_SSDI_Monthly.text.toString()=="null" ||edt_SSDI_Monthly.text.toString()==""?0.00:double.parse(edt_SSDI_Monthly.text);
+    double ppdweekly =
+        ppd; //edt_PPD_weekly_benefit.text.toString()=="null" ||edt_PPD_weekly_benefit.text.toString()==""?0.00:double.parse(edt_PPD_weekly_benefit.text);
+    double disc = edt_Discount_rate.text.toString() == "null" ||
+            edt_Discount_rate.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_Discount_rate.text);
+    double age = Age_or_rated_age_at_MMI.text.toString() == "null" ||
+            Age_or_rated_age_at_MMI.text.toString() == ""
+        ? 0.00
+        : double.parse(Age_or_rated_age_at_MMI.text);
+
+    double ppdttd = ppd + ttd;
+
+    double minusfromsixty = 60000 - ppdttd;
+    double lifeofexpectancy = 0.00;
+    double disamnt = (minusfromsixty * disc) / 100;
+    double netpresentvaluebefore = minusfromsixty - disamnt;
+    // double netpresentvalueafter = minusfromsixty-disamnt;
+
+    if (Age_or_rated_age_at_MMI.text.length > 0) {
+      edt_Net_present_value_before_PPD_benefits_already_paid.text =
+          netpresentvaluebefore.toStringAsFixed(2);
+      Net_present_value_after_PPD_benefits_already_paid.text =
+          netpresentvaluebefore.toStringAsFixed(2);
+      setState(() {});
+    }
   }
 }

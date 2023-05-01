@@ -13,11 +13,15 @@ import 'package:app/ui/screens/dashboard/contact_us.dart';
 import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
 import 'package:app/ui/screens/dashboard/notification_screen.dart';
 import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
+import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
+import 'package:app/utils/notification_setup.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 ///Added New Commit
 ///
@@ -36,6 +40,19 @@ class _HomeScreenState extends BaseState<HomeScreen>
   MainBloc _CustomerBloc;
   List<RecentViewDBTable> arrRecent_view_list = [];
 
+  FirebaseMessaging _messaging;
+
+  String statevalue = "0";
+
+  //final FirebaseMessaging _firebaseMessaging;//= FirebaseMessaging();
+  PushNotificationService pushNotificationService = PushNotificationService();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+  AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+
   @override
   void initState() {
     //  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -49,6 +66,59 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
     _CustomerBloc.add(SearchRecentViewRetriveEvent("", "ALL"));
     getrecentCases();
+
+    FirebaseMessaging.instance.getToken().then((value) {
+      print("TokenFCM" + " Token No : " + value);
+    });
+
+    //  registerNotification();
+    //checkIntialMessage();
+  }
+
+  void registerNotification() async {
+    /* await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );*/
+    _messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await _messaging.requestPermission(
+      alert: true,
+      badge: true,
+      provisional: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      print('A new onMessageOpenedApp event was published!' +
+          message.notification.title);
+      print("message Id - onMessageOpenedApp ${message.messageId}");
+    });
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("User Grant the Permission");
+    } else {
+      print("Permission Decline By User");
+    }
+  }
+
+  checkIntialMessage() async {
+    RemoteMessage intialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+/*
+    if (intialMessage != null) {
+      print("message Id - intialMessage ${intialMessage.messageId}");
+      if (Globals.objectedNotifications.contains(intialMessage.messageId)) {
+        return;
+      }
+      Globals.objectedNotifications.add(intialMessage.messageId);
+*/
+
+    /* PushNotification notification = PushNotification(
+        title: intialMessage.notification!.title,
+        body: intialMessage.notification!.body,
+        dataTitle: intialMessage.data['title'],
+        databody: intialMessage.data['body']
+    );*/
   }
 
   @override
@@ -149,7 +219,14 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 Spacer(),
                 InkWell(
                   onTap: () {
-                    navigateTo(context, NotificationScreen.routeName);
+                    navigateTo(context, NotificationScreen.routeName,
+                            arguments: NotificationScreenArguments(statevalue))
+                        .then((value) {
+                      statevalue = value;
+                      //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+                    });
+
+                    //navigateTo(context, NotificationScreen.routeName);
                   },
                   child: Container(
                       margin: EdgeInsets.only(right: 28),
@@ -355,30 +432,42 @@ class _HomeScreenState extends BaseState<HomeScreen>
               margin: EdgeInsets.only(left: 25, top: 30),
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        arrRecent_view_list[index].title,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                      Text(
-                        arrRecent_view_list[index].caseDetailShort,
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                      ),
-                      Container(
-                        height: 0.5,
-                        margin: EdgeInsets.only(top: 10, bottom: 10, right: 30),
-                        color: Colors.grey,
-                      )
-                    ],
+                  return InkWell(
+                    onTap: () {
+                      navigateTo(context, RecentCasesDetailsScreen.routeName,
+                              arguments: RecentCasesDetailsScreenArgument(
+                                  "homescreen", arrRecent_view_list[index]))
+                          .then((value) {
+                        //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          arrRecent_view_list[index].title,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        Text(
+                          arrRecent_view_list[index].caseDetailShort,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                        ),
+                        Container(
+                          height: 0.5,
+                          margin:
+                              EdgeInsets.only(top: 10, bottom: 10, right: 30),
+                          color: Colors.grey,
+                        )
+                      ],
+                    ),
                   );
                 },
                 shrinkWrap: true,

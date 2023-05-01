@@ -1,4 +1,5 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/api_request/max_benifit/max_benifit_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
@@ -123,7 +124,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
 
       edt_date_of_inquiry.text = CurrentDate;
     }
-    //_CustomerBloc.add(RecentListCallEvent());
+    _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
+        notification: "1", device_token: "swsdxccewcewdqdqwqwdqwdw")));
   }
 
   @override
@@ -132,9 +134,15 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
       create: (BuildContext context) => _CustomerBloc,
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
+          if (state is MaxBenifitResponseState) {
+            _onGetMAxBenifitAPIResponse(state);
+          }
           return super.build(context);
         },
         buildWhen: (oldState, currentState) {
+          if (currentState is MaxBenifitResponseState) {
+            return true;
+          }
           return false;
         },
         listener: (BuildContext context, MainStates state) {
@@ -929,5 +937,25 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                 ],
               ),
             ));
+  }
+
+  void _onGetMAxBenifitAPIResponse(MaxBenifitResponseState state) {
+    edt_Ave_Weekly_Wage.text =
+        state.maxBenifitResponse.data.details.maxAvgWeekWage;
+    edt_PPD_Weekly_Rate.text =
+        state.maxBenifitResponse.data.details.maxPpdWeekRate;
+    edt_TTD_Weekly_Rate.text =
+        state.maxBenifitResponse.data.details.maxTtdWeekRate;
+    edt_Scheduled_Impairment_Weekly_Rate.text =
+        state.maxBenifitResponse.data.details.impairmentWeekRate;
+    edt_W_O_Extensive_Scar_or_Stumps.text =
+        state.maxBenifitResponse.data.details.woStumps;
+    edt_W_Extensive_Scars_Stumps_or_Burns.text =
+        state.maxBenifitResponse.data.details.wStumps;
+    edt_Whole_Person_Impairment_Less.text =
+        state.maxBenifitResponse.data.details.twentyFiveLess;
+    Whole_Person_Impairment_More_than.text =
+        state.maxBenifitResponse.data.details.twentyFiveMore;
+    // Whole_Person_Impairment_More_than_19.text = state.maxBenifitResponse.data.details.
   }
 }

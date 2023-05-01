@@ -1,4 +1,5 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/api_request/notification/notification_activate_request.dart';
 import 'package:app/models/api_request/notification/notification_list_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/notification/notification_list_response.dart';
@@ -6,8 +7,6 @@ import 'package:app/models/api_response/recent_view_list/recent_view_list_respon
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
-import 'package:app/ui/screens/dashboard/home_screen.dart';
-import 'package:app/utils/general_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,6 +111,8 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
 
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
+
+      state = _editModel.toString() == "true" ? true : false;
     } else {
       String CurrentDate = DateTime.now().day.toString() +
           "/" +
@@ -142,9 +143,15 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
           return false;
         },
         listener: (BuildContext context, MainStates state) {
+          if (state is NotificationActivateResponseState) {
+            _ongetNotificationActivateAPIResponse(state);
+          }
           return super.build(context);
         },
         listenWhen: (oldState, currentState) {
+          if (currentState is NotificationActivateResponseState) {
+            return true;
+          }
           return false;
         },
       ),
@@ -207,6 +214,15 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                           setState(
                                             () {},
                                           );
+                                          _CustomerBloc.add(
+                                              NotificationActivateRequestEvent(
+                                                  NotificationActivateRequest(
+                                                      notification:
+                                                          value == true
+                                                              ? "1"
+                                                              : "0",
+                                                      device_token:
+                                                          "swsdxccewcewdqdqwqwdqwdw")));
                                         },
                                         thumbColor: CupertinoColors.white,
                                         activeColor:
@@ -353,7 +369,8 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
   }
 
   Future<bool> _onBackPressed() {
-    navigateTo(context, HomeScreen.routeName, clearAllStack: true);
+    Navigator.of(context).pop(state.toString());
+    //navigateTo(context, HomeScreen.routeName, clearAllStack: true);
   }
 
   HeaderPart() {
@@ -383,7 +400,9 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                   children: [
                     InkWell(
                       onTap: () {
-                        navigateTo(context, HomeScreen.routeName);
+                        Navigator.of(context).pop(state.toString());
+
+                        // navigateTo(context, HomeScreen.routeName);
                       },
                       child: Container(
                           margin: EdgeInsets.only(left: 10),
@@ -453,7 +472,17 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
             ));
   }
 
-  void _showModalSheet() {
+  void _onGetNotificationAPI(NotificationListResponseState state) {
+    notificationList.clear();
+    notificationList.add(state.notificationListResponse.data.details);
+  }
+
+  void _ongetNotificationActivateAPIResponse(
+      NotificationActivateResponseState state) {
+    _showModalSheet(state.notificationActivateResponse.message);
+  }
+
+  void _showModalSheet(String apiMessage) {
     showModalBottomSheet<void>(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -483,15 +512,15 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                     ),
                     Container(
                       margin: EdgeInsets.all(20),
-                      child: Text(
-                          "Thank you for your contacting us. Our team will get back to you within 24hr."),
+                      child: Text(apiMessage),
                     ),
                     SizedBox(
                       height: 30,
                     ),
                     InkWell(
                       onTap: () {
-                        navigateTo(context, HomeScreen.routeName);
+                        Navigator.pop(context);
+                        //navigateTo(context, HomeScreen.routeName);
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),
@@ -523,10 +552,5 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
         );
       },
     );
-  }
-
-  void _onGetNotificationAPI(NotificationListResponseState state) {
-    notificationList.clear();
-    notificationList.add(state.notificationListResponse.data.details);
   }
 }

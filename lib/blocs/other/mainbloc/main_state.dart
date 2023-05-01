@@ -54,3 +54,15 @@ class NotificationListResponseState extends MainStates {
 
   NotificationListResponseState(this.notificationListResponse);
 }
+
+class NotificationActivateResponseState extends MainStates {
+  final NotificationActivateResponse notificationActivateResponse;
+
+  NotificationActivateResponseState(this.notificationActivateResponse);
+}
+
+class MaxBenifitResponseState extends MainStates {
+  final MaxBenifitResponse maxBenifitResponse;
+
+  MaxBenifitResponseState(this.maxBenifitResponse);
+}

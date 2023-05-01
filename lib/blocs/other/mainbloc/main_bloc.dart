@@ -3,11 +3,15 @@ import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/api_request/about_us/about_us_request.dart';
 import 'package:app/models/api_request/contact_us/contact_us_request.dart';
 import 'package:app/models/api_request/customer/customer_paggination_request.dart';
+import 'package:app/models/api_request/max_benifit/max_benifit_request.dart';
+import 'package:app/models/api_request/notification/notification_activate_request.dart';
 import 'package:app/models/api_request/notification/notification_list_request.dart';
 import 'package:app/models/api_request/view_recent_cases/view_recent_cases_request.dart';
 import 'package:app/models/api_response/about_Us/about_us_response.dart';
 import 'package:app/models/api_response/contact_Us/contact_us_response.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
+import 'package:app/models/api_response/max_benifit/max_benifit_response.dart';
+import 'package:app/models/api_response/notification/notification_activate_response.dart';
 import 'package:app/models/api_response/notification/notification_list_response.dart';
 import 'package:app/models/api_response/view_recent_cases/view_recent_cases_response.dart';
 import 'package:app/repositories/repository.dart';
@@ -56,6 +60,13 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
 
     if (event is NotificationListRequestEvent) {
       yield* _mapNotificationListRequestEventToState(event);
+    }
+    if (event is MaxBenifitRequestEvent) {
+      yield* _mapMaxBenifitRequestEventToState(event);
+    }
+
+    if (event is NotificationActivateRequestEvent) {
+      yield* _mapNotificationActivateRequestEventToState(event);
     }
     //
   }
@@ -207,6 +218,42 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
           await userRepository.notificationAPI(event.notificationListRequest);
 
       yield NotificationListResponseState(response);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
+  Stream<MainStates> _mapNotificationActivateRequestEventToState(
+      NotificationActivateRequestEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+
+      NotificationActivateResponse response = await userRepository
+          .notificationActivateAPI(event.notificationActivateRequest);
+
+      yield NotificationActivateResponseState(response);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
+  Stream<MainStates> _mapMaxBenifitRequestEventToState(
+      MaxBenifitRequestEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+
+      MaxBenifitResponse response =
+          await userRepository.max_benifit_api(event.maxBenifitRequest);
+
+      yield MaxBenifitResponseState(response);
     } catch (error, stacktrace) {
       baseBloc.emit(ApiCallFailureState(error));
       print(stacktrace);

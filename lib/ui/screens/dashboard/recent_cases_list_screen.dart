@@ -139,8 +139,8 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => _CustomerBloc..add(
-          SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text)),
+      create: (BuildContext context) => _CustomerBloc
+        ..add(SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text)),
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
           if (state is ViewRecentCasesResponseState) {
@@ -213,8 +213,8 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                     edt_searchDetails.text = "";
                     edt_FollowupEmployeeList.text = "ALL";
 
-                    _CustomerBloc.add(
-                        ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all")));
+                    _CustomerBloc.add(ViewRecentCasesRequestEvent(
+                        ViewRecentCasesRequest(filter: "all")));
                     /*  _CustomerBloc.add(CustomerPaginationRequestEvent(
                         CustomerPaginationRequest(
                       companyId: 4132,
@@ -356,7 +356,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
             onTap: () {
               navigateTo(context, RecentCasesDetailsScreen.routeName,
                       arguments: RecentCasesDetailsScreenArgument(
-                          arrRecent_view_list[index]))
+                          "recentcaseslist", arrRecent_view_list[index]))
                   .then((value) {
                 //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
               });
@@ -365,20 +365,23 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 10, right: 15),
-                    child: Text(
-                      index == 0
-                          ? "26-01-2020".getFormattedDate(
-                              fromFormat: "yyyy-MM-ddTHH:mm:ss",
-                              toFormat: "yyyy-MM-dd")
-                          : "27-0$index-2020".getFormattedDate(
-                              fromFormat: "yyyy-MM-ddTHH:mm:ss",
-                              toFormat: "yyyy-MM-dd"),
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 14),
+                Visibility(
+                  visible: false,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10, right: 15),
+                      child: Text(
+                        index == 0
+                            ? "26-01-2020".getFormattedDate(
+                                fromFormat: "yyyy-MM-ddTHH:mm:ss",
+                                toFormat: "yyyy-MM-dd")
+                            : "27-0$index-2020".getFormattedDate(
+                                fromFormat: "yyyy-MM-ddTHH:mm:ss",
+                                toFormat: "yyyy-MM-dd"),
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 14),
+                      ),
                     ),
                   ),
                 ),
@@ -404,6 +407,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                               fontSize: 18),
                         ),
                         Text(arrRecent_view_list[index].caseDetailShort,
+                            overflow: TextOverflow.ellipsis,
                             style:
                                 TextStyle(color: Colors.black, fontSize: 13)),
                         /* Text(

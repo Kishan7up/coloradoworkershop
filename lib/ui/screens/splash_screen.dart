@@ -146,8 +146,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
             height: double.infinity,
             width: double.infinity,
-            child: Image.asset(FINAL_SPLASH_ONE,
-                gaplessPlayback: false, fit: BoxFit.fill)
+            child: Image.asset(FINAL_SPLASH_TWO, //FINAL_SPLASH_ONE,
+                gaplessPlayback: false,
+                fit: BoxFit.fill)
             // child:,
             ),
       ),
