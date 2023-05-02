@@ -16,7 +16,7 @@ import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
-import 'package:app/utils/notification_setup.dart';
+import 'package:app/utils/push_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -71,8 +71,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
       print("TokenFCM" + " Token No : " + value);
     });
 
-    //  registerNotification();
-    //checkIntialMessage();
+    registerNotification();
+    checkIntialMessage();
   }
 
   void registerNotification() async {
