@@ -39,6 +39,7 @@ class PushNotificationService {
       initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse details) {},
     );
+
 // onMessage is called when the app is in foreground and a notification is received
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // homeController.getHomeData(
