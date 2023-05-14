@@ -10,6 +10,7 @@ import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
 import 'package:app/ui/screens/dashboard/web_view_remote_page.dart';
 import 'package:app/utils/general_utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,6 +83,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
   String _editModel;
 
   final TextEditingController edt_date_of_inquiry = TextEditingController();
+  final TextEditingController rev_edt_date_of_inquiry = TextEditingController();
 
   final TextEditingController edt_Ave_Weekly_Wage = TextEditingController();
   final TextEditingController edt_PPD_Weekly_Rate = TextEditingController();
@@ -116,16 +118,35 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
     } else {
+
+      var monthwithzero  = DateTime.now().month>10?DateTime.now().month.toString():"0"+DateTime.now().month.toString();
+
+
+      print("shdjhsdjdh"+ monthwithzero);
       String CurrentDate = DateTime.now().day.toString() +
-          "/" +
-          DateTime.now().month.toString() +
-          "/" +
+          "-" +
+          monthwithzero +
+          "-" +
           DateTime.now().year.toString();
 
+      String RevCurrentDate = DateTime.now().year.toString() +
+          "-" +
+          monthwithzero +
+          "-" +
+          DateTime.now().day.toString();
+
       edt_date_of_inquiry.text = CurrentDate;
+
+
+
+      rev_edt_date_of_inquiry.text = RevCurrentDate;
     }
-    _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
-        notification: "1", device_token: "swsdxccewcewdqdqwqwdqwdw")));
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+    _firebaseMessaging.getToken().then((token){
+      print("token is $token");
+      _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
+          notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+    });
   }
 
   @override
@@ -214,6 +235,9 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                       controller:
                                                           edt_date_of_inquiry,
                                                       enabled: false,
+                                                      onChanged: (value){
+
+                                                      },
                                                       decoration:
                                                           InputDecoration(
                                                         contentPadding:
@@ -223,7 +247,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                         border:
                                                             UnderlineInputBorder(),
                                                         labelText:
-                                                            'Date of Inquiry',
+                                                            'Date of Injury',
                                                         suffixIcon: Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -248,6 +272,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                               Expanded(
                                                 child: InkWell(
                                                   child: TextFormField(
+                                                    enabled: false,
                                                       textInputAction:
                                                           TextInputAction.next,
                                                       controller:
@@ -291,6 +316,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                             decimal: true),
                                                     textInputAction:
                                                         TextInputAction.next,
+                                                    enabled: false,
+
                                                     controller:
                                                         edt_PPD_Weekly_Rate,
                                                     decoration: InputDecoration(
@@ -317,6 +344,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                     keyboardType: TextInputType
                                                         .numberWithOptions(
                                                             decimal: true),
+                                                    enabled: false,
+
                                                     controller:
                                                         edt_TTD_Weekly_Rate,
                                                     decoration: InputDecoration(
@@ -343,6 +372,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                         Container(
                                           margin: EdgeInsets.all(10),
                                           child: TextFormField(
+                                              enabled: false,
+
                                               textInputAction:
                                                   TextInputAction.next,
                                               keyboardType: TextInputType
@@ -426,6 +457,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                   .numberWithOptions(
                                                       decimal: true),
                                               maxLines: null,
+                                              enabled: false,
+
                                               controller:
                                                   edt_W_O_Extensive_Scar_or_Stumps,
                                               decoration: InputDecoration(
@@ -451,6 +484,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                     .numberWithOptions(
                                                         decimal: true),
                                                 maxLines: null,
+                                                enabled: false,
+
                                                 controller:
                                                     edt_W_Extensive_Scars_Stumps_or_Burns,
                                                 decoration: InputDecoration(
@@ -525,6 +560,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                   .numberWithOptions(
                                                       decimal: true),
                                               maxLines: null,
+                                              enabled: false,
+
                                               controller:
                                                   edt_Whole_Person_Impairment_Less,
                                               decoration: InputDecoration(
@@ -553,6 +590,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                               /*keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),*/
+                                              enabled: false,
+
                                               controller:
                                                   Whole_Person_Impairment_More_than,
                                               decoration: InputDecoration(
@@ -599,6 +638,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                                   .numberWithOptions(
                                                       decimal: true),
                                               maxLines: null,
+                                              enabled: false,
+
                                               controller:
                                                   Whole_Person_Impairment_Less_than_19,
                                               decoration: InputDecoration(
@@ -628,6 +669,8 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                               /*keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),*/
+                                              enabled: false,
+
                                               controller:
                                                   Whole_Person_Impairment_More_than_19,
                                               decoration: InputDecoration(
@@ -914,10 +957,12 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-              height: 190,
+             height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
                 children: [
+
+
                   Container(
                     height: 180,
                     child: CupertinoDatePicker(
@@ -926,14 +971,82 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                         maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
+
+                           var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
+
                             edt_date_of_inquiry.text = val.day.toString() +
-                                "/" +
-                                val.month.toString() +
-                                "/" +
+                                "-" +
+                                monthwithzero +
+                                "-" +
                                 val.year.toString();
+
+
+                            rev_edt_date_of_inquiry.text = val.year.toString() +
+                                "-" +
+                                monthwithzero +
+                                "-" +
+                                val.day.toString();
+
+
+
+
+
+
                           });
                         }),
                   ),
+
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: ()  {
+                          FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+                          _firebaseMessaging.getToken().then((token){
+                            print("token is $token");
+                            _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
+                                notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+                          });
+                          Navigator.pop(ctx);
+
+                        },
+                        child: Text("Select")),
+                  ),
+
+              /*    Container(
+                    height: 180,
+                    child: DatePickerWidget(
+                      initialDateTime: DateTime.now(),
+                      onConfirm: (dateTime, List<int> index){
+                        setState(() {
+
+                          var monthwithzero  = dateTime.month.bitLength>10?dateTime.month.toString():"0"+dateTime.month.toString();
+
+                          edt_date_of_inquiry.text = dateTime.day.toString() +
+                              "-" +
+                              monthwithzero +
+                              "-" +
+                              dateTime.year.toString();
+
+
+                          rev_edt_date_of_inquiry.text = dateTime.year.toString() +
+                              "-" +
+                              monthwithzero +
+                              "-" +
+                              dateTime.day.toString();
+
+
+
+                          FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+                          _firebaseMessaging.getToken().then((token){
+                            print("token is $token");
+                            _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
+                                notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+                          });
+
+
+                        });
+                      },
+                    ),
+                  )*/
                 ],
               ),
             ));
@@ -941,21 +1054,21 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
 
   void _onGetMAxBenifitAPIResponse(MaxBenifitResponseState state) {
     edt_Ave_Weekly_Wage.text =
-        state.maxBenifitResponse.data.details.maxAvgWeekWage;
+        state.maxBenifitResponse.data.details.aww;
     edt_PPD_Weekly_Rate.text =
-        state.maxBenifitResponse.data.details.maxPpdWeekRate;
-    edt_TTD_Weekly_Rate.text =
-        state.maxBenifitResponse.data.details.maxTtdWeekRate;
+        state.maxBenifitResponse.data.details.ppf;
+    edt_TTD_Weekly_Rate.text =state.maxBenifitResponse.data.details.comp;
     edt_Scheduled_Impairment_Weekly_Rate.text =
-        state.maxBenifitResponse.data.details.impairmentWeekRate;
+        state.maxBenifitResponse.data.details.scheduled;
     edt_W_O_Extensive_Scar_or_Stumps.text =
-        state.maxBenifitResponse.data.details.woStumps;
+        state.maxBenifitResponse.data.details.disfigurement;
     edt_W_Extensive_Scars_Stumps_or_Burns.text =
-        state.maxBenifitResponse.data.details.wStumps;
+        state.maxBenifitResponse.data.details.extensiveDisfigurement;
     edt_Whole_Person_Impairment_Less.text =
-        state.maxBenifitResponse.data.details.twentyFiveLess;
+        state.maxBenifitResponse.data.details.s1cap;
     Whole_Person_Impairment_More_than.text =
-        state.maxBenifitResponse.data.details.twentyFiveMore;
-    // Whole_Person_Impairment_More_than_19.text = state.maxBenifitResponse.data.details.
+        state.maxBenifitResponse.data.details.s2cap;
+    Whole_Person_Impairment_More_than_19.text = "0.00";
+    Whole_Person_Impairment_Less_than_19.text ="0.00";
   }
 }

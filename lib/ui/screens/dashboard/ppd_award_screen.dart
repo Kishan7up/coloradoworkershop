@@ -12,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
+
 
 //import 'package:whatsapp_share/whatsapp_share.dart';
 
@@ -150,6 +152,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   bool IsLeftLowerValue = true;
   bool IsLeftLowerState = false;
 
+
+  double AgeFactor=0.00;
+
   @override
   void initState() {
     super.initState();
@@ -264,6 +269,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                       controller:
                                                           edt_date_of_inquiry,
                                                       enabled: false,
+
+
                                                       decoration:
                                                           InputDecoration(
                                                         contentPadding:
@@ -272,7 +279,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                 top: 10.0),
                                                         // border: UnderlineInputBorder(),
                                                         labelText:
-                                                            'Date of Inquiry',
+                                                            'Date of Injury',
                                                         suffixIcon: Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -303,6 +310,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                       controller:
                                                           edt_date_of_birth,
                                                       enabled: false,
+
                                                       decoration:
                                                           InputDecoration(
                                                               contentPadding:
@@ -1967,7 +1975,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-              height: 190,
+              height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
                 children: [
@@ -1984,8 +1992,21 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 val.month.toString() +
                                 "/" +
                                 val.year.toString();
+
+                            calculateAge();
+
                           });
                         }),
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: ()  {
+                          calculateAge();
+
+                          Navigator.pop(ctx);
+
+                        },
+                        child: Text("Select")),
                   ),
                 ],
               ),
@@ -1996,7 +2017,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-              height: 190,
+              height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
                 children: [
@@ -2013,8 +2034,21 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 val.month.toString() +
                                 "/" +
                                 val.year.toString();
+
+
                           });
                         }),
+                  ),
+
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: ()  {
+                          calculateAge();
+
+                          Navigator.pop(ctx);
+
+                        },
+                        child: Text("Select")),
                   ),
                 ],
               ),
@@ -2048,5 +2082,63 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                 ],
               ),
             ));
+  }
+
+   calculateAge() {
+
+
+   // var a = DateTime.parse(edt_date_of_inquiry.text);
+  //  var b = DateTime.parse(edt_date_of_birth.text);
+
+
+
+    DateTime start =  DateFormat("MM/dd/yyyy").parse(edt_date_of_inquiry.text);
+    DateTime end = new DateFormat("MM/dd/yyyy").parse(edt_date_of_birth.text);
+
+    var years = start.difference(end);
+
+    int y = years.inDays~/365;
+    print("TotalYear :- "+ y.toString());
+
+/*
+1.78
+1.76
+1.74
+1.72
+1.70
+1.68
+1.66
+1.64
+1.62
+1.60
+1.58
+1.56
+1.54
+1.52
+1.50
+1.48
+1.46
+1.44
+1.42
+1.40
+*/
+    //AgeFactor
+
+    if(y<21)
+      {
+        AgeFactor = 1.80;
+      }
+    else if(y==21){ AgeFactor =1.78;}
+    else if(y==22){ AgeFactor =1.78;}
+    else if(y==23){ AgeFactor =1.78;}
+    else if(y==21){ AgeFactor =1.78;}
+    else if(y==21){ AgeFactor =1.78;}
+    else if(y==21){ AgeFactor =1.78;}
+    else if(y==21){ AgeFactor =1.78;}
+    else if(y==21){ AgeFactor =1.78;}
+
+    setState(() {
+
+    });
   }
 }
