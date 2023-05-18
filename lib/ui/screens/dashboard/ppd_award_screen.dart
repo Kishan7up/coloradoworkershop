@@ -1,4 +1,5 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/api_request/max_benifit/max_benifit_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
@@ -8,6 +9,7 @@ import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
 import 'package:app/ui/screens/dashboard/ppd_award_next_screen.dart';
 import 'package:app/utils/general_utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,6 +140,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       TextEditingController();
   final TextEditingController Amount_Remaining_to_Reach_Cap =
       TextEditingController();
+
+  final TextEditingController edt_schedule_rate_fromAPI =
+  TextEditingController();
   //Amount_Remaining_to_Reach_Cap
 
   bool IsRightUpperValue = true;
@@ -165,9 +170,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       _editModel = widget.arguments.editModel;
     } else {
       String CurrentDate = DateTime.now().day.toString() +
-          "/" +
+          "-" +
           DateTime.now().month.toString() +
-          "/" +
+          "-" +
           DateTime.now().year.toString();
 
       edt_date_of_birth.text = CurrentDate;
@@ -189,9 +194,19 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
           return false;
         },
         listener: (BuildContext context, MainStates state) {
+
+          if(state is MaxBenifitResponseState)
+            {
+              getScheduleRatefromAPI(state);
+            }
           return super.build(context);
         },
         listenWhen: (oldState, currentState) {
+          if(currentState is MaxBenifitResponseState)
+            {
+              return true;
+
+            }
           return false;
         },
       ),
@@ -535,6 +550,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                               controller:
                                                   edt_whole_person_impliment_rating,
+
                                               textInputAction:
                                                   TextInputAction.next,
                                               decoration: InputDecoration(
@@ -587,6 +603,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   edt_right_upper_extremity_rating,
                                               textInputAction:
                                                   TextInputAction.next,
+                                              onChanged: (value){
+                                                rightupperExtremlyRatecalculation(value);
+
+                                              },
                                               decoration: InputDecoration(
                                                   suffixIcon: Padding(
                                                     padding:
@@ -635,6 +655,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                               controller:
                                                   edt_left_upper_extremity_rating,
+                                              onChanged: (value){
+                                                leftupperExtremlyRatecalculation(value);
+                                              },
                                               textInputAction:
                                                   TextInputAction.next,
                                               decoration: InputDecoration(
@@ -685,6 +708,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                               controller:
                                                   edt_right_lower_extremity_rating,
+                                              onChanged: (value){
+                                                rightlowerExtremlyRatecalculation(value);
+                                              },
                                               textInputAction:
                                                   TextInputAction.next,
                                               decoration: InputDecoration(
@@ -724,6 +750,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                       decimal: true),
                                               controller:
                                                   edt_left_lower_extremity_rating,
+                                              onChanged: (value){
+
+                                                leftlowerExtremlyRatecalculation(value);
+                                              },
                                               textInputAction:
                                                   TextInputAction.next,
                                               decoration: InputDecoration(
@@ -831,6 +861,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                   children: [
                                                     Expanded(
                                                       child: TextFormField(
+                                                        enabled: false,
                                                           keyboardType:
                                                               TextInputType
                                                                   .numberWithOptions(
@@ -864,6 +895,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                     ),
                                                     Expanded(
                                                       child: TextFormField(
+                                                        enabled: false,
                                                           textInputAction:
                                                               TextInputAction
                                                                   .next,
@@ -984,6 +1016,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Impairment_Rating_Right_Upper,
+                                                          enabled: false,
                                                           decoration:
                                                               InputDecoration(
                                                                   contentPadding:
@@ -1017,6 +1050,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Value_of_the_Rating_Right_Upper,
+                                                          enabled: false,
+
                                                           decoration: InputDecoration(
                                                               border:
                                                                   UnderlineInputBorder(),
@@ -1127,6 +1162,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Impairment_Rating_Left_Upper,
+                                                          enabled: false,
+
                                                           decoration:
                                                               InputDecoration(
                                                                   contentPadding:
@@ -1160,6 +1197,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Value_of_the_Rating_Left_Upper,
+                                                          enabled: false,
+
                                                           decoration: InputDecoration(
                                                               border:
                                                                   UnderlineInputBorder(),
@@ -1270,6 +1309,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Impairment_Rating_Right_Lower,
+                                                          enabled: false,
+
                                                           decoration:
                                                               InputDecoration(
                                                                   contentPadding:
@@ -1303,6 +1344,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Value_of_the_Rating_Right_Lower,
+                                                          enabled: false,
+
                                                           decoration: InputDecoration(
                                                               border:
                                                                   UnderlineInputBorder(),
@@ -1413,6 +1456,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Impairment_Rating_Left_Lower,
+                                                          enabled: false,
+
                                                           decoration:
                                                               InputDecoration(
                                                                   contentPadding:
@@ -1446,6 +1491,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                                           true),
                                                           controller:
                                                               edt_Value_of_the_Rating_Left_Lower,
+                                                          enabled: false,
+
                                                           decoration: InputDecoration(
                                                               border:
                                                                   UnderlineInputBorder(),
@@ -1987,13 +2034,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
+
+                            var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
+
                             edt_date_of_inquiry.text = val.day.toString() +
-                                "/" +
-                                val.month.toString() +
-                                "/" +
+                                "-" +
+                                monthwithzero +
+                                "-" +
                                 val.year.toString();
 
-                            calculateAge();
 
                           });
                         }),
@@ -2001,9 +2050,17 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                   Center(
                     child: ElevatedButton(
                         onPressed: ()  {
-                          calculateAge();
 
+                          FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+                          _firebaseMessaging.getToken().then((token){
+                            print("token is $token");
+                            _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
+                                notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+                          });
+
+                          calculateAge();
                           Navigator.pop(ctx);
+
 
                         },
                         child: Text("Select")),
@@ -2030,9 +2087,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         onDateTimeChanged: (val) {
                           setState(() {
                             edt_date_of_birth.text = val.day.toString() +
-                                "/" +
+                                "-" +
                                 val.month.toString() +
-                                "/" +
+                                "-" +
                                 val.year.toString();
 
 
@@ -2072,9 +2129,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         onDateTimeChanged: (val) {
                           setState(() {
                             edt_date_of_mmi.text = val.day.toString() +
-                                "/" +
+                                "-" +
                                 val.month.toString() +
-                                "/" +
+                                "-" +
                                 val.year.toString();
                           });
                         }),
@@ -2092,8 +2149,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
 
-    DateTime start =  DateFormat("MM/dd/yyyy").parse(edt_date_of_inquiry.text);
-    DateTime end = new DateFormat("MM/dd/yyyy").parse(edt_date_of_birth.text);
+    DateTime start =  DateFormat("MM-dd-yyyy").parse(edt_date_of_inquiry.text);
+    DateTime end = new DateFormat("MM-dd-yyyy").parse(edt_date_of_birth.text);
 
     var years = start.difference(end);
 
@@ -2101,26 +2158,56 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     print("TotalYear :- "+ y.toString());
 
 /*
-1.78
-1.76
-1.74
-1.72
-1.70
-1.68
-1.66
-1.64
-1.62
-1.60
-1.58
-1.56
-1.54
-1.52
-1.50
-1.48
-1.46
-1.44
-1.42
-1.40
+1.78;
+1.76;
+1.74;
+1.72;
+1.70;
+1.68;
+1.66;
+1.64;
+1.62;
+1.60;
+1.58;
+1.56;
+1.54;
+1.52;
+1.50;
+1.48;
+1.46;
+1.44;
+1.42;
+1.40;
+1.38;
+1.36;
+1.34;
+1.32;
+1.30;
+1.28;
+1.26;
+1.24;
+1.22;
+1.20;
+1.18;
+1.16;
+1.14;
+1.12;
+1.10;
+1.08;
+1.06;
+1.04;
+1.02;
+1.00;
+
+
+
+
+
+
+
+
+
+
 */
     //AgeFactor
 
@@ -2129,16 +2216,145 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         AgeFactor = 1.80;
       }
     else if(y==21){ AgeFactor =1.78;}
-    else if(y==22){ AgeFactor =1.78;}
-    else if(y==23){ AgeFactor =1.78;}
-    else if(y==21){ AgeFactor =1.78;}
-    else if(y==21){ AgeFactor =1.78;}
-    else if(y==21){ AgeFactor =1.78;}
-    else if(y==21){ AgeFactor =1.78;}
-    else if(y==21){ AgeFactor =1.78;}
+    else if(y==22){ AgeFactor =1.76;}
+    else if(y==23){ AgeFactor =1.74;}
+    else if(y==24){ AgeFactor =1.72;}
+    else if(y==25){ AgeFactor =1.70;}
+    else if(y==26){ AgeFactor =1.68;}
+    else if(y==27){ AgeFactor =1.66;}
+    else if(y==28){ AgeFactor =1.64;}
+    else if(y==29){ AgeFactor =1.62;}
+    else if(y==30){ AgeFactor =1.60;}
+    else if(y==31){ AgeFactor =1.58;}
+    else if(y==32){ AgeFactor =1.56;}
+    else if(y==33){ AgeFactor =1.54;}
+    else if(y==34){ AgeFactor =1.52;}
+    else if(y==35){ AgeFactor =1.50;}
+    else if(y==36){ AgeFactor =1.48;}
+    else if(y==37){ AgeFactor =1.46;}
+    else if(y==38){ AgeFactor =1.44;}
+    else if(y==39){ AgeFactor =1.42;}
+    else if(y==40){ AgeFactor =1.40;}
+    else if(y==41){ AgeFactor =1.38;}
+    else if(y==42){ AgeFactor =1.36;}
+    else if(y==43){ AgeFactor =1.34;}
+    else if(y==44){ AgeFactor =1.32;}
+    else if(y==45){ AgeFactor =1.30;}
+    else if(y==46){ AgeFactor =1.28;}
+    else if(y==47){ AgeFactor =1.26;}
+    else if(y==48){ AgeFactor =1.24;}
+    else if(y==49){ AgeFactor =1.22;}
+    else if(y==50){ AgeFactor =1.20;}
+    else if(y==51){ AgeFactor =1.18;}
+    else if(y==52){ AgeFactor =1.16;}
+    else if(y==53){ AgeFactor =1.14;}
+    else if(y==54){ AgeFactor =1.12;}
+    else if(y==55){ AgeFactor =1.10;}
+    else if(y==56){ AgeFactor =1.08;}
+    else if(y==57){ AgeFactor =1.06;}
+    else if(y==58){ AgeFactor =1.04;}
+    else if(y==59){ AgeFactor =1.02;}
+    else if(y==60){ AgeFactor =1.00;}
+    else if(y>60){ AgeFactor  =1.00;}
 
     setState(() {
 
     });
   }
+
+  void getScheduleRatefromAPI(MaxBenifitResponseState state) {
+
+    edt_schedule_rate_fromAPI.text = state.maxBenifitResponse.data.details.scheduled.toString();
+
+    print("sff4566dsf" + edt_schedule_rate_fromAPI.text.toString());
+  }
+
+  void rightupperExtremlyRatecalculation(String value) {
+
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+    edt_Impairment_Rating_Right_Upper.text = value;
+
+    double a = value.toString()==""?0.00:double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double result = 208 * b;
+
+    double resulta = result * a;
+    double resultb = resulta /100;
+    edt_Value_of_the_Rating_Right_Upper.text = resultb.toString();
+    setState(() {
+
+    });
+
+  }
+
+  void leftupperExtremlyRatecalculation(String value) {
+
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+
+
+
+    edt_Impairment_Rating_Left_Upper.text = value;
+
+    double a = value.toString()==""?0.00:double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double result = 208 * b;
+
+    double resulta = result * a;
+    double resultb = resulta /100;
+    edt_Value_of_the_Rating_Left_Upper.text = resultb.toString();
+    setState(() {
+
+    });
+
+  }
+
+  void rightlowerExtremlyRatecalculation(String value) {
+
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+
+    edt_Impairment_Rating_Right_Lower.text = value;
+
+    double a = value.toString()==""?0.00:double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double result = 208 * b;
+
+    double resulta = result * a;
+    double resultb = resulta /100;
+    edt_Value_of_the_Rating_Right_Lower.text = resultb.toString();
+    setState(() {
+
+    });
+
+  }
+
+  void leftlowerExtremlyRatecalculation(String value) {
+
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+    edt_Impairment_Rating_Left_Lower.text = value;
+
+    double a = value.toString()==""?0.00:double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double result = 208 * b;
+
+    double resulta = result * a;
+    double resultb = resulta /100;
+    edt_Value_of_the_Rating_Left_Lower.text = resultb.toString();
+    setState(() {
+
+    });
+
+  }
+
 }

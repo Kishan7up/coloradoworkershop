@@ -430,6 +430,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
           ),
           Container(
               margin: EdgeInsets.only(left: 25, top: 30),
+              height: 400,
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   return InkWell(
