@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
 import 'package:app/models/api_request/notification/notification_activate_request.dart';
 import 'package:app/models/api_request/notification/notification_list_request.dart';
@@ -7,6 +9,7 @@ import 'package:app/models/api_response/recent_view_list/recent_view_list_respon
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -98,7 +101,7 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
   bool value = true;
   bool state = false;
 
-  List<NotificationListResponseDetails> notificationList = [];
+  List<NotificationListResponseBody> notificationList = [];
 
   @override
   void initState() {
@@ -106,8 +109,14 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
 
     _CustomerBloc = MainBloc(baseBloc);
 
-    _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
-        notification: "1", device_token: "dfsdssdfdfffffs")));
+
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+    _firebaseMessaging.getToken().then((token){
+      print("token is $token");
+      _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
+          notification: "1", device_token: token)));
+    });
+
 
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
@@ -214,15 +223,22 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                           setState(
                                             () {},
                                           );
-                                          _CustomerBloc.add(
-                                              NotificationActivateRequestEvent(
-                                                  NotificationActivateRequest(
-                                                      notification:
-                                                          value == true
-                                                              ? "1"
-                                                              : "0",
-                                                      device_token:
-                                                          "swsdxccewcewdqdqwqwdqwdw")));
+
+                                          FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+                                          _firebaseMessaging.getToken().then((token){
+                                            print("token is $token");
+                                            _CustomerBloc.add(
+                                                NotificationActivateRequestEvent(
+                                                    NotificationActivateRequest(
+                                                        notification:
+                                                        value == true
+                                                            ? "1"
+                                                            : "0",
+                                                        device_token:
+                                                        token,
+                                                        device_type : Platform.isAndroid?"a":"i")));
+                                          });
+
                                         },
                                         thumbColor: CupertinoColors.white,
                                         activeColor:
@@ -254,7 +270,7 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                               //return _buildInquiryListItem(index);
 
                                               return Text(
-                                                notificationList[index].body,
+                                                notificationList[index].description,
                                                 //arrRecent_view_list[index].customerName,
                                                 style: TextStyle(
                                                     color: Colors.black,
@@ -474,7 +490,11 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
 
   void _onGetNotificationAPI(NotificationListResponseState state) {
     notificationList.clear();
-    notificationList.add(state.notificationListResponse.data.details);
+    for(int i=0;i<state.notificationListResponse.data.details.body.length;i++)
+      {
+        notificationList.add(state.notificationListResponse.data.details.body[i]);
+
+      }
   }
 
   void _ongetNotificationActivateAPIResponse(

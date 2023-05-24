@@ -175,9 +175,20 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
           "-" +
           DateTime.now().year.toString();
 
-      edt_date_of_birth.text = CurrentDate;
-      edt_date_of_inquiry.text = CurrentDate;
-      edt_date_of_mmi.text = CurrentDate;
+
+
+      var inputFormat = DateFormat('dd-MM-yyyy');
+      var inputDate = inputFormat.parse(CurrentDate); // <-- dd/MM 24H format
+
+      var outputFormat = DateFormat('dd-MM-yyyy');
+      var outputDate = outputFormat.format(inputDate);
+    //  edt_date_of_mmi.text = outputDate;
+
+
+
+      edt_date_of_birth.text = "01-01-1900";
+      edt_date_of_inquiry.text = outputDate;
+      edt_date_of_mmi.text = outputDate;
     }
     //_CustomerBloc.add(RecentListCallEvent());
   }
@@ -2035,14 +2046,25 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         onDateTimeChanged: (val) {
                           setState(() {
 
-                            var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
+                           /* var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
 
                             edt_date_of_inquiry.text = val.day.toString() +
                                 "-" +
                                 monthwithzero +
                                 "-" +
-                                val.year.toString();
+                                val.year.toString();*/
 
+                            String from_calendor = val.day.toString() +
+                                "-" +
+                                val.month.toString() +
+                                "-" +
+                                val.year.toString();
+                            var inputFormat = DateFormat('dd-MM-yyyy');
+                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
+
+                            var outputFormat = DateFormat('dd-MM-yyyy');
+                            var outputDate = outputFormat.format(inputDate);
+                            edt_date_of_inquiry.text = outputDate;
 
                           });
                         }),
@@ -2082,16 +2104,27 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                     height: 180,
                     child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
-                        initialDateTime: DateTime.now(),
+                        initialDateTime: DateTime(1990, 01, 01),
                         maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
-                            edt_date_of_birth.text = val.day.toString() +
+                            /*edt_date_of_birth.text = val.day.toString() +
+                                "-" +
+                                val.month.toString() +
+                                "-" +
+                                val.year.toString();*/
+
+                            String from_calendor = val.day.toString() +
                                 "-" +
                                 val.month.toString() +
                                 "-" +
                                 val.year.toString();
+                            var inputFormat = DateFormat('dd-MM-yyyy');
+                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
 
+                            var outputFormat = DateFormat('dd-MM-yyyy');
+                            var outputDate = outputFormat.format(inputDate);
+                            edt_date_of_birth.text = outputDate;
 
                           });
                         }),
@@ -2128,11 +2161,24 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
-                            edt_date_of_mmi.text = val.day.toString() +
+                           /* edt_date_of_mmi.text = val.day.toString() +
+                                "-" +
+                                val.month.toString() +
+                                "-" +
+                                val.year.toString();*/
+
+                            String from_calendor = val.day.toString() +
                                 "-" +
                                 val.month.toString() +
                                 "-" +
                                 val.year.toString();
+                            var inputFormat = DateFormat('dd-MM-yyyy');
+                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
+
+                            var outputFormat = DateFormat('dd-MM-yyyy');
+                            var outputDate = outputFormat.format(inputDate);
+                            edt_date_of_mmi.text = outputDate;
+
                           });
                         }),
                   ),
@@ -2283,7 +2329,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
     double resulta = result * a;
     double resultb = resulta /100;
-    edt_Value_of_the_Rating_Right_Upper.text = resultb.toString();
+    edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
     setState(() {
 
     });
@@ -2307,7 +2353,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
     double resulta = result * a;
     double resultb = resulta /100;
-    edt_Value_of_the_Rating_Left_Upper.text = resultb.toString();
+    edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
     setState(() {
 
     });
@@ -2329,7 +2375,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
     double resulta = result * a;
     double resultb = resulta /100;
-    edt_Value_of_the_Rating_Right_Lower.text = resultb.toString();
+    edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
     setState(() {
 
     });
@@ -2350,7 +2396,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
     double resulta = result * a;
     double resultb = resulta /100;
-    edt_Value_of_the_Rating_Left_Lower.text = resultb.toString();
+    edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
     setState(() {
 
     });

@@ -14,6 +14,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:whatsapp_share/whatsapp_share.dart';
@@ -129,13 +130,23 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
           "-" +
           DateTime.now().year.toString();
 
+      var inputFormat = DateFormat('dd-MM-yyyy');
+      var inputDate = inputFormat.parse(CurrentDate); // <-- dd/MM 24H format
+
+      var outputFormat = DateFormat('dd-MM-yyyy');
+      var outputDate = outputFormat.format(inputDate);
+
+
       String RevCurrentDate = DateTime.now().year.toString() +
           "-" +
           monthwithzero +
           "-" +
           DateTime.now().day.toString();
 
-      edt_date_of_inquiry.text = CurrentDate;
+      edt_date_of_inquiry.text = outputDate;
+
+
+
 
 
 
@@ -972,7 +983,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                         onDateTimeChanged: (val) {
                           setState(() {
 
-                           var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
+                         /*  var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
 
                             edt_date_of_inquiry.text = val.day.toString() +
                                 "-" +
@@ -986,9 +997,22 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                                 monthwithzero +
                                 "-" +
                                 val.day.toString();
+*/
 
 
+                            String from_calendor = val.day.toString() +
+                                "-" +
+                                val.month.toString() +
+                                "-" +
+                                val.year.toString();
+                            var inputFormat = DateFormat('dd-MM-yyyy');
+                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
 
+                            var outputFormat = DateFormat('dd-MM-yyyy');
+                            var outputDate = outputFormat.format(inputDate);
+
+
+                            edt_date_of_inquiry.text = outputDate;
 
 
 

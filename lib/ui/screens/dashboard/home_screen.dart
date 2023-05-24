@@ -454,6 +454,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                               color: Colors.black),
                         ),
                         Text(
+
                           arrRecent_view_list[index].caseDetailShort,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

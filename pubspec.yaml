@@ -55,6 +55,7 @@ dependencies:
   firebase_messaging: ^11.2.4
   flutter_local_notifications:
   permission_handler: ^10.2.0
+  intl:
 
 dependency_overrides:
   google_api_headers: ^1.3.0-dev.0
