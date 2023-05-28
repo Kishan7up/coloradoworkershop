@@ -63,3 +63,10 @@ class MaxBenifitRequestEvent extends MainEvent {
 
   MaxBenifitRequestEvent(this.maxBenifitRequest);
 }
+
+
+class MaxBenifitDateofInjoryRequestEvent extends MainEvent {
+  MaxBenifitRequest maxBenifitRequest;
+
+  MaxBenifitDateofInjoryRequestEvent(this.maxBenifitRequest);
+}

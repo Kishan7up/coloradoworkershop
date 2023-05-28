@@ -68,6 +68,12 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
     if (event is NotificationActivateRequestEvent) {
       yield* _mapNotificationActivateRequestEventToState(event);
     }
+
+    if(event is MaxBenifitDateofInjoryRequestEvent)
+      {
+        yield* _mapMaxBenifitDateofInjuryRequestEventToState(event);
+
+      }
     //
   }
 
@@ -262,4 +268,23 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       baseBloc.emit(ShowProgressIndicatorState(false));
     }
   }
+
+  Stream<MainStates> _mapMaxBenifitDateofInjuryRequestEventToState(
+      MaxBenifitDateofInjoryRequestEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+
+      MaxBenifitResponse response =
+      await userRepository.max_benifit_api(event.maxBenifitRequest);
+
+      yield MaxBenifitDateofInjuryResponseState(response);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
 }

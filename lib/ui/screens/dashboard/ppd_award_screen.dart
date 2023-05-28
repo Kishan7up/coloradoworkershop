@@ -16,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
-
 //import 'package:whatsapp_share/whatsapp_share.dart';
 
 class PpdAwardScreenArguments {
@@ -123,6 +122,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       TextEditingController();
   final TextEditingController edt_Value_of_the_Rating_Left_Lower =
       TextEditingController();
+
   //Impairment Rating
 
   final TextEditingController edt_Value_of_the_Rating = TextEditingController();
@@ -136,13 +136,21 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   final TextEditingController edt_Potential_Combined_Whole_Person_Rating =
       TextEditingController();
   final TextEditingController edt_Benefits_Cap = TextEditingController();
+
+  final TextEditingController edt_Benefits_Cap1st = TextEditingController();
+  final TextEditingController edt_Benefits_Cap2nd = TextEditingController();
+  final TextEditingController edt_MAX_AWW = TextEditingController();
+  final TextEditingController edt_COMP_RATE = TextEditingController();
+
+
   final TextEditingController Total_TTD_TPD_benefits_you_have_received =
       TextEditingController();
   final TextEditingController Amount_Remaining_to_Reach_Cap =
       TextEditingController();
 
   final TextEditingController edt_schedule_rate_fromAPI =
-  TextEditingController();
+      TextEditingController();
+
   //Amount_Remaining_to_Reach_Cap
 
   bool IsRightUpperValue = true;
@@ -157,8 +165,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   bool IsLeftLowerValue = true;
   bool IsLeftLowerState = false;
 
-
-  double AgeFactor=0.00;
+  double AgeFactor = 0.00;
+  double AgeFactorForInjury = 0.00;
+  bool isErrorforbenifitCap = false;
 
   @override
   void initState() {
@@ -175,16 +184,12 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
           "-" +
           DateTime.now().year.toString();
 
-
-
       var inputFormat = DateFormat('dd-MM-yyyy');
       var inputDate = inputFormat.parse(CurrentDate); // <-- dd/MM 24H format
 
       var outputFormat = DateFormat('dd-MM-yyyy');
       var outputDate = outputFormat.format(inputDate);
-    //  edt_date_of_mmi.text = outputDate;
-
-
+      //  edt_date_of_mmi.text = outputDate;
 
       edt_date_of_birth.text = "01-01-1900";
       edt_date_of_inquiry.text = outputDate;
@@ -205,19 +210,22 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
           return false;
         },
         listener: (BuildContext context, MainStates state) {
+          if (state is MaxBenifitResponseState) {
+            getScheduleRatefromAPI(state);
+          }
 
-          if(state is MaxBenifitResponseState)
+          if(state is MaxBenifitDateofInjuryResponseState)
             {
-              getScheduleRatefromAPI(state);
+              getDateofInjuryResult(state);
             }
           return super.build(context);
         },
         listenWhen: (oldState, currentState) {
-          if(currentState is MaxBenifitResponseState)
-            {
-              return true;
-
-            }
+          if (currentState is MaxBenifitResponseState ||
+          currentState is MaxBenifitDateofInjuryResponseState
+          ) {
+            return true;
+          }
           return false;
         },
       ),
@@ -244,1618 +252,14 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         SizedBox(
                           width: 20,
                         ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Container(
-                              //margin: EdgeInsets.all(10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Text("Basic Information",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5, bottom: 10),
-                                    height: 3,
-                                    color: colorLightGray,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 10,
-                                              bottom: 10,
-                                              left: 10,
-                                              right: 10),
-                                          child: Row(
-                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    _showDateOfInquiry(context);
-                                                  },
-                                                  child: TextFormField(
-                                                      controller:
-                                                          edt_date_of_inquiry,
-                                                      enabled: false,
 
+                        BasicInformation(),
 
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 10.0),
-                                                        // border: UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Date of Injury',
-                                                        suffixIcon: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(1.0),
-                                                          child: Image.asset(
-                                                            CALENDAR,
-                                                            width: 12,
-                                                            height: 12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color:
-                                                            Color(0xFF000000),
-                                                      )),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    _showDateOfBirth(context);
-                                                  },
-                                                  child: TextFormField(
-                                                      controller:
-                                                          edt_date_of_birth,
-                                                      enabled: false,
+                        Impairments(),
 
-                                                      decoration:
-                                                          InputDecoration(
-                                                              contentPadding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      top:
-                                                                          10.0),
-                                                              border:
-                                                                  UnderlineInputBorder(),
-                                                              labelText:
-                                                                  'Date Of Birth',
-                                                              suffixIcon:
-                                                                  Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        1.0),
-                                                                child:
-                                                                    Image.asset(
-                                                                  CALENDAR,
-                                                                  width: 12,
-                                                                  height: 12,
-                                                                ),
-                                                              ),
-                                                              hintText:
-                                                                  "DD-MM-YYYY"),
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color:
-                                                            Color(0xFF000000),
-                                                      )),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 20,
-                                              bottom: 10,
-                                              left: 10,
-                                              right: 10),
-                                          child: Row(
-                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    _showDateOfMMI(context);
-                                                  },
-                                                  child: TextFormField(
-                                                      controller:
-                                                          edt_date_of_mmi,
-                                                      enabled: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 10.0),
-                                                        // border: UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Date of MMI',
-                                                        suffixIcon: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(1.0),
-                                                          child: Image.asset(
-                                                            CALENDAR,
-                                                            width: 12,
-                                                            height: 12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color:
-                                                            Color(0xFF000000),
-                                                      )),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Expanded(
-                                                child: TextFormField(
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    controller:
-                                                        edt_avg_weekly_wage,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Avg.Weekly Wage',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                          setState(() {
-                                            IS_TTD = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            IS_TTD = false;
-                                          });
-                                        }
-                                      },*/
-                                              controller: edt_total_ttd_tpd,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                      "\$",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  border:
-                                                      UnderlineInputBorder(),
-                                                  labelText:
-                                                      'Total TTD/TPD benefits you have received',
-                                                  hintText: "0.00"),
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        Conversation(),
 
-                        /// ENTER EMPREMENTS
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 10, right: 10, bottom: 10, top: 5),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white70, width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Text("Enter Impairments",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5, bottom: 10),
-                                    height: 3,
-                                    color: colorLightGray,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                          setState(() {
-                                            IS_TTD = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            IS_TTD = false;
-                                          });
-                                        }
-                                      },*/
-                                              controller:
-                                                  edt_whole_person_impliment_rating,
-
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                      "\%",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  border:
-                                                      UnderlineInputBorder(),
-                                                  labelText:
-                                                      'Whole person impairment rating',
-                                                  hintText: "0.00"),
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                          setState(() {
-                                            IS_TTD = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            IS_TTD = false;
-                                          });
-                                        }
-                                      },*/
-                                              controller:
-                                                  edt_right_upper_extremity_rating,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              onChanged: (value){
-                                                rightupperExtremlyRatecalculation(value);
-
-                                              },
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                      "\%",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  border:
-                                                      UnderlineInputBorder(),
-                                                  labelText:
-                                                      'Right upper extremity rating',
-                                                  hintText: "0.00"),
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                          setState(() {
-                                            IS_TTD = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            IS_TTD = false;
-                                          });
-                                        }
-                                      },*/
-                                              controller:
-                                                  edt_left_upper_extremity_rating,
-                                              onChanged: (value){
-                                                leftupperExtremlyRatecalculation(value);
-                                              },
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                      "\%",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  border:
-                                                      UnderlineInputBorder(),
-                                                  labelText:
-                                                      'Left upper extremity rating',
-                                                  hintText: "0.00"),
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                          setState(() {
-                                            IS_TTD = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            IS_TTD = false;
-                                          });
-                                        }
-                                      },*/
-                                              controller:
-                                                  edt_right_lower_extremity_rating,
-                                              onChanged: (value){
-                                                rightlowerExtremlyRatecalculation(value);
-                                              },
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                      "\%",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  border:
-                                                      UnderlineInputBorder(),
-                                                  labelText:
-                                                      'Right lower extremity rating',
-                                                  hintText: "0.00"),
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: TextFormField(
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              controller:
-                                                  edt_left_lower_extremity_rating,
-                                              onChanged: (value){
-
-                                                leftlowerExtremlyRatecalculation(value);
-                                              },
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            bottom: 10.0),
-                                                    child: Text(
-                                                      "\%",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ),
-                                                  border:
-                                                      UnderlineInputBorder(),
-                                                  labelText:
-                                                      'Left lower extremity rating',
-                                                  hintText: "0.00"),
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, top: 10, bottom: 10),
-                            child: Text(
-                              "Select  Conversation",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white70, width: 1),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Container(
-                                    //margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Text("Whole Person",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 5, bottom: 10),
-                                          height: 3,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10,
-                                                    left: 10,
-                                                    right: 10),
-                                                child: Row(
-                                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                        enabled: false,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          controller:
-                                                              edt_Whole_Person_Rating,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              10.0),
-                                                                  // border: UnderlineInputBorder(),
-                                                                  labelText:
-                                                                      'Whole Person Rating',
-                                                                  hintText:
-                                                                      "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                        enabled: false,
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Value_of_the_Rating,
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  UnderlineInputBorder(),
-                                                              labelText:
-                                                                  'Value of the Rating',
-                                                              hintText: "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white70, width: 1),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Container(
-                                    //margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Text(
-                                              "Right Upper Extremity (Scheduled)",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 5, bottom: 10),
-                                          height: 3,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  CupertinoSwitch(
-                                                    value: IsRightUpperState,
-                                                    onChanged: (value) {
-                                                      IsRightUpperState = value;
-                                                      setState(
-                                                        () {},
-                                                      );
-                                                    },
-                                                    thumbColor:
-                                                        CupertinoColors.white,
-                                                    activeColor: CupertinoColors
-                                                        .destructiveRed,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text("Convert Rating",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ))
-                                                ],
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10,
-                                                    left: 10,
-                                                    right: 10),
-                                                child: Row(
-                                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Impairment_Rating_Right_Upper,
-                                                          enabled: false,
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              10.0),
-                                                                  // border: UnderlineInputBorder(),
-                                                                  labelText:
-                                                                      'Impairment Rating',
-                                                                  hintText:
-                                                                      "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Value_of_the_Rating_Right_Upper,
-                                                          enabled: false,
-
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  UnderlineInputBorder(),
-                                                              labelText:
-                                                                  'Value of the Rating',
-                                                              hintText: "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white70, width: 1),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Container(
-                                    //margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Text(
-                                              "Left Upper Extremity (Scheduled)",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 5, bottom: 10),
-                                          height: 3,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  CupertinoSwitch(
-                                                    value: IsLeftUpperState,
-                                                    onChanged: (value) {
-                                                      IsLeftUpperState = value;
-                                                      setState(
-                                                        () {},
-                                                      );
-                                                    },
-                                                    thumbColor:
-                                                        CupertinoColors.white,
-                                                    activeColor: CupertinoColors
-                                                        .destructiveRed,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text("Convert Rating",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ))
-                                                ],
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10,
-                                                    left: 10,
-                                                    right: 10),
-                                                child: Row(
-                                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Impairment_Rating_Left_Upper,
-                                                          enabled: false,
-
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              10.0),
-                                                                  // border: UnderlineInputBorder(),
-                                                                  labelText:
-                                                                      'Impairment Rating',
-                                                                  hintText:
-                                                                      "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Value_of_the_Rating_Left_Upper,
-                                                          enabled: false,
-
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  UnderlineInputBorder(),
-                                                              labelText:
-                                                                  'Value of the Rating',
-                                                              hintText: "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white70, width: 1),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Container(
-                                    //margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Text(
-                                              "Right Lower Extremity (Scheduled)",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 5, bottom: 10),
-                                          height: 3,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  CupertinoSwitch(
-                                                    value: IsRightLowerState,
-                                                    onChanged: (value) {
-                                                      IsRightLowerState = value;
-                                                      setState(
-                                                        () {},
-                                                      );
-                                                    },
-                                                    thumbColor:
-                                                        CupertinoColors.white,
-                                                    activeColor: CupertinoColors
-                                                        .destructiveRed,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text("Convert Rating",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ))
-                                                ],
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10,
-                                                    left: 10,
-                                                    right: 10),
-                                                child: Row(
-                                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Impairment_Rating_Right_Lower,
-                                                          enabled: false,
-
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              10.0),
-                                                                  // border: UnderlineInputBorder(),
-                                                                  labelText:
-                                                                      'Impairment Rating',
-                                                                  hintText:
-                                                                      "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Value_of_the_Rating_Right_Lower,
-                                                          enabled: false,
-
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  UnderlineInputBorder(),
-                                                              labelText:
-                                                                  'Value of the Rating',
-                                                              hintText: "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white70, width: 1),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Container(
-                                    //margin: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Text(
-                                              "Left Lower Extremity (Scheduled)",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 5, bottom: 10),
-                                          height: 3,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  CupertinoSwitch(
-                                                    value: IsLeftLowerState,
-                                                    onChanged: (value) {
-                                                      IsLeftLowerState = value;
-                                                      setState(
-                                                        () {},
-                                                      );
-                                                    },
-                                                    thumbColor:
-                                                        CupertinoColors.white,
-                                                    activeColor: CupertinoColors
-                                                        .destructiveRed,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text("Convert Rating",
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ))
-                                                ],
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: 10,
-                                                    left: 10,
-                                                    right: 10),
-                                                child: Row(
-                                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Impairment_Rating_Left_Lower,
-                                                          enabled: false,
-
-                                                          decoration:
-                                                              InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              10.0),
-                                                                  // border: UnderlineInputBorder(),
-                                                                  labelText:
-                                                                      'Impairment Rating',
-                                                                  hintText:
-                                                                      "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                          textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .numberWithOptions(
-                                                                      decimal:
-                                                                          true),
-                                                          controller:
-                                                              edt_Value_of_the_Rating_Left_Lower,
-                                                          enabled: false,
-
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  UnderlineInputBorder(),
-                                                              labelText:
-                                                                  'Value of the Rating',
-                                                              hintText: "0.00"),
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              /// ENTER EMPREMENTS
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10, top: 5),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.white70, width: 1),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Container(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                        setState(() {
-                                        IS_TTD = true;
-                                        });
-                                        } else {
-                                        setState(() {
-                                        IS_TTD = false;
-                                        });
-                                        }
-                                      },*/
-                                                    controller:
-                                                        edt_Total_Scheduled_Rate,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Total Scheduled Rate',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                        setState(() {
-                                        IS_TTD = true;
-                                        });
-                                        } else {
-                                        setState(() {
-                                        IS_TTD = false;
-                                        });
-                                        }
-                                      },*/
-                                                    controller:
-                                                        edt_Combined_Whole_Person_Rate,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Combined Whole Person Rate',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                        setState(() {
-                                        IS_TTD = true;
-                                        });
-                                        } else {
-                                        setState(() {
-                                        IS_TTD = false;
-                                        });
-                                        }
-                                      },*/
-                                                    controller:
-                                                        edt_Total_Award_Value_With_Current_Conversations,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Total Award Value With Current Conversations',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                        setState(() {
-                                        IS_TTD = true;
-                                        });
-                                        } else {
-                                        setState(() {
-                                        IS_TTD = false;
-                                        });
-                                        }
-                                      },*/
-                                                    controller:
-                                                        edt_Potential_Combined_Whole_Person_Rating,
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Potential Combined Whole Person Rating',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    controller:
-                                                        edt_Benefits_Cap,
-                                                    textInputAction:
-                                                        TextInputAction.done,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Benefits Cap',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    controller:
-                                                        Total_TTD_TPD_benefits_you_have_received,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Total TTD/TPD benefits you have received',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.all(10),
-                                                child: TextFormField(
-                                                    keyboardType: TextInputType
-                                                        .numberWithOptions(
-                                                            decimal: true),
-                                                    controller:
-                                                        Amount_Remaining_to_Reach_Cap,
-                                                    textInputAction:
-                                                        TextInputAction.done,
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            UnderlineInputBorder(),
-                                                        labelText:
-                                                            'Amount Remaining to Reach Cap',
-                                                        hintText: "0.00"),
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color(0xFF000000),
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        navigateTo(context,
-                                            PpdAwardNextScreen.routeName);
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.all(10),
-                                        child: Card(
-                                            elevation: 10,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            child: Container(
-                                              width: 100,
-                                              height: 35,
-                                              margin: EdgeInsets.only(
-                                                  left: 20,
-                                                  right: 20,
-                                                  top: 10,
-                                                  bottom: 10),
-                                              child: Center(
-                                                child: Text("Back",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ),
-                                            )),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        navigateTo(context,
-                                            PpdAwardNextScreen.routeName);
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.all(10),
-                                        child: Card(
-                                            elevation: 10,
-                                            color: APPButtonRed,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            child: Container(
-                                              width: 100,
-                                              height: 35,
-                                              margin: EdgeInsets.only(
-                                                  left: 20,
-                                                  right: 20,
-                                                  top: 10,
-                                                  bottom: 10),
-                                              child: Center(
-                                                child: Text("Reset",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ),
-                                            )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
+                        FinalSummary(),
 
                         SizedBox(
                           width: 20,
@@ -2045,8 +449,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
-
-                           /* var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
+                            /* var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
 
                             edt_date_of_inquiry.text = val.day.toString() +
                                 "-" +
@@ -2060,30 +463,34 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 "-" +
                                 val.year.toString();
                             var inputFormat = DateFormat('dd-MM-yyyy');
-                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
+                            var inputDate = inputFormat
+                                .parse(from_calendor); // <-- dd/MM 24H format
 
                             var outputFormat = DateFormat('dd-MM-yyyy');
                             var outputDate = outputFormat.format(inputDate);
                             edt_date_of_inquiry.text = outputDate;
-
                           });
                         }),
                   ),
                   Center(
                     child: ElevatedButton(
-                        onPressed: ()  {
+                        onPressed: () {
 
-                          FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
-                          _firebaseMessaging.getToken().then((token){
+                          edt_whole_person_impliment_rating.text = "";
+
+                          FirebaseMessaging _firebaseMessaging =
+                              FirebaseMessaging.instance; // Change here
+                          _firebaseMessaging.getToken().then((token) {
                             print("token is $token");
-                            _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
-                                notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+                            _CustomerBloc.add(MaxBenifitDateofInjoryRequestEvent(
+                                MaxBenifitRequest(
+                                    notification: "1",
+                                    device_token: token,
+                                    date: edt_date_of_inquiry.text)));
                           });
 
-                          calculateAge();
+                          calculateAgeOFInjury();
                           Navigator.pop(ctx);
-
-
                         },
                         child: Text("Select")),
                   ),
@@ -2114,29 +521,30 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 "-" +
                                 val.year.toString();*/
 
+
+
                             String from_calendor = val.day.toString() +
                                 "-" +
                                 val.month.toString() +
                                 "-" +
                                 val.year.toString();
                             var inputFormat = DateFormat('dd-MM-yyyy');
-                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
+                            var inputDate = inputFormat
+                                .parse(from_calendor); // <-- dd/MM 24H format
 
                             var outputFormat = DateFormat('dd-MM-yyyy');
                             var outputDate = outputFormat.format(inputDate);
                             edt_date_of_birth.text = outputDate;
-
                           });
                         }),
                   ),
-
                   Center(
                     child: ElevatedButton(
-                        onPressed: ()  {
-                          calculateAge();
+                        onPressed: () {
+                          calculateAgeMMI();
+                          calculateAgeOFInjury();
 
                           Navigator.pop(ctx);
-
                         },
                         child: Text("Select")),
                   ),
@@ -2149,7 +557,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-              height: 190,
+              height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
                 children: [
@@ -2161,47 +569,62 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
-                           /* edt_date_of_mmi.text = val.day.toString() +
-                                "-" +
-                                val.month.toString() +
-                                "-" +
-                                val.year.toString();*/
-
                             String from_calendor = val.day.toString() +
                                 "-" +
                                 val.month.toString() +
                                 "-" +
                                 val.year.toString();
                             var inputFormat = DateFormat('dd-MM-yyyy');
-                            var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
+                            var inputDate = inputFormat
+                                .parse(from_calendor); // <-- dd/MM 24H format
 
                             var outputFormat = DateFormat('dd-MM-yyyy');
                             var outputDate = outputFormat.format(inputDate);
                             edt_date_of_mmi.text = outputDate;
-
                           });
                         }),
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          FirebaseMessaging _firebaseMessaging =
+                              FirebaseMessaging.instance;
+
+                          // Change here
+                          _firebaseMessaging.getToken().then((token) {
+                            print("token is $token");
+                            _CustomerBloc.add(MaxBenifitRequestEvent(
+                                MaxBenifitRequest(
+                                    notification: "1",
+                                    device_token: token,
+                                    date: edt_date_of_mmi.text)));
+                          });
+
+                          calculateAgeMMI();
+                          Navigator.pop(ctx);
+                        },
+                        child: Text("Select")),
                   ),
                 ],
               ),
             ));
+
+
+
   }
 
-   calculateAge() {
+  calculateAgeOFInjury() {
+    // var a = DateTime.parse(edt_date_of_inquiry.text);
+    //  var b = DateTime.parse(edt_date_of_birth.text);
 
-
-   // var a = DateTime.parse(edt_date_of_inquiry.text);
-  //  var b = DateTime.parse(edt_date_of_birth.text);
-
-
-
-    DateTime start =  DateFormat("MM-dd-yyyy").parse(edt_date_of_inquiry.text);
+    DateTime start = DateFormat("MM-dd-yyyy").parse(edt_date_of_inquiry.text);
     DateTime end = new DateFormat("MM-dd-yyyy").parse(edt_date_of_birth.text);
+    print("fsdkhfkjsh" + edt_date_of_inquiry.text);
 
     var years = start.difference(end);
 
-    int y = years.inDays~/365;
-    print("TotalYear :- "+ y.toString());
+    int y = years.inDays ~/ 365;
+    print("TotalYear :- " + y.toString());
 
 /*
 1.78;
@@ -2257,150 +680,1825 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 */
     //AgeFactor
 
-    if(y<21)
-      {
-        AgeFactor = 1.80;
-      }
-    else if(y==21){ AgeFactor =1.78;}
-    else if(y==22){ AgeFactor =1.76;}
-    else if(y==23){ AgeFactor =1.74;}
-    else if(y==24){ AgeFactor =1.72;}
-    else if(y==25){ AgeFactor =1.70;}
-    else if(y==26){ AgeFactor =1.68;}
-    else if(y==27){ AgeFactor =1.66;}
-    else if(y==28){ AgeFactor =1.64;}
-    else if(y==29){ AgeFactor =1.62;}
-    else if(y==30){ AgeFactor =1.60;}
-    else if(y==31){ AgeFactor =1.58;}
-    else if(y==32){ AgeFactor =1.56;}
-    else if(y==33){ AgeFactor =1.54;}
-    else if(y==34){ AgeFactor =1.52;}
-    else if(y==35){ AgeFactor =1.50;}
-    else if(y==36){ AgeFactor =1.48;}
-    else if(y==37){ AgeFactor =1.46;}
-    else if(y==38){ AgeFactor =1.44;}
-    else if(y==39){ AgeFactor =1.42;}
-    else if(y==40){ AgeFactor =1.40;}
-    else if(y==41){ AgeFactor =1.38;}
-    else if(y==42){ AgeFactor =1.36;}
-    else if(y==43){ AgeFactor =1.34;}
-    else if(y==44){ AgeFactor =1.32;}
-    else if(y==45){ AgeFactor =1.30;}
-    else if(y==46){ AgeFactor =1.28;}
-    else if(y==47){ AgeFactor =1.26;}
-    else if(y==48){ AgeFactor =1.24;}
-    else if(y==49){ AgeFactor =1.22;}
-    else if(y==50){ AgeFactor =1.20;}
-    else if(y==51){ AgeFactor =1.18;}
-    else if(y==52){ AgeFactor =1.16;}
-    else if(y==53){ AgeFactor =1.14;}
-    else if(y==54){ AgeFactor =1.12;}
-    else if(y==55){ AgeFactor =1.10;}
-    else if(y==56){ AgeFactor =1.08;}
-    else if(y==57){ AgeFactor =1.06;}
-    else if(y==58){ AgeFactor =1.04;}
-    else if(y==59){ AgeFactor =1.02;}
-    else if(y==60){ AgeFactor =1.00;}
-    else if(y>60){ AgeFactor  =1.00;}
+    if (y < 21) {
+      AgeFactorForInjury = 1.80;
+    } else if (y == 21) {
+      AgeFactorForInjury = 1.78;
+    } else if (y == 22) {
+      AgeFactorForInjury = 1.76;
+    } else if (y == 23) {
+      AgeFactorForInjury = 1.74;
+    } else if (y == 24) {
+      AgeFactorForInjury = 1.72;
+    } else if (y == 25) {
+      AgeFactorForInjury = 1.70;
+    } else if (y == 26) {
+      AgeFactorForInjury = 1.68;
+    } else if (y == 27) {
+      AgeFactorForInjury = 1.66;
+    } else if (y == 28) {
+      AgeFactorForInjury = 1.64;
+    } else if (y == 29) {
+      AgeFactorForInjury = 1.62;
+    } else if (y == 30) {
+      AgeFactorForInjury = 1.60;
+    } else if (y == 31) {
+      AgeFactorForInjury = 1.58;
+    } else if (y == 32) {
+      AgeFactorForInjury = 1.56;
+    } else if (y == 33) {
+      AgeFactorForInjury = 1.54;
+    } else if (y == 34) {
+      AgeFactorForInjury = 1.52;
+    } else if (y == 35) {
+      AgeFactorForInjury = 1.50;
+    } else if (y == 36) {
+      AgeFactorForInjury = 1.48;
+    } else if (y == 37) {
+      AgeFactorForInjury = 1.46;
+    } else if (y == 38) {
+      AgeFactorForInjury = 1.44;
+    } else if (y == 39) {
+      AgeFactorForInjury = 1.42;
+    } else if (y == 40) {
+      AgeFactorForInjury = 1.40;
+    } else if (y == 41) {
+      AgeFactorForInjury = 1.38;
+    } else if (y == 42) {
+      AgeFactorForInjury = 1.36;
+    } else if (y == 43) {
+      AgeFactorForInjury = 1.34;
+    } else if (y == 44) {
+      AgeFactorForInjury = 1.32;
+    } else if (y == 45) {
+      AgeFactorForInjury = 1.30;
+    } else if (y == 46) {
+      AgeFactorForInjury = 1.28;
+    } else if (y == 47) {
+      AgeFactorForInjury = 1.26;
+    } else if (y == 48) {
+      AgeFactorForInjury = 1.24;
+    } else if (y == 49) {
+      AgeFactorForInjury = 1.22;
+    } else if (y == 50) {
+      AgeFactorForInjury = 1.20;
+    } else if (y == 51) {
+      AgeFactorForInjury = 1.18;
+    } else if (y == 52) {
+      AgeFactorForInjury = 1.16;
+    } else if (y == 53) {
+      AgeFactorForInjury = 1.14;
+    } else if (y == 54) {
+      AgeFactorForInjury = 1.12;
+    } else if (y == 55) {
+      AgeFactorForInjury = 1.10;
+    } else if (y == 56) {
+      AgeFactorForInjury = 1.08;
+    } else if (y == 57) {
+      AgeFactorForInjury = 1.06;
+    } else if (y == 58) {
+      AgeFactorForInjury = 1.04;
+    } else if (y == 59) {
+      AgeFactorForInjury = 1.02;
+    } else if (y == 60) {
+      AgeFactorForInjury = 1.00;
+    } else if (y > 60) {
+      AgeFactorForInjury = 1.00;
+    }
 
-    setState(() {
 
-    });
+    print("sdsdkldsfj" + AgeFactorForInjury.toString());
+    setState(() {});
+
+  }
+
+  calculateAgeMMI() {
+    // var a = DateTime.parse(edt_date_of_inquiry.text);
+    //  var b = DateTime.parse(edt_date_of_birth.text);
+
+    DateTime start = DateFormat("MM-dd-yyyy").parse(edt_date_of_mmi.text);
+    DateTime end = new DateFormat("MM-dd-yyyy").parse(edt_date_of_birth.text);
+
+    var years = start.difference(end);
+
+    int y = years.inDays ~/ 365;
+    print("TotalYear :- " + y.toString());
+
+/*
+1.78;
+1.76;
+1.74;
+1.72;
+1.70;
+1.68;
+1.66;
+1.64;
+1.62;
+1.60;
+1.58;
+1.56;
+1.54;
+1.52;
+1.50;
+1.48;
+1.46;
+1.44;
+1.42;
+1.40;
+1.38;
+1.36;
+1.34;
+1.32;
+1.30;
+1.28;
+1.26;
+1.24;
+1.22;
+1.20;
+1.18;
+1.16;
+1.14;
+1.12;
+1.10;
+1.08;
+1.06;
+1.04;
+1.02;
+1.00;
+
+
+
+
+
+
+
+
+
+
+*/
+    //AgeFactor
+
+    if (y < 21) {
+      AgeFactor = 1.80;
+    } else if (y == 21) {
+      AgeFactor = 1.78;
+    } else if (y == 22) {
+      AgeFactor = 1.76;
+    } else if (y == 23) {
+      AgeFactor = 1.74;
+    } else if (y == 24) {
+      AgeFactor = 1.72;
+    } else if (y == 25) {
+      AgeFactor = 1.70;
+    } else if (y == 26) {
+      AgeFactor = 1.68;
+    } else if (y == 27) {
+      AgeFactor = 1.66;
+    } else if (y == 28) {
+      AgeFactor = 1.64;
+    } else if (y == 29) {
+      AgeFactor = 1.62;
+    } else if (y == 30) {
+      AgeFactor = 1.60;
+    } else if (y == 31) {
+      AgeFactor = 1.58;
+    } else if (y == 32) {
+      AgeFactor = 1.56;
+    } else if (y == 33) {
+      AgeFactor = 1.54;
+    } else if (y == 34) {
+      AgeFactor = 1.52;
+    } else if (y == 35) {
+      AgeFactor = 1.50;
+    } else if (y == 36) {
+      AgeFactor = 1.48;
+    } else if (y == 37) {
+      AgeFactor = 1.46;
+    } else if (y == 38) {
+      AgeFactor = 1.44;
+    } else if (y == 39) {
+      AgeFactor = 1.42;
+    } else if (y == 40) {
+      AgeFactor = 1.40;
+    } else if (y == 41) {
+      AgeFactor = 1.38;
+    } else if (y == 42) {
+      AgeFactor = 1.36;
+    } else if (y == 43) {
+      AgeFactor = 1.34;
+    } else if (y == 44) {
+      AgeFactor = 1.32;
+    } else if (y == 45) {
+      AgeFactor = 1.30;
+    } else if (y == 46) {
+      AgeFactor = 1.28;
+    } else if (y == 47) {
+      AgeFactor = 1.26;
+    } else if (y == 48) {
+      AgeFactor = 1.24;
+    } else if (y == 49) {
+      AgeFactor = 1.22;
+    } else if (y == 50) {
+      AgeFactor = 1.20;
+    } else if (y == 51) {
+      AgeFactor = 1.18;
+    } else if (y == 52) {
+      AgeFactor = 1.16;
+    } else if (y == 53) {
+      AgeFactor = 1.14;
+    } else if (y == 54) {
+      AgeFactor = 1.12;
+    } else if (y == 55) {
+      AgeFactor = 1.10;
+    } else if (y == 56) {
+      AgeFactor = 1.08;
+    } else if (y == 57) {
+      AgeFactor = 1.06;
+    } else if (y == 58) {
+      AgeFactor = 1.04;
+    } else if (y == 59) {
+      AgeFactor = 1.02;
+    } else if (y == 60) {
+      AgeFactor = 1.00;
+    } else if (y > 60) {
+      AgeFactor = 1.00;
+    }
+
+    setState(() {});
   }
 
   void getScheduleRatefromAPI(MaxBenifitResponseState state) {
-
-    edt_schedule_rate_fromAPI.text = state.maxBenifitResponse.data.details.scheduled.toString();
+    edt_schedule_rate_fromAPI.text =
+        state.maxBenifitResponse.data.details.scheduled.toString();
 
     print("sff4566dsf" + edt_schedule_rate_fromAPI.text.toString());
   }
 
-  void rightupperExtremlyRatecalculation(String value) {
 
+
+
+  void rightupperExtremlyRatecalculation(String value) {
     //edt_whole_person_impliment_rating
     //edt_Whole_Person_Rating
     //edt_Value_of_the_Rating
 
     edt_Impairment_Rating_Right_Upper.text = value;
 
-    double a = value.toString()==""?0.00:double.parse(value);
-    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double a = value.toString() == "" ? 0.00 : double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_schedule_rate_fromAPI.text);
     double result = 208 * b;
 
     double resulta = result * a;
-    double resultb = resulta /100;
+    double resultb = resulta / 100;
     edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
-    setState(() {
-
-    });
-
+    setState(() {});
   }
 
   void leftupperExtremlyRatecalculation(String value) {
-
     //edt_whole_person_impliment_rating
     //edt_Whole_Person_Rating
     //edt_Value_of_the_Rating
-
-
-
 
     edt_Impairment_Rating_Left_Upper.text = value;
 
-    double a = value.toString()==""?0.00:double.parse(value);
-    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double a = value.toString() == "" ? 0.00 : double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_schedule_rate_fromAPI.text);
     double result = 208 * b;
 
     double resulta = result * a;
-    double resultb = resulta /100;
+    double resultb = resulta / 100;
     edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
-    setState(() {
-
-    });
-
+    setState(() {});
   }
 
   void rightlowerExtremlyRatecalculation(String value) {
-
     //edt_whole_person_impliment_rating
     //edt_Whole_Person_Rating
     //edt_Value_of_the_Rating
 
-
     edt_Impairment_Rating_Right_Lower.text = value;
 
-    double a = value.toString()==""?0.00:double.parse(value);
-    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double a = value.toString() == "" ? 0.00 : double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_schedule_rate_fromAPI.text);
     double result = 208 * b;
 
     double resulta = result * a;
-    double resultb = resulta /100;
+    double resultb = resulta / 100;
     edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
-    setState(() {
-
-    });
-
+    setState(() {});
   }
 
   void leftlowerExtremlyRatecalculation(String value) {
-
     //edt_whole_person_impliment_rating
     //edt_Whole_Person_Rating
     //edt_Value_of_the_Rating
 
     edt_Impairment_Rating_Left_Lower.text = value;
 
-    double a = value.toString()==""?0.00:double.parse(value);
-    double b = edt_schedule_rate_fromAPI.text.toString()==""?0.00: double.parse(edt_schedule_rate_fromAPI.text);
+    double a = value.toString() == "" ? 0.00 : double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_schedule_rate_fromAPI.text);
     double result = 208 * b;
 
     double resulta = result * a;
-    double resultb = resulta /100;
+    double resultb = resulta / 100;
     edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
-    setState(() {
-
-    });
-
+    setState(() {});
   }
+
+  BasicInformation() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          //margin: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Basic Information",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: 10, bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                _showDateOfInquiry(context);
+                              },
+                              child: TextFormField(
+                                  controller: edt_date_of_inquiry,
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Date of Injury',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.all(1.0),
+                                      child: Image.asset(
+                                        CALENDAR,
+                                        width: 10,
+                                        height: 10,
+                                      ),
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFF000000),
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                _showDateOfBirth(context);
+                              },
+                              child: TextFormField(
+                                  controller: edt_date_of_birth,
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.only(top: 10.0),
+                                      border: UnderlineInputBorder(),
+                                      labelText: 'Date Of Birth',
+                                      suffixIcon: Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                        child: Image.asset(
+                                          CALENDAR,
+                                          width: 10,
+                                          height: 10,
+                                        ),
+                                      ),
+                                      hintText: "DD-MM-YYYY"),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFF000000),
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: 20, bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                _showDateOfMMI(context);
+                              },
+                              child: TextFormField(
+                                  controller: edt_date_of_mmi,
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Date of MMI',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.all(1.0),
+                                      child: Image.asset(
+                                        CALENDAR,
+                                        width: 10,
+                                        height: 10,
+                                      ),
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFF000000),
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_avg_weekly_wage,
+                                onChanged: (value){
+                                  wholePersonimperimentsCalculation();
+                                  setState(() {
+
+                                  });
+
+                                },
+                                decoration: InputDecoration(
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Avg.Weekly Wage',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextFormField(
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                          setState(() {
+                                            IS_TTD = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            IS_TTD = false;
+                                          });
+                                        }
+                                      },*/
+                          controller: edt_total_ttd_tpd,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value){
+                            wholePersonimperimentsCalculation();
+                            setState(() {
+
+                            });
+                          },
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10.0),
+                                child: Text(
+                                  "\$",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              border: UnderlineInputBorder(),
+                              labelText:
+                                  'Total TTD/TPD benefits you have received',
+                              hintText: "0.00"),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF000000),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Impairments() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Enter Impairments",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextFormField(
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                          setState(() {
+                                            IS_TTD = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            IS_TTD = false;
+                                          });
+                                        }
+                                      },*/
+                          onChanged: (value){
+
+                            wholePersonimperimentsCalculation();
+                            setState(() {
+
+                            });
+                          },
+                          controller: edt_whole_person_impliment_rating,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10.0),
+                                child: Text(
+                                  "\%",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              border: UnderlineInputBorder(),
+                              labelText: 'Whole person impairment rating',
+                              hintText: "0.00"),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF000000),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextFormField(
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                          setState(() {
+                                            IS_TTD = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            IS_TTD = false;
+                                          });
+                                        }
+                                      },*/
+                          controller: edt_right_upper_extremity_rating,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) {
+                            rightupperExtremlyRatecalculation(value);
+                          },
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10.0),
+                                child: Text(
+                                  "\%",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              border: UnderlineInputBorder(),
+                              labelText: 'Right upper extremity rating',
+                              hintText: "0.00"),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF000000),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextFormField(
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                          setState(() {
+                                            IS_TTD = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            IS_TTD = false;
+                                          });
+                                        }
+                                      },*/
+                          controller: edt_left_upper_extremity_rating,
+                          onChanged: (value) {
+                            leftupperExtremlyRatecalculation(value);
+                          },
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10.0),
+                                child: Text(
+                                  "\%",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              border: UnderlineInputBorder(),
+                              labelText: 'Left upper extremity rating',
+                              hintText: "0.00"),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF000000),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextFormField(
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                          setState(() {
+                                            IS_TTD = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            IS_TTD = false;
+                                          });
+                                        }
+                                      },*/
+                          controller: edt_right_lower_extremity_rating,
+                          onChanged: (value) {
+                            rightlowerExtremlyRatecalculation(value);
+                          },
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10.0),
+                                child: Text(
+                                  "\%",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              border: UnderlineInputBorder(),
+                              labelText: 'Right lower extremity rating',
+                              hintText: "0.00"),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF000000),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: TextFormField(
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          controller: edt_left_lower_extremity_rating,
+                          onChanged: (value) {
+                            leftlowerExtremlyRatecalculation(value);
+                          },
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10.0, bottom: 10.0),
+                                child: Text(
+                                  "\%",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                              border: UnderlineInputBorder(),
+                              labelText: 'Left lower extremity rating',
+                              hintText: "0.00"),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF000000),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Conversation() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            child: Text(
+              "Select  Conversation",
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+          ),
+        ),
+        Container(
+          child: Column(
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    //margin: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text("Whole Person",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          height: 3,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 10),
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                          enabled: false,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          textInputAction: TextInputAction.next,
+                                          controller: edt_Whole_Person_Rating,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
+                                              // border: UnderlineInputBorder(),
+                                              labelText: 'Whole Person Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                          enabled: false,
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller: edt_Value_of_the_Rating,
+                                          decoration: InputDecoration(
+                                              border: UnderlineInputBorder(),
+                                              labelText: 'Value of the Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    //margin: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text("Right Upper Extremity (Scheduled)",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          height: 3,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CupertinoSwitch(
+                                    value: IsRightUpperState,
+                                    onChanged: (value) {
+                                      IsRightUpperState = value;
+                                      setState(
+                                            () {},
+                                      );
+                                    },
+                                    thumbColor: CupertinoColors.white,
+                                    activeColor: CupertinoColors.destructiveRed,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Convert Rating",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                      ))
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 10),
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Impairment_Rating_Right_Upper,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
+                                              // border: UnderlineInputBorder(),
+                                              labelText: 'Impairment Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Value_of_the_Rating_Right_Upper,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              border: UnderlineInputBorder(),
+                                              labelText: 'Value of the Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    //margin: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text("Left Upper Extremity (Scheduled)",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          height: 3,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CupertinoSwitch(
+                                    value: IsLeftUpperState,
+                                    onChanged: (value) {
+                                      IsLeftUpperState = value;
+                                      setState(
+                                            () {},
+                                      );
+                                    },
+                                    thumbColor: CupertinoColors.white,
+                                    activeColor: CupertinoColors.destructiveRed,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Convert Rating",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                      ))
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 10),
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Impairment_Rating_Left_Upper,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
+                                              // border: UnderlineInputBorder(),
+                                              labelText: 'Impairment Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Value_of_the_Rating_Left_Upper,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              border: UnderlineInputBorder(),
+                                              labelText: 'Value of the Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    //margin: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text("Right Lower Extremity (Scheduled)",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          height: 3,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CupertinoSwitch(
+                                    value: IsRightLowerState,
+                                    onChanged: (value) {
+                                      IsRightLowerState = value;
+                                      setState(
+                                            () {},
+                                      );
+                                    },
+                                    thumbColor: CupertinoColors.white,
+                                    activeColor: CupertinoColors.destructiveRed,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Convert Rating",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                      ))
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 10),
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Impairment_Rating_Right_Lower,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
+                                              // border: UnderlineInputBorder(),
+                                              labelText: 'Impairment Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Value_of_the_Rating_Right_Lower,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              border: UnderlineInputBorder(),
+                                              labelText: 'Value of the Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white70, width: 1),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    //margin: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text("Left Lower Extremity (Scheduled)",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5, bottom: 10),
+                          height: 3,
+                          color: colorLightGray,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CupertinoSwitch(
+                                    value: IsLeftLowerState,
+                                    onChanged: (value) {
+                                      IsLeftLowerState = value;
+                                      setState(
+                                            () {},
+                                      );
+                                    },
+                                    thumbColor: CupertinoColors.white,
+                                    activeColor: CupertinoColors.destructiveRed,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Convert Rating",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                      ))
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 10),
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Impairment_Rating_Left_Lower,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
+                                              // border: UnderlineInputBorder(),
+                                              labelText: 'Impairment Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                          controller:
+                                          edt_Value_of_the_Rating_Left_Lower,
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                              border: UnderlineInputBorder(),
+                                              labelText: 'Value of the Rating',
+                                              hintText: "0.00"),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Color(0xFF000000),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  FinalSummary() {
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(
+            width: 10,
+          ),
+
+
+          /// ENTER EMPREMENTS
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.white70, width: 1),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                        setState(() {
+                                        IS_TTD = true;
+                                        });
+                                        } else {
+                                        setState(() {
+                                        IS_TTD = false;
+                                        });
+                                        }
+                                      },*/
+                                controller: edt_Total_Scheduled_Rate,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Total Scheduled Rate',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                        setState(() {
+                                        IS_TTD = true;
+                                        });
+                                        } else {
+                                        setState(() {
+                                        IS_TTD = false;
+                                        });
+                                        }
+                                      },*/
+                                controller: edt_Combined_Whole_Person_Rate,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Combined Whole Person Rate',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                        setState(() {
+                                        IS_TTD = true;
+                                        });
+                                        } else {
+                                        setState(() {
+                                        IS_TTD = false;
+                                        });
+                                        }
+                                      },*/
+                                controller:
+                                    edt_Total_Award_Value_With_Current_Conversations,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText:
+                                        'Total Award Value With Current Conversations',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                /*onChanged: (value) {
+                                        if (value.length >= 1) {
+                                        setState(() {
+                                        IS_TTD = true;
+                                        });
+                                        } else {
+                                        setState(() {
+                                        IS_TTD = false;
+                                        });
+                                        }
+                                      },*/
+                                controller:
+                                    edt_Potential_Combined_Whole_Person_Rating,
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText:
+                                        'Potential Combined Whole Person Rating',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Benefits_Cap,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Benefits Cap',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller:
+                                    Total_TTD_TPD_benefits_you_have_received,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText:
+                                        'Total TTD/TPD benefits you will receive',
+                                    hintText: "0.00",
+                                errorText:  isErrorforbenifitCap==true? "Benefit Cap exceeded so max benefit cap added" :null,
+
+                                ),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: TextFormField(
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: Amount_Remaining_to_Reach_Cap,
+                                textInputAction: TextInputAction.done,
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Amount Remaining to Reach Cap',
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    navigateTo(context, HomeScreen.routeName,
+                        clearAllStack: true);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Container(
+                          width: 100,
+                          height: 35,
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          child: Center(
+                            child: Text("Back",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        )),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    navigateTo(context, PpdAwardScreen.routeName,
+                        clearAllStack: true);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    child: Card(
+                        elevation: 10,
+                        color: APPButtonRed,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Container(
+                          width: 100,
+                          height: 35,
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          child: Center(
+                            child: Text("Reset",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
+   wholePersonimperimentsCalculation() {
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+   // edt_Whole_Person_Rating.text = value;
+     double TTDRate=0.00;
+
+     print("DateofInjuryAdge" + " AdgeFactor" + AgeFactorForInjury.toString());
+
+
+    double a = edt_whole_person_impliment_rating.text.toString() == "" ? 0.00 : double.parse(edt_whole_person_impliment_rating.text.toString());
+
+
+    edt_Whole_Person_Rating.text = a.toStringAsFixed(2);
+    if(a>25)
+      {
+        edt_Benefits_Cap.text = edt_Benefits_Cap2nd.text;
+      }
+    else
+      {
+        edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+
+      }
+
+    double avgweek = edt_avg_weekly_wage.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_avg_weekly_wage.text);
+
+
+    double max_aww = edt_MAX_AWW.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_MAX_AWW.text);
+    double compRate = edt_COMP_RATE.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_COMP_RATE.text);
+
+    print("skjdskdsdfdsfd" + " max_aww : " +max_aww.toString() + " compRate : " + compRate.toString() );
+
+    if(avgweek > max_aww){
+      TTDRate = compRate;
+
+    }
+    else
+      {
+        TTDRate = (avgweek * 2)/3;
+
+      }
+
+
+
+
+    print("dskfdsfl" + TTDRate.toString());
+
+    double resultb = a * TTDRate * 400 * AgeFactorForInjury;
+
+
+
+    print("valuewhole" + " wholeImpRate : " + a.toString() + " TTDRate " + TTDRate.toString() + " AdgefactorInjury " + AgeFactorForInjury.toString() );
+    edt_Value_of_the_Rating.text = resultb.toStringAsFixed(2);
+
+
+    double ttd_tpd =  edt_total_ttd_tpd.text.toString() == "" ? 0.00 : double.parse(edt_total_ttd_tpd.text.toString());
+    double banifitcap =  edt_Benefits_Cap.text.toString() == "" ? 0.00 : double.parse(edt_Benefits_Cap.text.toString());
+
+
+    double tot_ttd_tpd_rec =  ttd_tpd + resultb;
+
+    if(tot_ttd_tpd_rec>banifitcap)
+      {
+        Total_TTD_TPD_benefits_you_have_received.text = banifitcap.toStringAsFixed(2);
+
+        isErrorforbenifitCap = true;
+      }
+    else
+      {
+        Total_TTD_TPD_benefits_you_have_received.text =tot_ttd_tpd_rec.toStringAsFixed(2);
+        isErrorforbenifitCap = false;
+      }
+
+    double temp = Total_TTD_TPD_benefits_you_have_received.text.toString() == "" ? 0.00 : double.parse(Total_TTD_TPD_benefits_you_have_received.text.toString());
+
+    double amountreachedtocap =banifitcap-temp;
+
+
+    Amount_Remaining_to_Reach_Cap.text = amountreachedtocap.toStringAsFixed(2);
+
+    setState(() {});
+  }
+
+  void getDateofInjuryResult(MaxBenifitDateofInjuryResponseState state) {
+    edt_Benefits_Cap1st.text = state.maxBenifitResponse.data.details.s1cap.toString();
+    edt_Benefits_Cap2nd.text = state.maxBenifitResponse.data.details.s2cap.toString();
+
+    edt_MAX_AWW.text = state.maxBenifitResponse.data.details.aww.toString();
+
+    edt_COMP_RATE.text = state.maxBenifitResponse.data.details.comp.toString();
+    calculateAgeOFInjury();
+  }
+
 
 }

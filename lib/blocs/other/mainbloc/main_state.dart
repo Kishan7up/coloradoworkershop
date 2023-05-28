@@ -66,3 +66,8 @@ class MaxBenifitResponseState extends MainStates {
 
   MaxBenifitResponseState(this.maxBenifitResponse);
 }
+class MaxBenifitDateofInjuryResponseState extends MainStates {
+  final MaxBenifitResponse maxBenifitResponse;
+
+  MaxBenifitDateofInjuryResponseState(this.maxBenifitResponse);
+}

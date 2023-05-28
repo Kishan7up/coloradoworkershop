@@ -1015,6 +1015,9 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                             edt_date_of_inquiry.text = outputDate;
 
 
+                            setState(() {
+
+                            });
 
                           });
                         }),
@@ -1092,7 +1095,39 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
         state.maxBenifitResponse.data.details.s1cap;
     Whole_Person_Impairment_More_than.text =
         state.maxBenifitResponse.data.details.s2cap;
-    Whole_Person_Impairment_More_than_19.text = "0.00";
-    Whole_Person_Impairment_Less_than_19.text ="0.00";
+
+
+    DateTime datevalidate =   DateFormat("dd-MM-yyyy").parse(edt_date_of_inquiry.text);
+    DateTime validated =   DateFormat("dd-MM-yyyy").parse("09-07-2021");
+
+      if(validated.isAfter(datevalidate))
+        {
+          print("kljdsjkds" + " before");
+
+          edt_Whole_Person_Impairment_Less.text =
+              state.maxBenifitResponse.data.details.s1cap;
+          Whole_Person_Impairment_More_than.text =
+              state.maxBenifitResponse.data.details.s2cap;
+
+          Whole_Person_Impairment_More_than_19.text = "0.00";
+          Whole_Person_Impairment_Less_than_19.text ="0.00";
+
+
+        }
+      else
+        {
+
+
+          print("kljdsjkds" + " After");
+          Whole_Person_Impairment_More_than_19.text =
+              state.maxBenifitResponse.data.details.s1cap;
+          Whole_Person_Impairment_Less_than_19.text =
+              state.maxBenifitResponse.data.details.s2cap;
+
+          edt_Whole_Person_Impairment_Less.text = "0.00";
+          Whole_Person_Impairment_More_than.text ="0.00";
+
+        }
+
   }
 }
