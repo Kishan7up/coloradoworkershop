@@ -72,15 +72,14 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   List<ALL_Name_ID> selectedlistStatus = [];
 
   List<CheckBoxData> checkboxDataList = [
+    new CheckBoxData(id: '1', displayId: 'Appellate Review', checked: false),
+    new CheckBoxData(id: '2', displayId: 'Apportionment', checked: false),
+    new CheckBoxData(id: '3', displayId: 'Bad Faith', checked: false),
+    new CheckBoxData(id: '4', displayId: 'Case Closure)', checked: false),
     new CheckBoxData(
-        id: '1', displayId: 'Appellate Review (125)', checked: false),
-    new CheckBoxData(id: '2', displayId: 'Apportionment (87)', checked: false),
-    new CheckBoxData(id: '3', displayId: 'Bad Faith (62)', checked: false),
-    new CheckBoxData(id: '4', displayId: 'Case Closure (14)', checked: false),
+        id: '5', displayId: 'Computability', checked: false),
     new CheckBoxData(
-        id: '5', displayId: 'Compensability (281)', checked: false),
-    new CheckBoxData(
-        id: '6', displayId: 'Course & Scope (652)', checked: false),
+        id: '6', displayId: 'Course & Scope', checked: false),
   ];
 
   /*if (i == 0) {
@@ -752,7 +751,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                     Container(
                       margin: EdgeInsets.only(top: 20, bottom: 10),
                       child: Text(
-                        "Filter(210)",
+                        "Filter",
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),

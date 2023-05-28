@@ -2287,9 +2287,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText:
-                                        'Total TTD/TPD benefits you will receive',
+                                        'Total TTD/TPD benefits you have received',
                                     hintText: "0.00",
-                                errorText:  isErrorforbenifitCap==true? "Benefit Cap exceeded so max benefit cap added" :null,
 
                                 ),
                                 style: TextStyle(
@@ -2310,6 +2309,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Amount Remaining to Reach Cap',
+                                 //   errorText:  isErrorforbenifitCap==true? "Benefit Cap exceeded so max benefit cap added" :null,
+
                                     hintText: "0.00"),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -2454,12 +2455,16 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
     print("dskfdsfl" + TTDRate.toString());
 
-    double resultb = a * TTDRate * 400 * AgeFactorForInjury;
+    double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
+     double resultb = (resultb1 * a) / 100;
 
 
 
     print("valuewhole" + " wholeImpRate : " + a.toString() + " TTDRate " + TTDRate.toString() + " AdgefactorInjury " + AgeFactorForInjury.toString() );
-    edt_Value_of_the_Rating.text = resultb.toStringAsFixed(2);
+
+     print("Totaldf" + " wholeImpRate : " +resultb.toString()) ;
+
+     edt_Value_of_the_Rating.text = resultb.toStringAsFixed(2);
 
 
     double ttd_tpd =  edt_total_ttd_tpd.text.toString() == "" ? 0.00 : double.parse(edt_total_ttd_tpd.text.toString());
@@ -2470,22 +2475,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
     if(tot_ttd_tpd_rec>banifitcap)
       {
-        Total_TTD_TPD_benefits_you_have_received.text = banifitcap.toStringAsFixed(2);
+       // Total_TTD_TPD_benefits_you_have_received.text = banifitcap.toStringAsFixed(2);
 
         isErrorforbenifitCap = true;
       }
     else
       {
-        Total_TTD_TPD_benefits_you_have_received.text =tot_ttd_tpd_rec.toStringAsFixed(2);
+       // Total_TTD_TPD_benefits_you_have_received.text =tot_ttd_tpd_rec.toStringAsFixed(2);
         isErrorforbenifitCap = false;
       }
 
+
+
     double temp = Total_TTD_TPD_benefits_you_have_received.text.toString() == "" ? 0.00 : double.parse(Total_TTD_TPD_benefits_you_have_received.text.toString());
 
-    double amountreachedtocap =banifitcap-temp;
+
+     Total_TTD_TPD_benefits_you_have_received.text =ttd_tpd.toStringAsFixed(2);
+
+    double newcal =  banifitcap - resultb - ttd_tpd;
 
 
-    Amount_Remaining_to_Reach_Cap.text = amountreachedtocap.toStringAsFixed(2);
+
+    Amount_Remaining_to_Reach_Cap.text = newcal.toStringAsFixed(2);
 
     setState(() {});
   }
