@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.coloradoworkerscomp.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="Colorado Workers Comp"
         android:name="${applicationName}"

@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app/models/api_response/company_details/company_details_response.dart';
-import 'package:app/models/api_response/login/login_user_details_api_response.dart';
+
 
 class SharedPrefHelper {
   final SharedPreferences prefs;
@@ -83,23 +82,6 @@ class SharedPrefHelper {
     return getBool(IS_REGISTERED) ?? false;
   }
 
-  CompanyDetailsResponse getCompanyData() {
-    return CompanyDetailsResponse.fromJson(
-        json.decode(getString(IS_COMPANY_LOGGED_IN_DATA)));
-  }
-
-  setCompanyData(CompanyDetailsResponse data) async {
-    await putString(IS_COMPANY_LOGGED_IN_DATA, json.encode(data));
-  }
-
-  setLoginUserData(LoginUserDetialsResponse data) async {
-    await putString(IS_LOGGED_IN_USER_DATA, json.encode(data));
-  }
-
-  LoginUserDetialsResponse getLoginUserData() {
-    return LoginUserDetialsResponse.fromJson(
-        json.decode(getString(IS_LOGGED_IN_USER_DATA)));
-  }
 
   String getBaseURL() {
     return getString(BASE_URL_FROM_SCREEN);

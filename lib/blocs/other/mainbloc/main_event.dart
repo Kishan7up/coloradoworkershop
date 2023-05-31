@@ -4,10 +4,7 @@ part of 'main_bloc.dart';
 abstract class MainEvent {}
 
 ///all events of AuthenticationEvents
-class CustomerPaginationRequestEvent extends MainEvent {
-  CustomerPaginationRequest customerPaginationRequest;
-  CustomerPaginationRequestEvent(this.customerPaginationRequest);
-}
+
 
 class RecentViewEvent extends MainEvent {
   final RecentViewDBTable recentViewDBTable;

@@ -2,7 +2,6 @@ import 'package:app/blocs/base/base_bloc.dart';
 import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/api_request/about_us/about_us_request.dart';
 import 'package:app/models/api_request/contact_us/contact_us_request.dart';
-import 'package:app/models/api_request/customer/customer_paggination_request.dart';
 import 'package:app/models/api_request/max_benifit/max_benifit_request.dart';
 import 'package:app/models/api_request/notification/notification_activate_request.dart';
 import 'package:app/models/api_request/notification/notification_list_request.dart';
