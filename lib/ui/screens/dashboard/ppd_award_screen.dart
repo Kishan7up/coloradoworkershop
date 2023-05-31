@@ -7,7 +7,6 @@ import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/res/image_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
-import 'package:app/ui/screens/dashboard/ppd_award_next_screen.dart';
 import 'package:app/utils/general_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -2169,17 +2168,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
-                                /*onChanged: (value) {
-                                        if (value.length >= 1) {
-                                        setState(() {
-                                        IS_TTD = true;
-                                        });
-                                        } else {
-                                        setState(() {
-                                        IS_TTD = false;
-                                        });
-                                        }
-                                      },*/
+
                                 controller: edt_Combined_Whole_Person_Rate,
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
@@ -2402,11 +2391,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   }
 
    wholePersonimperimentsCalculation() {
-    //edt_whole_person_impliment_rating
-    //edt_Whole_Person_Rating
-    //edt_Value_of_the_Rating
 
-   // edt_Whole_Person_Rating.text = value;
      double TTDRate=0.00;
 
      print("DateofInjuryAdge" + " AdgeFactor" + AgeFactorForInjury.toString());

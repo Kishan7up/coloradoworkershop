@@ -9,6 +9,7 @@ import 'package:app/models/api_response/recent_view_list/recent_view_list_respon
 import 'package:app/models/common/all_name_id_list.dart';
 import 'package:app/ui/res/color_resources.dart';
 import 'package:app/ui/screens/base/base_screen.dart';
+import 'package:app/utils/shared_pref_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +122,7 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
 
-      state = _editModel.toString() == "true" ? true : false;
+      state = SharedPrefHelper.instance.getBool("IsNotificationtoggle");//_editModel.toString() == "true" ? true : false;
     } else {
       String CurrentDate = DateTime.now().day.toString() +
           "/" +
@@ -220,6 +221,8 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                         value: state,
                                         onChanged: (value) {
                                           state = value;
+
+                                          SharedPrefHelper.instance.putBool("IsNotificationtoggle",state);
                                           setState(
                                             () {},
                                           );
