@@ -152,27 +152,47 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
   //Amount_Remaining_to_Reach_Cap
 
-  bool IsRightUpperValue = true;
+  bool IsRightUpperValue = false;
   bool IsRightUpperState = false;
 
-  bool IsLeftUpperValue = true;
-  bool IsLeftUpperState = true;
+  bool IsLeftUpperValue = false;
+  bool IsLeftUpperState = false;
 
-  bool IsRightLowerValue = true;
+  bool IsRightLowerValue = false;
   bool IsRightLowerState = false;
 
-  bool IsLeftLowerValue = true;
+  bool IsLeftLowerValue = false;
   bool IsLeftLowerState = false;
 
   double AgeFactor = 0.00;
   double AgeFactorForInjury = 0.00;
   bool isErrorforbenifitCap = false;
 
+  double rightLowervalue = 0.00;
+  double rightUppervalue = 0.00;
+  double leftLowervalue  = 0.00;
+  double leftUppervalue  = 0.00;
+
+  bool ISErrorrightLowervalue  =false;
+  bool ISErrorrightUppervalue  =false;
+  bool ISErrorleftLowervalue   =false;
+  bool ISErrorleftUppervalue   =false;
+
+  double LessMore1 = 0.00;
+  double LessMore2 = 0.00;
+  double LessMore3 = 0.00;
+  double LessMore4 = 0.00;
+
+  double Totalrate =0.00;
+
+
+
   @override
   void initState() {
     super.initState();
 
     _CustomerBloc = MainBloc(baseBloc);
+
 
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
@@ -952,6 +972,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double resulta = result * a;
     double resultb = resulta / 100;
     edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
+
+     rightUppervalue = resultb;
     setState(() {});
   }
 
@@ -971,6 +993,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double resulta = result * a;
     double resultb = resulta / 100;
     edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
+
+     leftUppervalue = resultb;
     setState(() {});
   }
 
@@ -990,6 +1014,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double resulta = result * a;
     double resultb = resulta / 100;
     edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
+
+     rightLowervalue = resultb;
+
     setState(() {});
   }
 
@@ -1009,6 +1036,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double resulta = result * a;
     double resultb = resulta / 100;
     edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
+
+     leftLowervalue = resultb;
     setState(() {});
   }
 
@@ -1659,6 +1688,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                     value: IsRightUpperState,
                                     onChanged: (value) {
                                       IsRightUpperState = value;
+
+                                      RightUpperExtremlyCovertFormula(value);
+
                                       setState(
                                             () {},
                                       );
@@ -1690,6 +1722,17 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               decimal: true),
                                           controller:
                                           edt_Impairment_Rating_Right_Upper,
+                                          onChanged: (value){
+                                           /* double d = edt_right_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_upper_extremity_rating.text.toString());
+                                            double e = edt_left_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_upper_extremity_rating.text.toString());
+                                            double f = edt_left_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_lower_extremity_rating.text.toString());
+                                            double g = edt_right_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_lower_extremity_rating.text.toString());
+                                            Totalrate = d+e+f+g;
+                                            edt_Total_Scheduled_Rate.text = Totalrate.toStringAsFixed(2);
+                                            setState(() {
+
+                                            });*/
+                                          },
                                           enabled: false,
                                           decoration: InputDecoration(
                                               contentPadding:
@@ -1717,6 +1760,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
+                                              errorText: ISErrorrightUppervalue==true? LessMore4<0? "More \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
+                                              errorStyle: TextStyle(color: Colors.red),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1777,6 +1822,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                     value: IsLeftUpperState,
                                     onChanged: (value) {
                                       IsLeftUpperState = value;
+                                      LefttUpperExtremlyCovertFormula(value);
+
                                       setState(
                                             () {},
                                       );
@@ -1808,6 +1855,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               decimal: true),
                                           controller:
                                           edt_Impairment_Rating_Left_Upper,
+                                          onChanged: (value){
+
+                                          },
                                           enabled: false,
                                           decoration: InputDecoration(
                                               contentPadding:
@@ -1835,6 +1885,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
+                                              errorText: ISErrorleftUppervalue==true? LessMore3<0? "More \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
+                                              errorStyle: TextStyle(color: Colors.red),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1895,6 +1947,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                     value: IsRightLowerState,
                                     onChanged: (value) {
                                       IsRightLowerState = value;
+
+                                      RightLowerExtremlyCovertFormula(value);
                                       setState(
                                             () {},
                                       );
@@ -1926,6 +1980,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               decimal: true),
                                           controller:
                                           edt_Impairment_Rating_Right_Lower,
+                                          onChanged: (value){
+
+                                          },
                                           enabled: false,
                                           decoration: InputDecoration(
                                               contentPadding:
@@ -1953,6 +2010,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
+                                             // errorText : "sdfds",
+                                            errorStyle: TextStyle(color: Colors.red),
+                                             errorText: ISErrorrightLowervalue==true? LessMore1<0? "More \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2013,6 +2073,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                     value: IsLeftLowerState,
                                     onChanged: (value) {
                                       IsLeftLowerState = value;
+
+                                      LefttLowerExtremlyCovertFormula(value);
+
                                       setState(
                                             () {},
                                       );
@@ -2045,11 +2108,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           controller:
                                           edt_Impairment_Rating_Left_Lower,
                                           enabled: false,
+                                          onChanged: (value){
+
+                                          },
                                           decoration: InputDecoration(
                                               contentPadding:
                                               const EdgeInsets.only(top: 10.0),
                                               // border: UnderlineInputBorder(),
                                               labelText: 'Impairment Rating',
+
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2071,6 +2138,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
+                                              errorText: ISErrorleftLowervalue==true? LessMore2<0? "More \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
+                                              errorStyle: TextStyle(color: Colors.red),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2498,5 +2567,675 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     calculateAgeOFInjury();
   }
 
+  void RightLowerExtremlyCovertFormula(bool value) {
+
+    print("sd00dff" + value.toString());
+
+    if(edt_right_lower_extremity_rating.text.isNotEmpty)
+      {
+        if(value==true)
+        {
+
+          double TTDRate=0.00;
+         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+
+          double test = edt_right_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_lower_extremity_rating.text.toString());
+
+          int test1 = test.toInt();
+          if(test1==	0	)	{	edt_Impairment_Rating_Right_Lower.text =	"0";	}
+          if(test1==	1	)	{	edt_Impairment_Rating_Right_Lower.text =	"0";	}
+          if(test1==	2	)	{	edt_Impairment_Rating_Right_Lower.text =	"1";	}
+          if(test1==	3	)	{	edt_Impairment_Rating_Right_Lower.text =	"1";	}
+          if(test1==	4	)	{	edt_Impairment_Rating_Right_Lower.text =	"2";	}
+          if(test1==	5	)	{	edt_Impairment_Rating_Right_Lower.text =	"2";	}
+          if(test1==	6	)	{	edt_Impairment_Rating_Right_Lower.text =	"2";	}
+          if(test1==	7	)	{	edt_Impairment_Rating_Right_Lower.text =	"3";	}
+          if(test1==	8	)	{	edt_Impairment_Rating_Right_Lower.text =	"3";	}
+          if(test1==	9	)	{	edt_Impairment_Rating_Right_Lower.text =	"4";	}
+          if(test1==	10	)	{	edt_Impairment_Rating_Right_Lower.text =	"4";	}
+          if(test1==	11	)	{	edt_Impairment_Rating_Right_Lower.text =	"4";	}
+          if(test1==	12	)	{	edt_Impairment_Rating_Right_Lower.text =	"5";	}
+          if(test1==	13	)	{	edt_Impairment_Rating_Right_Lower.text =	"5";	}
+          if(test1==	14	)	{	edt_Impairment_Rating_Right_Lower.text =	"6";	}
+          if(test1==	15	)	{	edt_Impairment_Rating_Right_Lower.text =	"6";	}
+          if(test1==	16	)	{	edt_Impairment_Rating_Right_Lower.text =	"6";	}
+          if(test1==	17	)	{	edt_Impairment_Rating_Right_Lower.text =	"7";	}
+          if(test1==	18	)	{	edt_Impairment_Rating_Right_Lower.text =	"7";	}
+          if(test1==	19	)	{	edt_Impairment_Rating_Right_Lower.text =	"8";	}
+          if(test1==	20	)	{	edt_Impairment_Rating_Right_Lower.text =	"8";	}
+          if(test1==	21	)	{	edt_Impairment_Rating_Right_Lower.text =	"8";	}
+          if(test1==	22	)	{	edt_Impairment_Rating_Right_Lower.text =	"9";	}
+          if(test1==	23	)	{	edt_Impairment_Rating_Right_Lower.text =	"9";	}
+          if(test1==	24	)	{	edt_Impairment_Rating_Right_Lower.text =	"10";	}
+          if(test1==	25	)	{	edt_Impairment_Rating_Right_Lower.text =	"10";	}
+          if(test1==	26	)	{	edt_Impairment_Rating_Right_Lower.text =	"10";	}
+          if(test1==	27	)	{	edt_Impairment_Rating_Right_Lower.text =	"11";	}
+          if(test1==	28	)	{	edt_Impairment_Rating_Right_Lower.text =	"11";	}
+          if(test1==	29	)	{	edt_Impairment_Rating_Right_Lower.text =	"12";	}
+          if(test1==	30	)	{	edt_Impairment_Rating_Right_Lower.text =	"12";	}
+          if(test1==	31	)	{	edt_Impairment_Rating_Right_Lower.text =	"12";	}
+          if(test1==	32	)	{	edt_Impairment_Rating_Right_Lower.text =	"13";	}
+          if(test1==	33	)	{	edt_Impairment_Rating_Right_Lower.text =	"13";	}
+          if(test1==	34	)	{	edt_Impairment_Rating_Right_Lower.text =	"14";	}
+          if(test1==	35	)	{	edt_Impairment_Rating_Right_Lower.text =	"14";	}
+          if(test1==	36	)	{	edt_Impairment_Rating_Right_Lower.text =	"14";	}
+          if(test1==	37	)	{	edt_Impairment_Rating_Right_Lower.text =	"15";	}
+          if(test1==	38	)	{	edt_Impairment_Rating_Right_Lower.text =	"15";	}
+          if(test1==	39	)	{	edt_Impairment_Rating_Right_Lower.text =	"16";	}
+          if(test1==	40	)	{	edt_Impairment_Rating_Right_Lower.text =	"16";	}
+          if(test1==	41	)	{	edt_Impairment_Rating_Right_Lower.text =	"16";	}
+          if(test1==	42	)	{	edt_Impairment_Rating_Right_Lower.text =	"17";	}
+          if(test1==	43	)	{	edt_Impairment_Rating_Right_Lower.text =	"17";	}
+          if(test1==	44	)	{	edt_Impairment_Rating_Right_Lower.text =	"18";	}
+          if(test1==	45	)	{	edt_Impairment_Rating_Right_Lower.text =	"18";	}
+          if(test1==	46	)	{	edt_Impairment_Rating_Right_Lower.text =	"18";	}
+          if(test1==	47	)	{	edt_Impairment_Rating_Right_Lower.text =	"19";	}
+          if(test1==	48	)	{	edt_Impairment_Rating_Right_Lower.text =	"19";	}
+          if(test1==	49	)	{	edt_Impairment_Rating_Right_Lower.text =	"20";	}
+          if(test1==	50	)	{	edt_Impairment_Rating_Right_Lower.text =	"20";	}
+          if(test1==	51	)	{	edt_Impairment_Rating_Right_Lower.text =	"20";	}
+          if(test1==	52	)	{	edt_Impairment_Rating_Right_Lower.text =	"21";	}
+          if(test1==	53	)	{	edt_Impairment_Rating_Right_Lower.text =	"21";	}
+          if(test1==	54	)	{	edt_Impairment_Rating_Right_Lower.text =	"22";	}
+          if(test1==	55	)	{	edt_Impairment_Rating_Right_Lower.text =	"22";	}
+          if(test1==	56	)	{	edt_Impairment_Rating_Right_Lower.text =	"22";	}
+          if(test1==	57	)	{	edt_Impairment_Rating_Right_Lower.text =	"23";	}
+          if(test1==	58	)	{	edt_Impairment_Rating_Right_Lower.text =	"23";	}
+          if(test1==	59	)	{	edt_Impairment_Rating_Right_Lower.text =	"24";	}
+          if(test1==	60	)	{	edt_Impairment_Rating_Right_Lower.text =	"24";	}
+          if(test1==	61	)	{	edt_Impairment_Rating_Right_Lower.text =	"24";	}
+          if(test1==	62	)	{	edt_Impairment_Rating_Right_Lower.text =	"25";	}
+          if(test1==	63	)	{	edt_Impairment_Rating_Right_Lower.text =	"25";	}
+          if(test1==	64	)	{	edt_Impairment_Rating_Right_Lower.text =	"26";	}
+          if(test1==	65	)	{	edt_Impairment_Rating_Right_Lower.text =	"26";	}
+          if(test1==	66	)	{	edt_Impairment_Rating_Right_Lower.text =	"28";	}
+          if(test1==	67	)	{	edt_Impairment_Rating_Right_Lower.text =	"27";	}
+          if(test1==	68	)	{	edt_Impairment_Rating_Right_Lower.text =	"27";	}
+          if(test1==	69	)	{	edt_Impairment_Rating_Right_Lower.text =	"28";	}
+          if(test1==	70	)	{	edt_Impairment_Rating_Right_Lower.text =	"28";	}
+          if(test1==	71	)	{	edt_Impairment_Rating_Right_Lower.text =	"28";	}
+          if(test1==	72	)	{	edt_Impairment_Rating_Right_Lower.text =	"29";	}
+          if(test1==	73	)	{	edt_Impairment_Rating_Right_Lower.text =	"29";	}
+          if(test1==	74	)	{	edt_Impairment_Rating_Right_Lower.text =	"30";	}
+          if(test1==	75	)	{	edt_Impairment_Rating_Right_Lower.text =	"30";	}
+          if(test1==	76	)	{	edt_Impairment_Rating_Right_Lower.text =	"30";	}
+          if(test1==	77	)	{	edt_Impairment_Rating_Right_Lower.text =	"31";	}
+          if(test1==	78	)	{	edt_Impairment_Rating_Right_Lower.text =	"31";	}
+          if(test1==	79	)	{	edt_Impairment_Rating_Right_Lower.text =	"32";	}
+          if(test1==	80	)	{	edt_Impairment_Rating_Right_Lower.text =	"32";	}
+          if(test1==	81	)	{	edt_Impairment_Rating_Right_Lower.text =	"32";	}
+          if(test1==	82	)	{	edt_Impairment_Rating_Right_Lower.text =	"33";	}
+          if(test1==	83	)	{	edt_Impairment_Rating_Right_Lower.text =	"33";	}
+          if(test1==	84	)	{	edt_Impairment_Rating_Right_Lower.text =	"34";	}
+          if(test1==	85	)	{	edt_Impairment_Rating_Right_Lower.text =	"34";	}
+          if(test1==	86	)	{	edt_Impairment_Rating_Right_Lower.text =	"34";	}
+          if(test1==	87	)	{	edt_Impairment_Rating_Right_Lower.text =	"35";	}
+          if(test1==	88	)	{	edt_Impairment_Rating_Right_Lower.text =	"35";	}
+          if(test1==	89	)	{	edt_Impairment_Rating_Right_Lower.text =	"36";	}
+          if(test1==	90	)	{	edt_Impairment_Rating_Right_Lower.text =	"36";	}
+          if(test1==	91	)	{	edt_Impairment_Rating_Right_Lower.text =	"36";	}
+          if(test1==	92	)	{	edt_Impairment_Rating_Right_Lower.text =	"37";	}
+          if(test1==	93	)	{	edt_Impairment_Rating_Right_Lower.text =	"37";	}
+          if(test1==	94	)	{	edt_Impairment_Rating_Right_Lower.text =	"38";	}
+          if(test1==	95	)	{	edt_Impairment_Rating_Right_Lower.text =	"38";	}
+          if(test1==	96	)	{	edt_Impairment_Rating_Right_Lower.text =	"38";	}
+          if(test1==	97	)	{	edt_Impairment_Rating_Right_Lower.text =	"39";	}
+          if(test1==	98	)	{	edt_Impairment_Rating_Right_Lower.text =	"39";	}
+          if(test1==	99	)	{	edt_Impairment_Rating_Right_Lower.text =	"40";	}
+          if(test1==	100	)	{	edt_Impairment_Rating_Right_Lower.text =	"40";	}
+
+
+
+
+
+
+
+
+
+
+          double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+
+          double avgweek = edt_avg_weekly_wage.text.toString() == ""
+              ? 0.00
+              : double.parse(edt_avg_weekly_wage.text);
+          double max_aww = edt_MAX_AWW.text.toString() == ""
+              ? 0.00
+              : double.parse(edt_MAX_AWW.text);
+          double compRate = edt_COMP_RATE.text.toString() == ""
+              ? 0.00
+              : double.parse(edt_COMP_RATE.text);
+          if(avgweek > max_aww){
+            TTDRate = compRate;
+          }
+          else
+          {
+            TTDRate = (avgweek * 2)/3;
+          }
+          double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
+          double resultb = (resultb1 * a) / 100;
+          edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
+          LessMore1 =0.00;
+          LessMore1 = rightLowervalue - resultb ;
+
+
+           ISErrorrightLowervalue  =true;
+
+
+          /* double rightLowervalue = 0.00;
+  double rightUppervalue = 0.00;
+  double leftLowervalue = 0.00;
+  double leftUppervalue = 0.00;*/
+
+        }
+        else{
+          print("dfdfeer" + edt_right_lower_extremity_rating.text.toString());
+
+
+          rightlowerExtremlyRatecalculation(edt_right_lower_extremity_rating.text);
+          ISErrorrightLowervalue  =false;
+
+        }
+      }
+
+
+  }
+
+
+  void  LefttLowerExtremlyCovertFormula (bool value) {
+
+    print("sd00dff" + value.toString());
+
+    if(edt_left_lower_extremity_rating.text.isNotEmpty)
+    {
+      if(value==true)
+      {
+
+        double TTDRate=0.00;
+        // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+
+        double test = edt_left_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_lower_extremity_rating.text.toString());
+
+        int test1 = test.toInt();
+        if(test1==	0	)	{	edt_Impairment_Rating_Left_Lower.text =	"0";	}
+        if(test1==	1	)	{	edt_Impairment_Rating_Left_Lower.text =	"0";	}
+        if(test1==	2	)	{	edt_Impairment_Rating_Left_Lower.text =	"1";	}
+        if(test1==	3	)	{	edt_Impairment_Rating_Left_Lower.text =	"1";	}
+        if(test1==	4	)	{	edt_Impairment_Rating_Left_Lower.text =	"2";	}
+        if(test1==	5	)	{	edt_Impairment_Rating_Left_Lower.text =	"2";	}
+        if(test1==	6	)	{	edt_Impairment_Rating_Left_Lower.text =	"2";	}
+        if(test1==	7	)	{	edt_Impairment_Rating_Left_Lower.text =	"3";	}
+        if(test1==	8	)	{	edt_Impairment_Rating_Left_Lower.text =	"3";	}
+        if(test1==	9	)	{	edt_Impairment_Rating_Left_Lower.text =	"4";	}
+        if(test1==	10	)	{	edt_Impairment_Rating_Left_Lower.text =	"4";	}
+        if(test1==	11	)	{	edt_Impairment_Rating_Left_Lower.text =	"4";	}
+        if(test1==	12	)	{	edt_Impairment_Rating_Left_Lower.text =	"5";	}
+        if(test1==	13	)	{	edt_Impairment_Rating_Left_Lower.text =	"5";	}
+        if(test1==	14	)	{	edt_Impairment_Rating_Left_Lower.text =	"6";	}
+        if(test1==	15	)	{	edt_Impairment_Rating_Left_Lower.text =	"6";	}
+        if(test1==	16	)	{	edt_Impairment_Rating_Left_Lower.text =	"6";	}
+        if(test1==	17	)	{	edt_Impairment_Rating_Left_Lower.text =	"7";	}
+        if(test1==	18	)	{	edt_Impairment_Rating_Left_Lower.text =	"7";	}
+        if(test1==	19	)	{	edt_Impairment_Rating_Left_Lower.text =	"8";	}
+        if(test1==	20	)	{	edt_Impairment_Rating_Left_Lower.text =	"8";	}
+        if(test1==	21	)	{	edt_Impairment_Rating_Left_Lower.text =	"8";	}
+        if(test1==	22	)	{	edt_Impairment_Rating_Left_Lower.text =	"9";	}
+        if(test1==	23	)	{	edt_Impairment_Rating_Left_Lower.text =	"9";	}
+        if(test1==	24	)	{	edt_Impairment_Rating_Left_Lower.text =	"10";	}
+        if(test1==	25	)	{	edt_Impairment_Rating_Left_Lower.text =	"10";	}
+        if(test1==	26	)	{	edt_Impairment_Rating_Left_Lower.text =	"10";	}
+        if(test1==	27	)	{	edt_Impairment_Rating_Left_Lower.text =	"11";	}
+        if(test1==	28	)	{	edt_Impairment_Rating_Left_Lower.text =	"11";	}
+        if(test1==	29	)	{	edt_Impairment_Rating_Left_Lower.text =	"12";	}
+        if(test1==	30	)	{	edt_Impairment_Rating_Left_Lower.text =	"12";	}
+        if(test1==	31	)	{	edt_Impairment_Rating_Left_Lower.text =	"12";	}
+        if(test1==	32	)	{	edt_Impairment_Rating_Left_Lower.text =	"13";	}
+        if(test1==	33	)	{	edt_Impairment_Rating_Left_Lower.text =	"13";	}
+        if(test1==	34	)	{	edt_Impairment_Rating_Left_Lower.text =	"14";	}
+        if(test1==	35	)	{	edt_Impairment_Rating_Left_Lower.text =	"14";	}
+        if(test1==	36	)	{	edt_Impairment_Rating_Left_Lower.text =	"14";	}
+        if(test1==	37	)	{	edt_Impairment_Rating_Left_Lower.text =	"15";	}
+        if(test1==	38	)	{	edt_Impairment_Rating_Left_Lower.text =	"15";	}
+        if(test1==	39	)	{	edt_Impairment_Rating_Left_Lower.text =	"16";	}
+        if(test1==	40	)	{	edt_Impairment_Rating_Left_Lower.text =	"16";	}
+        if(test1==	41	)	{	edt_Impairment_Rating_Left_Lower.text =	"16";	}
+        if(test1==	42	)	{	edt_Impairment_Rating_Left_Lower.text =	"17";	}
+        if(test1==	43	)	{	edt_Impairment_Rating_Left_Lower.text =	"17";	}
+        if(test1==	44	)	{	edt_Impairment_Rating_Left_Lower.text =	"18";	}
+        if(test1==	45	)	{	edt_Impairment_Rating_Left_Lower.text =	"18";	}
+        if(test1==	46	)	{	edt_Impairment_Rating_Left_Lower.text =	"18";	}
+        if(test1==	47	)	{	edt_Impairment_Rating_Left_Lower.text =	"19";	}
+        if(test1==	48	)	{	edt_Impairment_Rating_Left_Lower.text =	"19";	}
+        if(test1==	49	)	{	edt_Impairment_Rating_Left_Lower.text =	"20";	}
+        if(test1==	50	)	{	edt_Impairment_Rating_Left_Lower.text =	"20";	}
+        if(test1==	51	)	{	edt_Impairment_Rating_Left_Lower.text =	"20";	}
+        if(test1==	52	)	{	edt_Impairment_Rating_Left_Lower.text =	"21";	}
+        if(test1==	53	)	{	edt_Impairment_Rating_Left_Lower.text =	"21";	}
+        if(test1==	54	)	{	edt_Impairment_Rating_Left_Lower.text =	"22";	}
+        if(test1==	55	)	{	edt_Impairment_Rating_Left_Lower.text =	"22";	}
+        if(test1==	56	)	{	edt_Impairment_Rating_Left_Lower.text =	"22";	}
+        if(test1==	57	)	{	edt_Impairment_Rating_Left_Lower.text =	"23";	}
+        if(test1==	58	)	{	edt_Impairment_Rating_Left_Lower.text =	"23";	}
+        if(test1==	59	)	{	edt_Impairment_Rating_Left_Lower.text =	"24";	}
+        if(test1==	60	)	{	edt_Impairment_Rating_Left_Lower.text =	"24";	}
+        if(test1==	61	)	{	edt_Impairment_Rating_Left_Lower.text =	"24";	}
+        if(test1==	62	)	{	edt_Impairment_Rating_Left_Lower.text =	"25";	}
+        if(test1==	63	)	{	edt_Impairment_Rating_Left_Lower.text =	"25";	}
+        if(test1==	64	)	{	edt_Impairment_Rating_Left_Lower.text =	"26";	}
+        if(test1==	65	)	{	edt_Impairment_Rating_Left_Lower.text =	"26";	}
+        if(test1==	66	)	{	edt_Impairment_Rating_Left_Lower.text =	"28";	}
+        if(test1==	67	)	{	edt_Impairment_Rating_Left_Lower.text =	"27";	}
+        if(test1==	68	)	{	edt_Impairment_Rating_Left_Lower.text =	"27";	}
+        if(test1==	69	)	{	edt_Impairment_Rating_Left_Lower.text =	"28";	}
+        if(test1==	70	)	{	edt_Impairment_Rating_Left_Lower.text =	"28";	}
+        if(test1==	71	)	{	edt_Impairment_Rating_Left_Lower.text =	"28";	}
+        if(test1==	72	)	{	edt_Impairment_Rating_Left_Lower.text =	"29";	}
+        if(test1==	73	)	{	edt_Impairment_Rating_Left_Lower.text =	"29";	}
+        if(test1==	74	)	{	edt_Impairment_Rating_Left_Lower.text =	"30";	}
+        if(test1==	75	)	{	edt_Impairment_Rating_Left_Lower.text =	"30";	}
+        if(test1==	76	)	{	edt_Impairment_Rating_Left_Lower.text =	"30";	}
+        if(test1==	77	)	{	edt_Impairment_Rating_Left_Lower.text =	"31";	}
+        if(test1==	78	)	{	edt_Impairment_Rating_Left_Lower.text =	"31";	}
+        if(test1==	79	)	{	edt_Impairment_Rating_Left_Lower.text =	"32";	}
+        if(test1==	80	)	{	edt_Impairment_Rating_Left_Lower.text =	"32";	}
+        if(test1==	81	)	{	edt_Impairment_Rating_Left_Lower.text =	"32";	}
+        if(test1==	82	)	{	edt_Impairment_Rating_Left_Lower.text =	"33";	}
+        if(test1==	83	)	{	edt_Impairment_Rating_Left_Lower.text =	"33";	}
+        if(test1==	84	)	{	edt_Impairment_Rating_Left_Lower.text =	"34";	}
+        if(test1==	85	)	{	edt_Impairment_Rating_Left_Lower.text =	"34";	}
+        if(test1==	86	)	{	edt_Impairment_Rating_Left_Lower.text =	"34";	}
+        if(test1==	87	)	{	edt_Impairment_Rating_Left_Lower.text =	"35";	}
+        if(test1==	88	)	{	edt_Impairment_Rating_Left_Lower.text =	"35";	}
+        if(test1==	89	)	{	edt_Impairment_Rating_Left_Lower.text =	"36";	}
+        if(test1==	90	)	{	edt_Impairment_Rating_Left_Lower.text =	"36";	}
+        if(test1==	91	)	{	edt_Impairment_Rating_Left_Lower.text =	"36";	}
+        if(test1==	92	)	{	edt_Impairment_Rating_Left_Lower.text =	"37";	}
+        if(test1==	93	)	{	edt_Impairment_Rating_Left_Lower.text =	"37";	}
+        if(test1==	94	)	{	edt_Impairment_Rating_Left_Lower.text =	"38";	}
+        if(test1==	95	)	{	edt_Impairment_Rating_Left_Lower.text =	"38";	}
+        if(test1==	96	)	{	edt_Impairment_Rating_Left_Lower.text =	"38";	}
+        if(test1==	97	)	{	edt_Impairment_Rating_Left_Lower.text =	"39";	}
+        if(test1==	98	)	{	edt_Impairment_Rating_Left_Lower.text =	"39";	}
+        if(test1==	99	)	{	edt_Impairment_Rating_Left_Lower.text =	"40";	}
+        if(test1==	100	)	{	edt_Impairment_Rating_Left_Lower.text =	"40";	}
+
+
+
+
+
+
+
+
+
+
+        double a = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());
+
+        double avgweek = edt_avg_weekly_wage.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_avg_weekly_wage.text);
+        double max_aww = edt_MAX_AWW.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_MAX_AWW.text);
+        double compRate = edt_COMP_RATE.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_COMP_RATE.text);
+        if(avgweek > max_aww){
+          TTDRate = compRate;
+        }
+        else
+        {
+          TTDRate = (avgweek * 2)/3;
+        }
+        double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
+        double resultb = (resultb1 * a) / 100;
+        edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
+
+        LessMore2 =0.00;
+        LessMore2 = leftLowervalue - resultb ;
+        ISErrorleftLowervalue = true;
+      }
+      else{
+        print("dfdfeer" + edt_left_lower_extremity_rating.text.toString());
+
+
+        leftlowerExtremlyRatecalculation(edt_left_lower_extremity_rating.text);
+        ISErrorleftLowervalue = false;
+
+      }
+    }
+
+
+  }
+
+  void LefttUpperExtremlyCovertFormula(bool value) {
+    print("sd00dff" + value.toString());
+
+    if(edt_left_upper_extremity_rating.text.isNotEmpty)
+    {
+      if(value==true)
+      {
+
+        double TTDRate=0.00;
+        // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+
+        double test = edt_left_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_upper_extremity_rating.text.toString());
+
+        int test1 = test.toInt();
+        if(test1==	0	)	{	edt_Impairment_Rating_Left_Upper.text =	"0";	}
+        if(test1==	1	)	{	edt_Impairment_Rating_Left_Upper.text =	"1";	}
+        if(test1==	2	)	{	edt_Impairment_Rating_Left_Upper.text =	"1";	}
+        if(test1==	3	)	{	edt_Impairment_Rating_Left_Upper.text =	"2";	}
+        if(test1==	4	)	{	edt_Impairment_Rating_Left_Upper.text =	"2";	}
+        if(test1==	5	)	{	edt_Impairment_Rating_Left_Upper.text =	"3";	}
+        if(test1==	6	)	{	edt_Impairment_Rating_Left_Upper.text =	"4";	}
+        if(test1==	7	)	{	edt_Impairment_Rating_Left_Upper.text =	"4";	}
+        if(test1==	8	)	{	edt_Impairment_Rating_Left_Upper.text =	"5";	}
+        if(test1==	9	)	{	edt_Impairment_Rating_Left_Upper.text =	"5";	}
+        if(test1==	10	)	{	edt_Impairment_Rating_Left_Upper.text =	"6";	}
+        if(test1==	11	)	{	edt_Impairment_Rating_Left_Upper.text =	"7";	}
+        if(test1==	12	)	{	edt_Impairment_Rating_Left_Upper.text =	"7";	}
+        if(test1==	13	)	{	edt_Impairment_Rating_Left_Upper.text =	"8";	}
+        if(test1==	14	)	{	edt_Impairment_Rating_Left_Upper.text =	"8";	}
+        if(test1==	15	)	{	edt_Impairment_Rating_Left_Upper.text =	"9";	}
+        if(test1==	16	)	{	edt_Impairment_Rating_Left_Upper.text =	"10";	}
+        if(test1==	17	)	{	edt_Impairment_Rating_Left_Upper.text =	"10";	}
+        if(test1==	18	)	{	edt_Impairment_Rating_Left_Upper.text =	"11";	}
+        if(test1==	19	)	{	edt_Impairment_Rating_Left_Upper.text =	"11";	}
+        if(test1==	20	)	{	edt_Impairment_Rating_Left_Upper.text =	"12";	}
+        if(test1==	21	)	{	edt_Impairment_Rating_Left_Upper.text =	"13";	}
+        if(test1==	22	)	{	edt_Impairment_Rating_Left_Upper.text =	"13";	}
+        if(test1==	23	)	{	edt_Impairment_Rating_Left_Upper.text =	"14";	}
+        if(test1==	24	)	{	edt_Impairment_Rating_Left_Upper.text =	"14";	}
+        if(test1==	25	)	{	edt_Impairment_Rating_Left_Upper.text =	"15";	}
+        if(test1==	26	)	{	edt_Impairment_Rating_Left_Upper.text =	"16";	}
+        if(test1==	27	)	{	edt_Impairment_Rating_Left_Upper.text =	"16";	}
+        if(test1==	28	)	{	edt_Impairment_Rating_Left_Upper.text =	"17";	}
+        if(test1==	29	)	{	edt_Impairment_Rating_Left_Upper.text =	"17";	}
+        if(test1==	30	)	{	edt_Impairment_Rating_Left_Upper.text =	"18";	}
+        if(test1==	31	)	{	edt_Impairment_Rating_Left_Upper.text =	"19";	}
+        if(test1==	32	)	{	edt_Impairment_Rating_Left_Upper.text =	"19";	}
+        if(test1==	33	)	{	edt_Impairment_Rating_Left_Upper.text =	"20";	}
+        if(test1==	34	)	{	edt_Impairment_Rating_Left_Upper.text =	"20";	}
+        if(test1==	35	)	{	edt_Impairment_Rating_Left_Upper.text =	"21";	}
+        if(test1==	36	)	{	edt_Impairment_Rating_Left_Upper.text =	"22";	}
+        if(test1==	37	)	{	edt_Impairment_Rating_Left_Upper.text =	"22";	}
+        if(test1==	38	)	{	edt_Impairment_Rating_Left_Upper.text =	"23";	}
+        if(test1==	39	)	{	edt_Impairment_Rating_Left_Upper.text =	"23";	}
+        if(test1==	40	)	{	edt_Impairment_Rating_Left_Upper.text =	"24";	}
+        if(test1==	41	)	{	edt_Impairment_Rating_Left_Upper.text =	"25";	}
+        if(test1==	42	)	{	edt_Impairment_Rating_Left_Upper.text =	"25";	}
+        if(test1==	43	)	{	edt_Impairment_Rating_Left_Upper.text =	"26";	}
+        if(test1==	44	)	{	edt_Impairment_Rating_Left_Upper.text =	"26";	}
+        if(test1==	45	)	{	edt_Impairment_Rating_Left_Upper.text =	"27";	}
+        if(test1==	46	)	{	edt_Impairment_Rating_Left_Upper.text =	"28";	}
+        if(test1==	47	)	{	edt_Impairment_Rating_Left_Upper.text =	"28";	}
+        if(test1==	48	)	{	edt_Impairment_Rating_Left_Upper.text =	"29";	}
+        if(test1==	49	)	{	edt_Impairment_Rating_Left_Upper.text =	"29";	}
+        if(test1==	50	)	{	edt_Impairment_Rating_Left_Upper.text =	"30";	}
+        if(test1==	51	)	{	edt_Impairment_Rating_Left_Upper.text =	"31";	}
+        if(test1==	52	)	{	edt_Impairment_Rating_Left_Upper.text =	"31";	}
+        if(test1==	53	)	{	edt_Impairment_Rating_Left_Upper.text =	"32";	}
+        if(test1==	54	)	{	edt_Impairment_Rating_Left_Upper.text =	"32";	}
+        if(test1==	55	)	{	edt_Impairment_Rating_Left_Upper.text =	"33";	}
+        if(test1==	56	)	{	edt_Impairment_Rating_Left_Upper.text =	"34";	}
+        if(test1==	57	)	{	edt_Impairment_Rating_Left_Upper.text =	"34";	}
+        if(test1==	58	)	{	edt_Impairment_Rating_Left_Upper.text =	"35";	}
+        if(test1==	59	)	{	edt_Impairment_Rating_Left_Upper.text =	"35";	}
+        if(test1==	60	)	{	edt_Impairment_Rating_Left_Upper.text =	"36";	}
+        if(test1==	61	)	{	edt_Impairment_Rating_Left_Upper.text =	"37";	}
+        if(test1==	62	)	{	edt_Impairment_Rating_Left_Upper.text =	"37";	}
+        if(test1==	63	)	{	edt_Impairment_Rating_Left_Upper.text =	"38";	}
+        if(test1==	64	)	{	edt_Impairment_Rating_Left_Upper.text =	"38";	}
+        if(test1==	65	)	{	edt_Impairment_Rating_Left_Upper.text =	"39";	}
+        if(test1==	66	)	{	edt_Impairment_Rating_Left_Upper.text =	"40";	}
+        if(test1==	67	)	{	edt_Impairment_Rating_Left_Upper.text =	"40";	}
+        if(test1==	68	)	{	edt_Impairment_Rating_Left_Upper.text =	"41";	}
+        if(test1==	69	)	{	edt_Impairment_Rating_Left_Upper.text =	"41";	}
+        if(test1==	70	)	{	edt_Impairment_Rating_Left_Upper.text =	"42";	}
+        if(test1==	71	)	{	edt_Impairment_Rating_Left_Upper.text =	"43";	}
+        if(test1==	72	)	{	edt_Impairment_Rating_Left_Upper.text =	"43";	}
+        if(test1==	73	)	{	edt_Impairment_Rating_Left_Upper.text =	"44";	}
+        if(test1==	74	)	{	edt_Impairment_Rating_Left_Upper.text =	"44";	}
+        if(test1==	75	)	{	edt_Impairment_Rating_Left_Upper.text =	"45";	}
+        if(test1==	76	)	{	edt_Impairment_Rating_Left_Upper.text =	"46";	}
+        if(test1==	77	)	{	edt_Impairment_Rating_Left_Upper.text =	"46";	}
+        if(test1==	78	)	{	edt_Impairment_Rating_Left_Upper.text =	"47";	}
+        if(test1==	79	)	{	edt_Impairment_Rating_Left_Upper.text =	"47";	}
+        if(test1==	80	)	{	edt_Impairment_Rating_Left_Upper.text =	"48";	}
+        if(test1==	81	)	{	edt_Impairment_Rating_Left_Upper.text =	"49";	}
+        if(test1==	82	)	{	edt_Impairment_Rating_Left_Upper.text =	"49";	}
+        if(test1==	83	)	{	edt_Impairment_Rating_Left_Upper.text =	"50";	}
+        if(test1==	84	)	{	edt_Impairment_Rating_Left_Upper.text =	"50";	}
+        if(test1==	85	)	{	edt_Impairment_Rating_Left_Upper.text =	"51";	}
+        if(test1==	86	)	{	edt_Impairment_Rating_Left_Upper.text =	"52";	}
+        if(test1==	87	)	{	edt_Impairment_Rating_Left_Upper.text =	"52";	}
+        if(test1==	88	)	{	edt_Impairment_Rating_Left_Upper.text =	"53";	}
+        if(test1==	89	)	{	edt_Impairment_Rating_Left_Upper.text =	"53";	}
+        if(test1==	90	)	{	edt_Impairment_Rating_Left_Upper.text =	"54";	}
+        if(test1==	91	)	{	edt_Impairment_Rating_Left_Upper.text =	"55";	}
+        if(test1==	92	)	{	edt_Impairment_Rating_Left_Upper.text =	"55";	}
+        if(test1==	93	)	{	edt_Impairment_Rating_Left_Upper.text =	"56";	}
+        if(test1==	94	)	{	edt_Impairment_Rating_Left_Upper.text =	"56";	}
+        if(test1==	95	)	{	edt_Impairment_Rating_Left_Upper.text =	"57";	}
+        if(test1==	96	)	{	edt_Impairment_Rating_Left_Upper.text =	"58";	}
+        if(test1==	97	)	{	edt_Impairment_Rating_Left_Upper.text =	"58";	}
+        if(test1==	98	)	{	edt_Impairment_Rating_Left_Upper.text =	"59";	}
+        if(test1==	99	)	{	edt_Impairment_Rating_Left_Upper.text =	"59";	}
+        if(test1==	100	)	{	edt_Impairment_Rating_Left_Upper.text =	"60";	}
+
+
+
+
+
+
+
+
+
+        double a = edt_Impairment_Rating_Left_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Upper.text.toString());
+
+        double avgweek = edt_avg_weekly_wage.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_avg_weekly_wage.text);
+        double max_aww = edt_MAX_AWW.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_MAX_AWW.text);
+        double compRate = edt_COMP_RATE.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_COMP_RATE.text);
+        if(avgweek > max_aww){
+          TTDRate = compRate;
+        }
+        else
+        {
+          TTDRate = (avgweek * 2)/3;
+        }
+        double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
+        double resultb = (resultb1 * a) / 100;
+        edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
+
+
+        LessMore3 =0.00;
+        LessMore3 = leftUppervalue - resultb ;
+        ISErrorleftUppervalue = true;
+      }
+      else{
+        print("dfdfeer" + edt_left_upper_extremity_rating.text.toString());
+
+
+        leftupperExtremlyRatecalculation(edt_left_upper_extremity_rating.text);
+        ISErrorleftUppervalue = false;
+
+      }
+    }
+
+
+
+  }
+
+  void RightUpperExtremlyCovertFormula(bool value) {
+    print("sd00dff" + value.toString());
+
+    if(edt_right_upper_extremity_rating.text.isNotEmpty)
+    {
+      if(value==true)
+      {
+
+        double TTDRate=0.00;
+        // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+
+        double test = edt_right_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_upper_extremity_rating.text.toString());
+
+        int test1 = test.toInt();
+        if(test1==	0	)	{	edt_Impairment_Rating_Right_Upper.text=	"0";	}
+        if(test1==	1	)	{edt_Impairment_Rating_Right_Upper.text =	"1";	}
+        if(test1==	2	)	{edt_Impairment_Rating_Right_Upper.text =	"1";	}
+        if(test1==	3	)	{edt_Impairment_Rating_Right_Upper.text =	"2";	}
+        if(test1==	4	)	{edt_Impairment_Rating_Right_Upper.text =	"2";	}
+        if(test1==	5	)	{edt_Impairment_Rating_Right_Upper.text =	"3";	}
+        if(test1==	6	)	{edt_Impairment_Rating_Right_Upper.text =	"4";	}
+        if(test1==	7	)	{edt_Impairment_Rating_Right_Upper.text =	"4";	}
+        if(test1==	8	)	{edt_Impairment_Rating_Right_Upper.text =	"5";	}
+        if(test1==	9	)	{edt_Impairment_Rating_Right_Upper.text =	"5";	}
+        if(test1==	10	)	{	edt_Impairment_Rating_Right_Upper.text =	"6";	}
+        if(test1==	11	)	{	edt_Impairment_Rating_Right_Upper.text =	"7";	}
+        if(test1==	12	)	{	edt_Impairment_Rating_Right_Upper.text =	"7";	}
+        if(test1==	13	)	{	edt_Impairment_Rating_Right_Upper.text =	"8";	}
+        if(test1==	14	)	{	edt_Impairment_Rating_Right_Upper.text =	"8";	}
+        if(test1==	15	)	{	edt_Impairment_Rating_Right_Upper.text =	"9";	}
+        if(test1==	16	)	{	edt_Impairment_Rating_Right_Upper.text =	"10";	}
+        if(test1==	17	)	{	edt_Impairment_Rating_Right_Upper.text =	"10";	}
+        if(test1==	18	)	{	edt_Impairment_Rating_Right_Upper.text =	"11";	}
+        if(test1==	19	)	{	edt_Impairment_Rating_Right_Upper.text =	"11";	}
+        if(test1==	20	)	{	edt_Impairment_Rating_Right_Upper.text =	"12";	}
+        if(test1==	21	)	{	edt_Impairment_Rating_Right_Upper.text =	"13";	}
+        if(test1==	22	)	{	edt_Impairment_Rating_Right_Upper.text =	"13";	}
+        if(test1==	23	)	{	edt_Impairment_Rating_Right_Upper.text =	"14";	}
+        if(test1==	24	)	{	edt_Impairment_Rating_Right_Upper.text =	"14";	}
+        if(test1==	25	)	{	edt_Impairment_Rating_Right_Upper.text =	"15";	}
+        if(test1==	26	)	{	edt_Impairment_Rating_Right_Upper.text =	"16";	}
+        if(test1==	27	)	{	edt_Impairment_Rating_Right_Upper.text =	"16";	}
+        if(test1==	28	)	{	edt_Impairment_Rating_Right_Upper.text =	"17";	}
+        if(test1==	29	)	{	edt_Impairment_Rating_Right_Upper.text =	"17";	}
+        if(test1==	30	)	{	edt_Impairment_Rating_Right_Upper.text =	"18";	}
+        if(test1==	31	)	{	edt_Impairment_Rating_Right_Upper.text =	"19";	}
+        if(test1==	32	)	{	edt_Impairment_Rating_Right_Upper.text =	"19";	}
+        if(test1==	33	)	{	edt_Impairment_Rating_Right_Upper.text =	"20";	}
+        if(test1==	34	)	{	edt_Impairment_Rating_Right_Upper.text =	"20";	}
+        if(test1==	35	)	{	edt_Impairment_Rating_Right_Upper.text =	"21";	}
+        if(test1==	36	)	{	edt_Impairment_Rating_Right_Upper.text =	"22";	}
+        if(test1==	37	)	{	edt_Impairment_Rating_Right_Upper.text =	"22";	}
+        if(test1==	38	)	{	edt_Impairment_Rating_Right_Upper.text =	"23";	}
+        if(test1==	39	)	{	edt_Impairment_Rating_Right_Upper.text =	"23";	}
+        if(test1==	40	)	{	edt_Impairment_Rating_Right_Upper.text =	"24";	}
+        if(test1==	41	)	{	edt_Impairment_Rating_Right_Upper.text =	"25";	}
+        if(test1==	42	)	{	edt_Impairment_Rating_Right_Upper.text =	"25";	}
+        if(test1==	43	)	{	edt_Impairment_Rating_Right_Upper.text =	"26";	}
+        if(test1==	44	)	{	edt_Impairment_Rating_Right_Upper.text =	"26";	}
+        if(test1==	45	)	{	edt_Impairment_Rating_Right_Upper.text =	"27";	}
+        if(test1==	46	)	{	edt_Impairment_Rating_Right_Upper.text =	"28";	}
+        if(test1==	47	)	{	edt_Impairment_Rating_Right_Upper.text =	"28";	}
+        if(test1==	48	)	{	edt_Impairment_Rating_Right_Upper.text =	"29";	}
+        if(test1==	49	)	{	edt_Impairment_Rating_Right_Upper.text =	"29";	}
+        if(test1==	50	)	{	edt_Impairment_Rating_Right_Upper.text =	"30";	}
+        if(test1==	51	)	{	edt_Impairment_Rating_Right_Upper.text =	"31";	}
+        if(test1==	52	)	{	edt_Impairment_Rating_Right_Upper.text =	"31";	}
+        if(test1==	53	)	{	edt_Impairment_Rating_Right_Upper.text =	"32";	}
+        if(test1==	54	)	{	edt_Impairment_Rating_Right_Upper.text =	"32";	}
+        if(test1==	55	)	{	edt_Impairment_Rating_Right_Upper.text =	"33";	}
+        if(test1==	56	)	{	edt_Impairment_Rating_Right_Upper.text =	"34";	}
+        if(test1==	57	)	{	edt_Impairment_Rating_Right_Upper.text =	"34";	}
+        if(test1==	58	)	{	edt_Impairment_Rating_Right_Upper.text =	"35";	}
+        if(test1==	59	)	{	edt_Impairment_Rating_Right_Upper.text =	"35";	}
+        if(test1==	60	)	{	edt_Impairment_Rating_Right_Upper.text =	"36";	}
+        if(test1==	61	)	{	edt_Impairment_Rating_Right_Upper.text =	"37";	}
+        if(test1==	62	)	{	edt_Impairment_Rating_Right_Upper.text =	"37";	}
+        if(test1==	63	)	{	edt_Impairment_Rating_Right_Upper.text =	"38";	}
+        if(test1==	64	)	{	edt_Impairment_Rating_Right_Upper.text =	"38";	}
+        if(test1==	65	)	{	edt_Impairment_Rating_Right_Upper.text =	"39";	}
+        if(test1==	66	)	{	edt_Impairment_Rating_Right_Upper.text =	"40";	}
+        if(test1==	67	)	{	edt_Impairment_Rating_Right_Upper.text =	"40";	}
+        if(test1==	68	)	{	edt_Impairment_Rating_Right_Upper.text =	"41";	}
+        if(test1==	69	)	{	edt_Impairment_Rating_Right_Upper.text =	"41";	}
+        if(test1==	70	)	{	edt_Impairment_Rating_Right_Upper.text =	"42";	}
+        if(test1==	71	)	{	edt_Impairment_Rating_Right_Upper.text =	"43";	}
+        if(test1==	72	)	{	edt_Impairment_Rating_Right_Upper.text =	"43";	}
+        if(test1==	73	)	{	edt_Impairment_Rating_Right_Upper.text =	"44";	}
+        if(test1==	74	)	{	edt_Impairment_Rating_Right_Upper.text =	"44";	}
+        if(test1==	75	)	{	edt_Impairment_Rating_Right_Upper.text =	"45";	}
+        if(test1==	76	)	{	edt_Impairment_Rating_Right_Upper.text =	"46";	}
+        if(test1==	77	)	{	edt_Impairment_Rating_Right_Upper.text =	"46";	}
+        if(test1==	78	)	{	edt_Impairment_Rating_Right_Upper.text =	"47";	}
+        if(test1==	79	)	{	edt_Impairment_Rating_Right_Upper.text =	"47";	}
+        if(test1==	80	)	{	edt_Impairment_Rating_Right_Upper.text =	"48";	}
+        if(test1==	81	)	{	edt_Impairment_Rating_Right_Upper.text =	"49";	}
+        if(test1==	82	)	{	edt_Impairment_Rating_Right_Upper.text =	"49";	}
+        if(test1==	83	)	{	edt_Impairment_Rating_Right_Upper.text =	"50";	}
+        if(test1==	84	)	{	edt_Impairment_Rating_Right_Upper.text =	"50";	}
+        if(test1==	85	)	{	edt_Impairment_Rating_Right_Upper.text =	"51";	}
+        if(test1==	86	)	{	edt_Impairment_Rating_Right_Upper.text =	"52";	}
+        if(test1==	87	)	{	edt_Impairment_Rating_Right_Upper.text =	"52";	}
+        if(test1==	88	)	{	edt_Impairment_Rating_Right_Upper.text =	"53";	}
+        if(test1==	89	)	{	edt_Impairment_Rating_Right_Upper.text =	"53";	}
+        if(test1==	90	)	{	edt_Impairment_Rating_Right_Upper.text =	"54";	}
+        if(test1==	91	)	{	edt_Impairment_Rating_Right_Upper.text =	"55";	}
+        if(test1==	92	)	{	edt_Impairment_Rating_Right_Upper.text =	"55";	}
+        if(test1==	93	)	{	edt_Impairment_Rating_Right_Upper.text =	"56";	}
+        if(test1==	94	)	{	edt_Impairment_Rating_Right_Upper.text =	"56";	}
+        if(test1==	95	)	{	edt_Impairment_Rating_Right_Upper.text =	"57";	}
+        if(test1==	96	)	{	edt_Impairment_Rating_Right_Upper.text =	"58";	}
+        if(test1==	97	)	{	edt_Impairment_Rating_Right_Upper.text =	"58";	}
+        if(test1==	98	)	{	edt_Impairment_Rating_Right_Upper.text =	"59";	}
+        if(test1==	99	)	{	edt_Impairment_Rating_Right_Upper.text =	"59";	}
+        if(test1==	100	)	{	edt_Impairment_Rating_Right_Upper.text =	"60";	}
+
+
+
+
+
+
+
+
+
+        double a = edt_Impairment_Rating_Right_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
+
+        double avgweek = edt_avg_weekly_wage.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_avg_weekly_wage.text);
+        double max_aww = edt_MAX_AWW.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_MAX_AWW.text);
+        double compRate = edt_COMP_RATE.text.toString() == ""
+            ? 0.00
+            : double.parse(edt_COMP_RATE.text);
+        if(avgweek > max_aww){
+          TTDRate = compRate;
+        }
+        else
+        {
+          TTDRate = (avgweek * 2)/3;
+        }
+        double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
+        double resultb = (resultb1 * a) / 100;
+        edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
+
+
+        LessMore4 =0.00;
+        LessMore4 = rightUppervalue - resultb ;
+        ISErrorrightUppervalue = true;
+      }
+      else{
+        print("dfdfeer" + edt_right_upper_extremity_rating.text.toString());
+
+
+        rightupperExtremlyRatecalculation(edt_right_upper_extremity_rating.text);
+        ISErrorrightUppervalue = false;
+
+      }
+
+
+    }
+
+  }
 
 }
+
+

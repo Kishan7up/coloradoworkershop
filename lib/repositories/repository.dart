@@ -114,7 +114,6 @@ class Repository {
       Map<String, dynamic> json = await apiClient.apiCallPost(
           ApiClient.END_POINT_VIEW_RECENT_CASES, request.toJson());
 
-      print("sdffAPIResponse" + json.toString());
 
       ViewRecentCasesResponse response = ViewRecentCasesResponse.fromJson(json);
 
