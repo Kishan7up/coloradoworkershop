@@ -214,6 +214,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       edt_date_of_inquiry.text = outputDate;
       edt_date_of_mmi.text = outputDate;
     }
+
+
+
+
+
+
+
+
+
     //_CustomerBloc.add(RecentListCallEvent());
   }
 
@@ -974,6 +983,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
 
      rightUppervalue = resultb;
+
+    updatetotalschedule();
     setState(() {});
   }
 
@@ -995,6 +1006,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
 
      leftUppervalue = resultb;
+
+    updatetotalschedule();
+
     setState(() {});
   }
 
@@ -1016,6 +1030,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
 
      rightLowervalue = resultb;
+    updatetotalschedule();
 
     setState(() {});
   }
@@ -1038,6 +1053,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
 
      leftLowervalue = resultb;
+    updatetotalschedule();
+
     setState(() {});
   }
 
@@ -1332,6 +1349,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           onChanged: (value){
 
                             wholePersonimperimentsCalculation();
+
+                            edt_Potential_Combined_Whole_Person_Rating.text = value.toString();
                             setState(() {
 
                             });
@@ -1691,6 +1710,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
                                       RightUpperExtremlyCovertFormula(value);
 
+
+
                                       setState(
                                             () {},
                                       );
@@ -1722,17 +1743,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               decimal: true),
                                           controller:
                                           edt_Impairment_Rating_Right_Upper,
-                                          onChanged: (value){
-                                           /* double d = edt_right_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_upper_extremity_rating.text.toString());
-                                            double e = edt_left_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_upper_extremity_rating.text.toString());
-                                            double f = edt_left_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_lower_extremity_rating.text.toString());
-                                            double g = edt_right_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_lower_extremity_rating.text.toString());
-                                            Totalrate = d+e+f+g;
-                                            edt_Total_Scheduled_Rate.text = Totalrate.toStringAsFixed(2);
-                                            setState(() {
 
-                                            });*/
-                                          },
                                           enabled: false,
                                           decoration: InputDecoration(
                                               contentPadding:
@@ -2205,6 +2216,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             margin: EdgeInsets.all(10),
                             child: TextFormField(
                                 textInputAction: TextInputAction.next,
+                                enabled: false,
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
                                 /*onChanged: (value) {
@@ -2237,6 +2249,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
+                                enabled: false,
 
                                 controller: edt_Combined_Whole_Person_Rate,
                                 decoration: InputDecoration(
@@ -2268,6 +2281,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                         });
                                         }
                                       },*/
+                                enabled: false,
+
                                 controller:
                                     edt_Total_Award_Value_With_Current_Conversations,
                                 decoration: InputDecoration(
@@ -2301,6 +2316,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                 controller:
                                     edt_Potential_Combined_Whole_Person_Rating,
+                                enabled: false,
+
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
@@ -2320,6 +2337,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             child: TextFormField(
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
+                                enabled: false,
+
                                 controller: edt_Benefits_Cap,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
@@ -2338,6 +2357,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             margin: EdgeInsets.all(10),
                             child: TextFormField(
                                 textInputAction: TextInputAction.next,
+                                enabled: false,
+
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
                                 controller:
@@ -2362,6 +2383,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             child: TextFormField(
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
+                                enabled: false,
+
                                 controller: Amount_Remaining_to_Reach_Cap,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
@@ -2553,7 +2576,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
     Amount_Remaining_to_Reach_Cap.text = newcal.toStringAsFixed(2);
-
+     updatetotalschedule();
     setState(() {});
   }
 
@@ -2735,6 +2758,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
           ISErrorrightLowervalue  =false;
 
         }
+
+        updatetotalschedule();
       }
 
 
@@ -2901,6 +2926,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         ISErrorleftLowervalue = false;
 
       }
+
+      updatetotalschedule();
     }
 
 
@@ -3065,6 +3092,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         ISErrorleftUppervalue = false;
 
       }
+
+
+      updatetotalschedule();
     }
 
 
@@ -3230,12 +3260,27 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         ISErrorrightUppervalue = false;
 
       }
+      updatetotalschedule();
+
+
+
 
 
     }
 
   }
 
+
+  void updatetotalschedule() {
+    double d = edt_Impairment_Rating_Right_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
+    double e = edt_Impairment_Rating_Left_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Upper.text.toString());
+    double f = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+    double g = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());
+    Totalrate = d+e+f+g;
+
+    print("ddfdff34" + " Total : " + Totalrate.toString());
+    edt_Total_Scheduled_Rate.text = Totalrate.toStringAsFixed(2);
+  }
 }
 
 

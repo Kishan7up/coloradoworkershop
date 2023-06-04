@@ -1,3 +1,4 @@
+import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
 import 'package:app/models/api_request/about_us/about_us_request.dart';
 import 'package:app/models/api_request/contact_us/contact_us_request.dart';
 import 'package:app/models/api_request/max_benifit/max_benifit_request.dart';
@@ -14,6 +15,7 @@ import 'package:app/models/api_response/notification/notification_list_response.
 
 import 'package:app/models/api_response/view_recent_cases/view_recent_cases_response.dart';
 import 'package:app/repositories/error_response_exception.dart';
+import 'package:app/utils/offline_db_helper.dart';
 import 'package:app/utils/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -116,6 +118,10 @@ class Repository {
 
 
       ViewRecentCasesResponse response = ViewRecentCasesResponse.fromJson(json);
+
+
+
+
 
       return response;
     } on ErrorResponseException catch (e) {

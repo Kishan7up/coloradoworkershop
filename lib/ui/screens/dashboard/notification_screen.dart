@@ -111,12 +111,7 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
     _CustomerBloc = MainBloc(baseBloc);
 
 
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
-    _firebaseMessaging.getToken().then((token){
-      print("token is $token");
-      _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
-          notification: "1", device_token: token)));
-    });
+
 
 
     if (widget.arguments != null) {
@@ -132,6 +127,26 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
 
       edt_date_of_inquiry.text = CurrentDate;
     }
+
+
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+    _firebaseMessaging.getToken().then((token){
+      print("token is $token");
+
+
+      _CustomerBloc.add(NotificationFirstActivateRequestEvent(
+          NotificationActivateRequest(
+              notification:
+              state == true
+                  ? "1"
+                  : "0",
+              device_token:
+              token,
+              device_type : Platform.isAndroid?"a":"i")));
+      /* _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
+          notification: "1", device_token: token)));*/
+    });
+
     //_CustomerBloc.add(RecentListCallEvent());
   }
 
@@ -144,10 +159,14 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
           if (state is NotificationListResponseState) {
             _onGetNotificationAPI(state);
           }
+
+          if (state is NotificationFirstActivateResponseState) {
+            _onGetFisrtNotificationStatus(state);
+          }
           return super.build(context);
         },
         buildWhen: (oldState, currentState) {
-          if (currentState is NotificationListResponseState) {
+          if (currentState is NotificationListResponseState || currentState is NotificationFirstActivateResponseState) {
             return true;
           }
           return false;
@@ -156,10 +175,13 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
           if (state is NotificationActivateResponseState) {
             _ongetNotificationActivateAPIResponse(state);
           }
+          if (state is NotificationListResponseState) {
+            _onGetNotificationAPI(state);
+          }
           return super.build(context);
         },
         listenWhen: (oldState, currentState) {
-          if (currentState is NotificationActivateResponseState) {
+          if (currentState is NotificationActivateResponseState || currentState is NotificationListResponseState) {
             return true;
           }
           return false;
@@ -502,7 +524,23 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
 
   void _ongetNotificationActivateAPIResponse(
       NotificationActivateResponseState state) {
+
+
     _showModalSheet(state.notificationActivateResponse.message);
+
+    if(state.notificationActivateResponse.message=="Notification activated successfully")
+    {
+      FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+      _firebaseMessaging.getToken().then((token){
+        print("token is $token");
+
+
+
+        _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
+            notification: "1", device_token: token)));
+      });
+    }
+
   }
 
   void _showModalSheet(String apiMessage) {
@@ -575,5 +613,23 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
         );
       },
     );
+  }
+
+  void _onGetFisrtNotificationStatus(NotificationFirstActivateResponseState state) {
+
+
+    if(state.notificationActivateResponse.message=="Notification activated successfully")
+      {
+        FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+        _firebaseMessaging.getToken().then((token){
+          print("token is $token");
+
+
+
+          _CustomerBloc.add(NotificationListRequestEvent(NotificationListRequest(
+              notification: "1", device_token: token)));
+        });
+      }
+
   }
 }

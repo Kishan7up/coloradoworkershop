@@ -68,6 +68,12 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       yield* _mapNotificationActivateRequestEventToState(event);
     }
 
+    if(event is NotificationFirstActivateRequestEvent)
+      {
+        yield* _mapNotificationFirstActivateRequestEventToState(event);
+
+      }
+
     if(event is MaxBenifitDateofInjoryRequestEvent)
       {
         yield* _mapMaxBenifitDateofInjuryRequestEventToState(event);
@@ -191,25 +197,14 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       ViewRecentCasesResponse response =
           await userRepository.viewRecentCasesAPI(event.viewRecentCasesRequest);
 
-      await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
-      for (int i = 0; i < response.data.details.length; i++) {
-        await OfflineDbHelper.getInstance()
-            .insertRecentViewDBTable(RecentViewDBTable(
-          response.data.details[i].title,
-          response.data.details[i].caseNo.toString(),
-          response.data.details[i].caseDetailShort,
-          response.data.details[i].caseDetailLong,
-          response.data.details[i].filter,
-          response.data.details[i].link,
-        ));
-      }
+
 
       yield ViewRecentCasesResponseState(response);
     } catch (error, stacktrace) {
       baseBloc.emit(ApiCallFailureState(error));
       print(stacktrace);
     } finally {
-      await Future.delayed(const Duration(milliseconds: 500), () {});
+    //  await Future.delayed(const Duration(milliseconds: 500), () {});
       baseBloc.emit(ShowProgressIndicatorState(false));
     }
   }
@@ -249,6 +244,25 @@ class MainBloc extends Bloc<MainEvent, MainStates> {
       baseBloc.emit(ShowProgressIndicatorState(false));
     }
   }
+
+  Stream<MainStates> _mapNotificationFirstActivateRequestEventToState(
+      NotificationFirstActivateRequestEvent event) async* {
+    try {
+      baseBloc.emit(ShowProgressIndicatorState(true));
+
+      NotificationActivateResponse response = await userRepository
+          .notificationActivateAPI(event.notificationActivateRequest);
+
+      yield NotificationFirstActivateResponseState(response);
+    } catch (error, stacktrace) {
+      baseBloc.emit(ApiCallFailureState(error));
+      print(stacktrace);
+    } finally {
+      await Future.delayed(const Duration(milliseconds: 500), () {});
+      baseBloc.emit(ShowProgressIndicatorState(false));
+    }
+  }
+
 
   Stream<MainStates> _mapMaxBenifitRequestEventToState(
       MaxBenifitRequestEvent event) async* {

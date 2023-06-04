@@ -16,6 +16,7 @@ import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_list_screen.dart';
 import 'package:app/utils/general_utils.dart';
+import 'package:app/utils/offline_db_helper.dart';
 import 'package:app/utils/push_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
         ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all")));
 
     _CustomerBloc.add(SearchRecentViewRetriveEvent("", "ALL"));
-    getrecentCases();
+
 
     FirebaseMessaging.instance.getToken().then((value) {
       print("TokenFCM" + " Token No : " + value);
@@ -124,7 +125,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => _CustomerBloc,
+      create: (BuildContext context) => _CustomerBloc..add(
+          ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all"))),
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
           if (state is ViewRecentCasesResponseState) {
@@ -509,6 +511,23 @@ class _HomeScreenState extends BaseState<HomeScreen>
     print("KeyRecentResponse" +
         "API Response and Bind data details" +
         state.viewRecentCasesResponse.data.details[0].title);
+
+
+    await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
+    for (int i = 0; i <  state.viewRecentCasesResponse.data.details.length; i++) {
+      await OfflineDbHelper.getInstance()
+          .insertRecentViewDBTable(RecentViewDBTable(
+        state.viewRecentCasesResponse.data.details[i].title,
+        state.viewRecentCasesResponse.data.details[i].caseNo.toString(),
+        state.viewRecentCasesResponse.data.details[i].caseDetailShort,
+        state.viewRecentCasesResponse.data.details[i].caseDetailLong,
+        state.viewRecentCasesResponse.data.details[i].filter,
+        state.viewRecentCasesResponse.data.details[i].link,
+      ));
+    }
+
+    _CustomerBloc.add(SearchRecentViewRetriveEvent("", "ALL"));
+
     /*_CustomerBloc.add(
         SearchRecentViewRetriveEvent("", edt_FollowupEmployeeList.text));*/
     /* for (int i = 0;

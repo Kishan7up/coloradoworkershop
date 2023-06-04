@@ -53,6 +53,12 @@ class NotificationActivateRequestEvent extends MainEvent {
 
   NotificationActivateRequestEvent(this.notificationActivateRequest);
 }
+class NotificationFirstActivateRequestEvent extends MainEvent {
+  NotificationActivateRequest notificationActivateRequest;
+
+  NotificationFirstActivateRequestEvent(this.notificationActivateRequest);
+}
+
 //
 
 class MaxBenifitRequestEvent extends MainEvent {
