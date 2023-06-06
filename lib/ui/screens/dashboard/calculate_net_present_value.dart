@@ -661,7 +661,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                               Text(
                                 "303.691.9090",
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 13,
                                   color: Colors.black,
                                 ),
                               ),
@@ -677,11 +677,16 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                               SizedBox(
                                 width: 20,
                               ),
-                              Text(
-                                "mdavis@settlementpartners.com",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
+                              Expanded(
+                                child: Text(
+                                  "mdavis@settlementpartners.com",
+                                  softWrap: true,
+                                  overflow:TextOverflow.clip,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black,
+
+                                  ),
                                 ),
                               ),
                             ],
@@ -833,7 +838,7 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                           Text(
                             "303.691.9090",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 13,
                               color: Colors.black,
                             ),
                           ),
@@ -849,11 +854,13 @@ class _CalculateNetPresentValueState extends BaseState<CalculateNetPresentValue>
                           SizedBox(
                             width: 20,
                           ),
-                          Text(
-                            "mdavis@settlementpartners.com",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
+                          Expanded(
+                            child: Text(
+                              "mdavis@settlementpartners.com",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ],

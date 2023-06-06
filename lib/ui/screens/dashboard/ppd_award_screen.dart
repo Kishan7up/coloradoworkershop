@@ -187,6 +187,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
 
+  double radio_one_red_before_per =0.00;
+  double radio_two_red_before_per =0.00;
+  double radio_three_red_before_per =0.00;
+  double radio_four_red_before_per =0.00;
+
+  double radio_one_red_after_per =0.00;
+  double radio_two_red_after_per =0.00;
+  double radio_three_red_after_per =0.00;
+  double radio_four_red_after_per =0.00;
+
+  double radio_one_red_per =0.00;
+  double radio_two_red_per =0.00;
+  double radio_three_red_per =0.00;
+  double radio_four_red_per =0.00;
+
+
+  double radio_one_red_value =0.00;
+  double radio_two_red_value =0.00;
+  double radio_three_red_value =0.00;
+  double radio_four_red_value =0.00;
+
+
   @override
   void initState() {
     super.initState();
@@ -1627,6 +1649,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               const EdgeInsets.only(top: 10.0),
                                               // border: UnderlineInputBorder(),
                                               labelText: 'Whole Person Rating',
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\%",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1647,6 +1681,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\$",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1750,6 +1796,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               const EdgeInsets.only(top: 10.0),
                                               // border: UnderlineInputBorder(),
                                               labelText: 'Impairment Rating',
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\%",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1771,8 +1829,20 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
-                                              errorText: ISErrorrightUppervalue==true? LessMore4<0? "More \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
+                                              errorText: ISErrorrightUppervalue==true? LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
                                               errorStyle: TextStyle(color: Colors.red),
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\$",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1875,6 +1945,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               const EdgeInsets.only(top: 10.0),
                                               // border: UnderlineInputBorder(),
                                               labelText: 'Impairment Rating',
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\%",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -1896,8 +1978,20 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
-                                              errorText: ISErrorleftUppervalue==true? LessMore3<0? "More \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
+                                              errorText: ISErrorleftUppervalue==true? LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
                                               errorStyle: TextStyle(color: Colors.red),
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\$",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2000,6 +2094,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               const EdgeInsets.only(top: 10.0),
                                               // border: UnderlineInputBorder(),
                                               labelText: 'Impairment Rating',
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\%",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2023,7 +2129,19 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               labelText: 'Value of the Rating',
                                              // errorText : "sdfds",
                                             errorStyle: TextStyle(color: Colors.red),
-                                             errorText: ISErrorrightLowervalue==true? LessMore1<0? "More \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\$",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                             errorText: ISErrorrightLowervalue==true? LessMore1<0? "Additional \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2122,12 +2240,24 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           onChanged: (value){
 
                                           },
+
                                           decoration: InputDecoration(
                                               contentPadding:
                                               const EdgeInsets.only(top: 10.0),
                                               // border: UnderlineInputBorder(),
                                               labelText: 'Impairment Rating',
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\%",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
 
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2149,7 +2279,19 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           decoration: InputDecoration(
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
-                                              errorText: ISErrorleftLowervalue==true? LessMore2<0? "More \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, bottom: 10.0),
+                                                child: Text(
+                                                  "\$",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              errorText: ISErrorleftLowervalue==true? LessMore2<0? "Additional \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
                                               errorStyle: TextStyle(color: Colors.red),
                                               hintText: "0.00"),
                                           style: TextStyle(
@@ -2234,6 +2376,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Total Scheduled Rate',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                     hintText: "0.00"),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -2255,6 +2409,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Combined Whole Person Rate',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                     hintText: "0.00"),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -2288,7 +2454,19 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText:
-                                        'Total Award Value With Current Conversations',
+                                        'Total Award Value With Current Conversion',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                     hintText: "0.00"),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -2323,6 +2501,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                     border: UnderlineInputBorder(),
                                     labelText:
                                         'Potential Combined Whole Person Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                     hintText: "0.00"),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -2344,6 +2534,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Benefits Cap',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                     hintText: "0.00"),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -2367,6 +2569,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                     border: UnderlineInputBorder(),
                                     labelText:
                                         'Total TTD/TPD benefits you have received',
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10.0, bottom: 10.0),
+                                    child: Text(
+                                      "\$",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                  ),
                                     hintText: "0.00",
 
                                 ),
@@ -2390,6 +2604,18 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
                                     labelText: 'Amount Remaining to Reach Cap',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
                                  //   errorText:  isErrorforbenifitCap==true? "Benefit Cap exceeded so max benefit cap added" :null,
 
                                     hintText: "0.00"),
@@ -2603,7 +2829,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
          // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
           double test = edt_right_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_lower_extremity_rating.text.toString());
-
+          radio_three_red_before_per = test;
           int test1 = test.toInt();
           if(test1==	0	)	{	edt_Impairment_Rating_Right_Lower.text =	"0";	}
           if(test1==	1	)	{	edt_Impairment_Rating_Right_Lower.text =	"0";	}
@@ -2717,7 +2943,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
           double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
-
+          radio_three_red_per = a;
           double avgweek = edt_avg_weekly_wage.text.toString() == ""
               ? 0.00
               : double.parse(edt_avg_weekly_wage.text);
@@ -2737,6 +2963,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
           double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
           double resultb = (resultb1 * a) / 100;
           edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
+
+          radio_three_red_value = resultb;
           LessMore1 =0.00;
           LessMore1 = rightLowervalue - resultb ;
 
@@ -2753,6 +2981,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         else{
           print("dfdfeer" + edt_right_lower_extremity_rating.text.toString());
 
+          radio_three_red_per = 0.00;
+          radio_three_red_value = 0.00;
+          radio_three_red_before_per = 0.00;
+
+          radio_three_red_after_per = edt_right_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_lower_extremity_rating.text.toString());
 
           rightlowerExtremlyRatecalculation(edt_right_lower_extremity_rating.text);
           ISErrorrightLowervalue  =false;
@@ -2760,6 +2993,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         }
 
         updatetotalschedule();
+        totalawarvaluewithconvertion();
+        TotalScheduleRateee();
       }
 
 
@@ -2779,7 +3014,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_left_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_lower_extremity_rating.text.toString());
-
+        radio_four_red_before_per = test;
         int test1 = test.toInt();
         if(test1==	0	)	{	edt_Impairment_Rating_Left_Lower.text =	"0";	}
         if(test1==	1	)	{	edt_Impairment_Rating_Left_Lower.text =	"0";	}
@@ -2893,7 +3128,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
         double a = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());
-
+        radio_four_red_per = a;
         double avgweek = edt_avg_weekly_wage.text.toString() == ""
             ? 0.00
             : double.parse(edt_avg_weekly_wage.text);
@@ -2913,6 +3148,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         double resultb1 =  TTDRate * 400 * AgeFactorForInjury;
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
+        radio_four_red_value = resultb;
 
         LessMore2 =0.00;
         LessMore2 = leftLowervalue - resultb ;
@@ -2921,13 +3157,19 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       else{
         print("dfdfeer" + edt_left_lower_extremity_rating.text.toString());
 
+        radio_four_red_per = 0.00;
+        radio_four_red_value = 0.00;
+        radio_four_red_before_per = 0.00;
 
+        radio_four_red_after_per = edt_left_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_lower_extremity_rating.text.toString());
         leftlowerExtremlyRatecalculation(edt_left_lower_extremity_rating.text);
         ISErrorleftLowervalue = false;
 
       }
 
       updatetotalschedule();
+      totalawarvaluewithconvertion();
+      TotalScheduleRateee();
     }
 
 
@@ -2945,6 +3187,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_left_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_upper_extremity_rating.text.toString());
+        radio_two_red_before_per = test;
 
         int test1 = test.toInt();
         if(test1==	0	)	{	edt_Impairment_Rating_Left_Upper.text =	"0";	}
@@ -3058,6 +3301,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
         double a = edt_Impairment_Rating_Left_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Upper.text.toString());
+        radio_two_red_per = a;
 
         double avgweek = edt_avg_weekly_wage.text.toString() == ""
             ? 0.00
@@ -3079,6 +3323,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
 
+        radio_two_red_value = resultb;
 
         LessMore3 =0.00;
         LessMore3 = leftUppervalue - resultb ;
@@ -3087,6 +3332,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       else{
         print("dfdfeer" + edt_left_upper_extremity_rating.text.toString());
 
+        radio_two_red_per = 0.00;
+        radio_two_red_value = 0.00;
+        radio_two_red_before_per = 0.00;
+
+        radio_two_red_after_per = edt_left_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_upper_extremity_rating.text.toString());
 
         leftupperExtremlyRatecalculation(edt_left_upper_extremity_rating.text);
         ISErrorleftUppervalue = false;
@@ -3095,6 +3345,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
       updatetotalschedule();
+      totalawarvaluewithconvertion();
+      TotalScheduleRateee();
+
     }
 
 
@@ -3113,7 +3366,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_right_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_upper_extremity_rating.text.toString());
-
+        radio_one_red_before_per = test;
         int test1 = test.toInt();
         if(test1==	0	)	{	edt_Impairment_Rating_Right_Upper.text=	"0";	}
         if(test1==	1	)	{edt_Impairment_Rating_Right_Upper.text =	"1";	}
@@ -3227,6 +3480,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
         double a = edt_Impairment_Rating_Right_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
 
+        radio_one_red_per = a;
+
         double avgweek = edt_avg_weekly_wage.text.toString() == ""
             ? 0.00
             : double.parse(edt_avg_weekly_wage.text);
@@ -3247,6 +3502,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
 
+        radio_one_red_value =  resultb;
+
 
         LessMore4 =0.00;
         LessMore4 = rightUppervalue - resultb ;
@@ -3255,13 +3512,20 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       else{
         print("dfdfeer" + edt_right_upper_extremity_rating.text.toString());
 
+        radio_one_red_per = 0.00;
+        radio_one_red_value = 0.00;
+        radio_one_red_before_per = 0.00;
+
+
+        radio_one_red_after_per = edt_right_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_upper_extremity_rating.text.toString());
 
         rightupperExtremlyRatecalculation(edt_right_upper_extremity_rating.text);
         ISErrorrightUppervalue = false;
 
       }
       updatetotalschedule();
-
+      totalawarvaluewithconvertion();
+      TotalScheduleRateee();
 
 
 
@@ -3272,15 +3536,57 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
 
   void updatetotalschedule() {
-    double d = edt_Impairment_Rating_Right_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
+  /*  double d = edt_Impairment_Rating_Right_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
     double e = edt_Impairment_Rating_Left_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Upper.text.toString());
     double f = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
-    double g = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());
-    Totalrate = d+e+f+g;
+    double g = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());*/
+   double Totalrate = radio_one_red_per+radio_two_red_per+radio_three_red_per+radio_four_red_per;
 
     print("ddfdff34" + " Total : " + Totalrate.toString());
-    edt_Total_Scheduled_Rate.text = Totalrate.toStringAsFixed(2);
+    edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
   }
+
+
+  void totalawarvaluewithconvertion() {
+    /*  double d = edt_Impairment_Rating_Right_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
+    double e = edt_Impairment_Rating_Left_Upper.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Upper.text.toString());
+    double f = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
+    double g = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());*/
+    double Totalrate = radio_one_red_value+radio_two_red_value+radio_three_red_value+radio_four_red_value;
+
+    print("ddfdff34" + " Total : " + Totalrate.toString());
+    edt_Total_Award_Value_With_Current_Conversations.text = Totalrate.toStringAsFixed(2);
+  }
+
+  void TotalScheduleRateee() {
+
+    /* final TextEditingController edt_right_upper_extremity_rating =
+      TextEditingController();
+  final TextEditingController edt_left_upper_extremity_rating =
+      TextEditingController();
+  final TextEditingController edt_right_lower_extremity_rating =
+      TextEditingController();
+  final TextEditingController edt_left_lower_extremity_rating =
+      TextEditingController();*/
+
+      double d = edt_right_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_upper_extremity_rating.text.toString());
+    double e = edt_left_upper_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_upper_extremity_rating.text.toString());
+    double f = edt_right_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_right_lower_extremity_rating.text.toString());
+    double g = edt_left_lower_extremity_rating.text.toString() == "" ? 0.00 : double.parse(edt_left_lower_extremity_rating.text.toString());
+
+      double t2 = d+e+f+g;
+    double t1 = radio_one_red_before_per+radio_two_red_before_per+radio_three_red_before_per+radio_four_red_before_per;
+   // double t2 = radio_one_red_after_per+radio_two_red_after_per+radio_three_red_after_per+radio_four_red_after_per;
+
+
+      print("fdsdsfd33rt" + " Before " +  t2.toString() + " After : " + t1.toString());
+    double total = t2-t1;
+
+
+    print("TotalScheduleRateee" + " Total : " + total.toString());
+    edt_Total_Scheduled_Rate.text = total.toStringAsFixed(2);
+  }
+
 }
 
 

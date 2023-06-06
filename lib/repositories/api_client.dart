@@ -65,7 +65,7 @@ class ApiClient {
               headers: headers,
               body:
                   (requestJsonMap == null) ? null : json.encode(requestJsonMap))
-          .timeout(const Duration(seconds: 60));
+          .timeout(const Duration(seconds: 120));
 
       responseJson =
           await _response(response, showSuccessDialog: showSuccessDialog);
@@ -76,6 +76,43 @@ class ApiClient {
     }
     return responseJson;
   }
+
+
+  Future<dynamic> apiCallPostrecentcase(
+      String url,
+      Map<String, dynamic> requestJsonMap, {
+        /*String baseUrl = BASE_URL,*/
+        bool showSuccessDialog = false,
+        //dynamic jsontemparray,
+      }) async {
+    var responseJson;
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    print("Headers - $headers");
+    //String asd = json.encode(jsontemparray);
+
+    log("Api request url : $BASE_URL_FOR_COLORADO$url\nHeaders - $headers\nApi request params : $requestJsonMap" /*+ "JSON Array $asd"*/);
+    /*print(
+        "Api request url : $baseUrl$url\nHeaders - $headers\nApi request params : $requestJsonMap" */ /*+ "JSON Array $asd"*/ /*);*/
+    try {
+      final response = await httpClient
+          .post(Uri.parse("$BASE_URL_FOR_COLORADO$url"),
+          headers: headers,
+          body:
+          (requestJsonMap == null) ? null : json.encode(requestJsonMap))
+          .timeout(const Duration(seconds: 120));
+
+      responseJson =
+      await _response(response, showSuccessDialog: showSuccessDialog);
+    } on SocketException {
+    // throw FetchDataException('hide');
+    } on TimeoutException {
+      throw FetchDataException('Request time out');
+    }
+    return responseJson;
+  }
+
 
   Future<dynamic> _response(http.Response response,
       {bool showSuccessDialog = false}) async {

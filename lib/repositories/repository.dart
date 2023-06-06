@@ -113,7 +113,7 @@ class Repository {
       ViewRecentCasesRequest request) async {
     try {
       ///ApiClient.END_POINT_CONTACT_US ma End_Point Decalre karvanu baki che e kari dejo
-      Map<String, dynamic> json = await apiClient.apiCallPost(
+      Map<String, dynamic> json = await apiClient.apiCallPostrecentcase(
           ApiClient.END_POINT_VIEW_RECENT_CASES, request.toJson());
 
 

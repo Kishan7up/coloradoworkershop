@@ -65,9 +65,14 @@ mixin BasicScreen<Screen extends BaseStatefulWidget> on BaseState<Screen> {
                 //redirecting to login screen as session is expired
                 //TODO
               } else {
-                showCommonDialogWithSingleOption(
+                /*showCommonDialogWithSingleOption(
                     context, state.exception.toString(),
-                    positiveButtonTitle: "OK");
+                    positiveButtonTitle: "OK");*/
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor:Colors.black,
+
+                    content: Text(state.exception.toString(),style: TextStyle(color: Colors.white),)));
+
               }
             }
             if (state is ShowProgressIndicatorState) {
