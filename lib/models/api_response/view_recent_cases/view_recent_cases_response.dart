@@ -51,7 +51,55 @@ class ViewRecentCasesResponseData {
 }
 
 class ViewRecentCasesResponseDetails {
+
   String title;
+  String subTitle;
+  int caseNo;
+  String caseDetailShort;
+  String caseDetailLong;
+  String filter;
+  String category;
+  String judgeName;
+  String link;
+
+  ViewRecentCasesResponseDetails(
+      {this.title,
+        this.subTitle,
+        this.caseNo,
+        this.caseDetailShort,
+        this.caseDetailLong,
+        this.filter,
+        this.category,
+        this.judgeName,
+        this.link});
+
+  ViewRecentCasesResponseDetails.fromJson(Map<String, dynamic> json) {
+    title = json['title']==null?"":json['title'];
+    subTitle = json['sub_title']==null?"":json['sub_title'];
+    caseNo = json['case_no']==null?0:json['case_no'];
+    caseDetailShort = json['case_detail_short']==null?"":json['case_detail_short'];
+    caseDetailLong = json['case_detail_long']==null?"":json['case_detail_long'];
+    filter = json['filter']==null?"":json['filter'];
+    category = json['category']==null?"":json['category'];
+    judgeName = json['judgeName']==null?"":json['judgeName'];
+    link = json['link']==null?"":json['link'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    data['sub_title'] = this.subTitle;
+    data['case_no'] = this.caseNo;
+    data['case_detail_short'] = this.caseDetailShort;
+    data['case_detail_long'] = this.caseDetailLong;
+    data['filter'] = this.filter;
+    data['category'] = this.category;
+    data['judgeName'] = this.judgeName;
+    data['link'] = this.link;
+    return data;
+  }
+
+ /* String title;
   int caseNo;
   String caseDetailShort;
   String caseDetailLong;
@@ -86,5 +134,5 @@ class ViewRecentCasesResponseDetails {
     data['filter'] = this.filter;
     data['link'] = this.link;
     return data;
-  }
+  }*/
 }

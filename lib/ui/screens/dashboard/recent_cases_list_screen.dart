@@ -71,7 +71,50 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
   List<ALL_Name_ID> listStatus = [];
   List<ALL_Name_ID> selectedlistStatus = [];
 
-  List<CheckBoxData> checkboxDataList = [
+  List<CheckBoxData> checkboxDataList =
+  [
+    new CheckBoxData(id: '1', displayId: 'ALL', checked: false),
+    new CheckBoxData(id: '2', displayId: 'Appelate Review', checked: false),
+    new CheckBoxData(id: '3', displayId: 'Apportionment', checked: false),
+    new CheckBoxData(id: '4', displayId: 'Bad Faith', checked: false),
+    new CheckBoxData(id: '5', displayId: 'Case Closure', checked: false),
+    new CheckBoxData(id: '6', displayId: 'Compensability', checked: false),
+    new CheckBoxData(id: '7', displayId: 'Compensability (Course & Scope)', checked: false),
+    new CheckBoxData(id: '8', displayId: 'Compensability ( Independent Continuation)', checked: false),
+    new CheckBoxData(id: '9', displayId: 'Compensability(Quasi - Course)', checked: false),
+    new CheckBoxData(id: '10', displayId: 'Compensability (Substantial Deviation)', checked: false),
+    new CheckBoxData(id: '11', displayId: 'Deadlines', checked: false),
+    new CheckBoxData(id: '12', displayId: 'Death Benefits', checked: false),
+    new CheckBoxData(id: '13', displayId: 'DIME’s', checked: false),
+    new CheckBoxData(id: '14', displayId: 'Due Process', checked: false),
+    new CheckBoxData(id: '15', displayId: 'Evidence', checked: false),
+    new CheckBoxData(id: '16', displayId: 'Hearing ( Credibility)', checked: false),
+    new CheckBoxData(id: '17', displayId: 'Hearing (Evidence)', checked: false),
+    new CheckBoxData(id: '18', displayId: 'Hearing Procedure', checked: false),
+    new CheckBoxData(id: '19', displayId: 'Hearings', checked: false),
+    new CheckBoxData(id: '20', displayId: 'Interest', checked: false),
+    new CheckBoxData(id: '21', displayId: 'Issue Preclusion', checked: false),
+    new CheckBoxData(id: '22', displayId: 'Jurisdiction', checked: false),
+    new CheckBoxData(id: '23', displayId: 'Lump Sum Benefits', checked: false),
+    new CheckBoxData(id: '24', displayId: 'Maintenance Medical Care', checked: false),
+    new CheckBoxData(id: '25', displayId: 'Medical Benefits (Authorized)', checked: false),
+    new CheckBoxData(id: '26', displayId: 'Medical Treatment Guidelines', checked: false),
+    new CheckBoxData(id: '27', displayId: 'Overpayment', checked: false),
+    new CheckBoxData(id: '28', displayId: 'Penalties', checked: false),
+    new CheckBoxData(id: '29', displayId: 'Penalties (Failing to FIle Admission)', checked: false),
+    new CheckBoxData(id: '30', displayId: 'Penalties ( Failure to Carry WC)', checked: false),
+    new CheckBoxData(id: '31', displayId: 'Permenant Total Disability', checked: false),
+    new CheckBoxData(id: '32', displayId: 'Reopening', checked: false),
+    new CheckBoxData(id: '33', displayId: 'Responsible for Termination', checked: false),
+    new CheckBoxData(id: '34', displayId: 'Safety Rule Violation', checked: false),
+    new CheckBoxData(id: '35', displayId: 'Temporary Disability', checked: false),
+    new CheckBoxData(id: '36', displayId: 'TTD', checked: false),
+    new CheckBoxData(id: '37', displayId: 'TTD (Modified Job Offers)', checked: false),
+    new CheckBoxData(id: '38', displayId: 'Waiver (Concession)', checked: false),
+  ];
+
+
+  /*[
     new CheckBoxData(id: '1', displayId: 'Appellate Review', checked: false),
     new CheckBoxData(id: '2', displayId: 'Apportionment', checked: false),
     new CheckBoxData(id: '3', displayId: 'Bad Faith', checked: false),
@@ -81,7 +124,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     new CheckBoxData(
         id: '6', displayId: 'Course & Scope', checked: false),
   ];
-
+*/
   /*if (i == 0) {
         all_name_id.Name = "Appellate Review (125)";
         all_name_id.isChecked = false;
@@ -214,6 +257,9 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
 
                     _CustomerBloc.add(ViewRecentCasesRequestEvent(
                         ViewRecentCasesRequest(filter: "all")));
+                    _CustomerBloc.add(SearchRecentViewRetriveEvent("","ALL"));
+
+
                     /*  _CustomerBloc.add(CustomerPaginationRequestEvent(
                         CustomerPaginationRequest(
                       companyId: 4132,
@@ -405,31 +451,36 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                               fontWeight: FontWeight.bold,
                               fontSize: 18),
                         ),
-                        Text(arrRecent_view_list[index].caseDetailShort,
+
+
+                        arrRecent_view_list[index].judgeName.toString()==""?
+                        Text(
+                            arrRecent_view_list[index].subTitle.toString().replaceAll("\n", "") ,
+                            // overflow: TextOverflow.ellipsis,
+                            style:
+                            TextStyle(color: Colors.black, fontSize: 13))
+                            : Text(
+                            arrRecent_view_list[index].subTitle.toString().replaceAll("\n", "") +
+
+                                " [" +  arrRecent_view_list[index].judgeName.toString().replaceAll("\n", "") +"]",
+                           // overflow: TextOverflow.ellipsis,
+                            style:
+                            TextStyle(color: Colors.black, fontSize: 13)),
+                        Text(arrRecent_view_list[index].caseDetailShort.replaceAll("\n", ""),
                             overflow: TextOverflow.ellipsis,
                             style:
                                 TextStyle(color: Colors.black, fontSize: 13)),
-                        /* Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
-                    */
-                        ReadMoreText(arrRecent_view_list[index].caseDetailLong,
-                            trimLines: 2,
+
+                       /* ReadMoreText(arrRecent_view_list[index].caseDetailShort,
+                            trimLines: 1,
                             colorClickableText: Colors.pink,
                             trimMode: TrimMode.Line,
                             trimCollapsedText: '..Read More',
                             style: TextStyle(fontSize: 13), callback: (v) {
-                          /* navigateTo(
-                                  context, RecentCasesDetailsScreen.routeName,
-                                  arguments: RecentCasesDetailsScreenArgument(
-                                      "W.C. 4-962-740(ICAO 2022-04-28)[ALJ Felter]",
-                                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"))
-                              .then((value) {
-                            //_expenseBloc..add(ExpenseEventsListCallEvent(1,ExpenseListAPIRequest(CompanyId: CompanyID.toString(),LoginUserID: edt_FollowupEmployeeUserID.text,word: edt_FollowupStatus.text,needALL: "0")));
-                          });*/
+
                         }
                             //trimExpandedText: ' Less',
-                            ),
+                            ),*/
                         //Text(arrRecent_view_list[index].contactNo1)
                       ],
                     ),
@@ -761,12 +812,45 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                       height: 2,
                       color: Colors.grey,
                     ),
-                    LimitedBox(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: checkboxDataList.map<Widget>(
-                          (data) {
+
+                    /*Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: checkboxDataList.map<Widget>(
+                        (data) {
+                          return Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                CheckboxListTile(
+                                  checkColor: Colors.red,
+                                  activeColor: Colors.white,
+                                  value: data.checked,
+                                  title: Text(
+                                    data.displayId,
+                                    style: TextStyle(
+                                        fontSize: 12, color: colorBlack),
+                                  ),
+                                  controlAffinity:
+                                      ListTileControlAffinity.trailing,
+                                  selectedTileColor: Colors.white,
+                                  onChanged: (bool val) {
+                                    state(() {
+                                      data.checked = !data.checked;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),*/
+                    Container(
+
+                        height: 300,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
                             return Container(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -774,18 +858,18 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                                   CheckboxListTile(
                                     checkColor: Colors.red,
                                     activeColor: Colors.white,
-                                    value: data.checked,
+                                    value: checkboxDataList[index].checked,
                                     title: Text(
-                                      data.displayId,
+                                      checkboxDataList[index].displayId,
                                       style: TextStyle(
                                           fontSize: 12, color: colorBlack),
                                     ),
                                     controlAffinity:
-                                        ListTileControlAffinity.trailing,
+                                    ListTileControlAffinity.trailing,
                                     selectedTileColor: Colors.white,
                                     onChanged: (bool val) {
                                       state(() {
-                                        data.checked = !data.checked;
+                                        checkboxDataList[index].checked = !checkboxDataList[index].checked;
                                       });
                                     },
                                   ),
@@ -793,9 +877,11 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                               ),
                             );
                           },
-                        ).toList(),
-                      ),
-                    ),
+                          shrinkWrap: true,
+                          itemCount: checkboxDataList.length,
+                        )),
+
+                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -803,6 +889,9 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                         Expanded(
                           child: InkWell(
                             onTap: () {
+
+                              _CustomerBloc.add(SearchRecentViewRetriveEvent("","ALL"));
+
                               Navigator.pop(context);
                             },
                             child: Container(
@@ -828,7 +917,23 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                         Expanded(
                           child: InkWell(
                             onTap: () {
+                              //Navigator.pop(context);
+                              List<String> comastring =[];
+
+                              for(int i=0;i<checkboxDataList.length;i++)
+                                {
+                                  print("dsdkdfs45ddf" + " Checked : " +  checkboxDataList[i].checked.toString());
+                                  if(checkboxDataList[i].checked==true)
+                                    {
+                                      comastring.add(checkboxDataList[i].displayId);
+                                      _CustomerBloc.add(SearchRecentViewRetriveEvent(edt_searchDetails.text,checkboxDataList[i].displayId));
+                                    }
+                                }
+
+                              String strarray = comastring.join(', ');
+                              print("fkdsfkd"+ strarray.toString());
                               Navigator.pop(context);
+                             // _CustomerBloc.add(SearchRecentViewRetriveEvent(edt_searchDetails.text,strarray));
                             },
                             child: Container(
                               width: double.infinity,

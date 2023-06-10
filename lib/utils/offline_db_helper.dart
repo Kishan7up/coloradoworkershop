@@ -16,7 +16,7 @@ class OfflineDbHelper {
     database = await openDatabase(
         join(await getDatabasesPath(), 'grocery_shop_database.db'),
         onCreate: (db, version) => _createDb(db),
-        version: 3);
+        version: 4);
   }
 
   static void _createDb(Database db) {
@@ -37,7 +37,7 @@ class OfflineDbHelper {
   String filter;
   String link;*/
     db.execute(
-      'CREATE TABLE $TABLE_RECENT_VIEW(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,caseNo TEXT , caseDetailShort TEXT, caseDetailLong TEXT,filter TEXT,link TEXT)',
+      'CREATE TABLE $TABLE_RECENT_VIEW(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,caseNo TEXT , caseDetailShort TEXT, caseDetailLong TEXT,filter TEXT,link TEXT, subTitle TEXT , category TEXT , judgeName TEXT)',
     );
     //TABLE_RECENT_VIEW
   }
@@ -138,6 +138,9 @@ class OfflineDbHelper {
         maps[i]['caseDetailLong'],
         maps[i]['filter'],
         maps[i]['link'],
+        maps[i]['subTitle'],
+        maps[i]['category'],
+        maps[i]['judgeName'],
         id: maps[i]['id'],
       );
     });
@@ -153,33 +156,43 @@ class OfflineDbHelper {
     //final List<Map<String, dynamic>> maps = await db.query(TABLE_RECENT_VIEW);
     List<Map<String, dynamic>> maps;
 
-    if (keyword == "") {
+   /* if (keyword == "") {
       maps = await db.query(TABLE_RECENT_VIEW);
-    } else {
+    }
+    else {
       maps = await db.query(TABLE_RECENT_VIEW,
           where: "title LIKE ?", whereArgs: ['%$keyword%']);
-    }
+    }*/
 
-/*    if (keyword == "") {
+    if (keyword == "") {
       if (dropdownItem == "ALL") {
         maps = await db.query(TABLE_RECENT_VIEW);
       } else {
+
+       // List<String> clist = dropdownItem.split(",");
+
         maps = await db.query(TABLE_RECENT_VIEW,
-            where: "CustomerID = ?", whereArgs: [dropdownItem]);
+            where: "category = ?", whereArgs: [dropdownItem]);
+    /* maps = await db.query(TABLE_RECENT_VIEW,
+            where: "category IN ($dropdownItem)");*/
       }
     } else {
       if (dropdownItem == "ALL") {
         maps = await db.query(TABLE_RECENT_VIEW,
-            where: "CustomerName LIKE ?", whereArgs: ['%$keyword%']);
+            where: "title LIKE ?", whereArgs: ['%$keyword%']);
       } else {
         maps = await db.query(TABLE_RECENT_VIEW,
-            where: "CustomerName LIKE and CustomerID = ?",
+            where: "title LIKE and category = ?",
             whereArgs: ['%$keyword%', dropdownItem]);
+
+        /*maps = await db.query(TABLE_RECENT_VIEW,
+            where: "title LIKE and category  IN (${dropdownItem})",
+            whereArgs: ['%$keyword%', dropdownItem]);*/
       }
 
-      */ /*db.query(TABLE_RECENT_VIEW,
-          where: 'CustomerName = ? ', whereArgs: [keyword]);*/ /*
-    }*/
+      /* db.query(TABLE_RECENT_VIEW,
+          where: 'CustomerName = ? ', whereArgs: [keyword]);*/
+    }
 
     return List.generate(maps.length, (i) {
       return RecentViewDBTable(
@@ -189,10 +202,18 @@ class OfflineDbHelper {
         maps[i]['caseDetailLong'],
         maps[i]['filter'],
         maps[i]['link'],
+        maps[i]['subTitle'],
+        maps[i]['category'],
+        maps[i]['judgeName'],
+
+
         id: maps[i]['id'],
       );
     });
   }
+
+
+
 
   Future<void> updateRecentViewDBTable(RecentViewDBTable model) async {
     final db = await database;

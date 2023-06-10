@@ -1233,6 +1233,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
                                 },
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     suffixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, bottom: 10.0),
@@ -1283,6 +1285,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             });
                           },
                           decoration: InputDecoration(
+                              contentPadding:
+                              const EdgeInsets.only(top: 10.0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
@@ -1380,6 +1384,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           controller: edt_whole_person_impliment_rating,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
+                              contentPadding:
+                              const EdgeInsets.only(top: 10.0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
@@ -1424,6 +1430,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             rightupperExtremlyRatecalculation(value);
                           },
                           decoration: InputDecoration(
+                              contentPadding:
+                              const EdgeInsets.only(top: 10.0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
@@ -1468,6 +1476,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           },
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
+                              contentPadding:
+                              const EdgeInsets.only(top: 10.0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
@@ -1512,6 +1522,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           },
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
+                              contentPadding:
+                              const EdgeInsets.only(top: 10.0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
@@ -1545,6 +1557,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           },
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
+
+                              contentPadding:
+                              const EdgeInsets.only(top: 10.0),
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 10.0, bottom: 10.0),
@@ -1679,6 +1694,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               decimal: true),
                                           controller: edt_Value_of_the_Rating,
                                           decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
                                               suffixIcon: Padding(
@@ -1827,6 +1844,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           edt_Value_of_the_Rating_Right_Upper,
                                           enabled: false,
                                           decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
                                               errorText: ISErrorrightUppervalue==true? LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
@@ -1976,6 +1995,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           edt_Value_of_the_Rating_Left_Upper,
                                           enabled: false,
                                           decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
                                               errorText: ISErrorleftUppervalue==true? LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
@@ -2125,6 +2146,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           edt_Value_of_the_Rating_Right_Lower,
                                           enabled: false,
                                           decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
                                              // errorText : "sdfds",
@@ -2277,6 +2300,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                           edt_Value_of_the_Rating_Left_Lower,
                                           enabled: false,
                                           decoration: InputDecoration(
+                                              contentPadding:
+                                              const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
                                               suffixIcon: Padding(
@@ -2374,6 +2399,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                 controller: edt_Total_Scheduled_Rate,
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Total Scheduled Rate',
                                     suffixIcon: Padding(
@@ -2407,6 +2434,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
                                 controller: edt_Combined_Whole_Person_Rate,
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Combined Whole Person Rate',
                                     suffixIcon: Padding(
@@ -2452,6 +2481,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 controller:
                                     edt_Total_Award_Value_With_Current_Conversations,
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText:
                                         'Total Award Value With Current Conversion',
@@ -2498,6 +2529,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText:
                                         'Potential Combined Whole Person Rating',
@@ -2532,6 +2565,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 controller: edt_Benefits_Cap,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Benefits Cap',
                                     suffixIcon: Padding(
@@ -2566,6 +2601,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 controller:
                                     Total_TTD_TPD_benefits_you_have_received,
                                 decoration: InputDecoration(
+                                  contentPadding:
+                                  const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText:
                                         'Total TTD/TPD benefits you have received',
@@ -2602,6 +2639,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 controller: Amount_Remaining_to_Reach_Cap,
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
+                                    contentPadding:
+                                    const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Amount Remaining to Reach Cap',
                                     suffixIcon: Padding(

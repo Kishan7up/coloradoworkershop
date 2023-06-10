@@ -152,6 +152,25 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                           height: 10,
                         ),
                         Container(
+                          child: _editModel.judgeName.toString()==""?
+                          Text(
+                              _editModel.subTitle.toString().replaceAll("\n", "") ,
+                              // overflow: TextOverflow.ellipsis,
+                              style:
+                              TextStyle(color: Colors.black, fontSize: 13))
+                              : Text(
+                              _editModel.subTitle.toString().replaceAll("\n", "") +
+
+                                  "\n [" + _editModel.judgeName.toString().replaceAll("\n", "") +"]",
+                              // overflow: TextOverflow.ellipsis,
+                              style:
+                              TextStyle(color: Colors.black, fontSize: 13)),
+
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
                           child: Text(
                             _editModel.caseDetailShort.toString(),
                             style: TextStyle(
@@ -174,6 +193,8 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                           child: Text(_editModel.caseDetailLong.toString(),
                               style: TextStyle(
                                 fontSize: 13,
+                                color: Colors.black,
+
                               )),
                         ),
                       ],

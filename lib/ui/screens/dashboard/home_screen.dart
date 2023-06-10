@@ -455,7 +455,15 @@ class _HomeScreenState extends BaseState<HomeScreen>
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
+
                         Text(
+                          arrRecent_view_list[index].subTitle.toString().replaceAll("\n", "") + " [" +  arrRecent_view_list[index].judgeName.toString().replaceAll("\n", "") +"]",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black),
+                        ),
+                       /* Text(
 
                           arrRecent_view_list[index].caseDetailShort,
                           overflow: TextOverflow.ellipsis,
@@ -463,7 +471,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey),
-                        ),
+                        ),*/
                         Container(
                           height: 0.5,
                           margin:
@@ -523,6 +531,10 @@ class _HomeScreenState extends BaseState<HomeScreen>
         state.viewRecentCasesResponse.data.details[i].caseDetailLong,
         state.viewRecentCasesResponse.data.details[i].filter,
         state.viewRecentCasesResponse.data.details[i].link,
+        state.viewRecentCasesResponse.data.details[i].subTitle,
+        state.viewRecentCasesResponse.data.details[i].category,
+        state.viewRecentCasesResponse.data.details[i].judgeName,
+
       ));
     }
 
