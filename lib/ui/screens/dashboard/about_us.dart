@@ -1,4 +1,5 @@
 import 'package:app/blocs/other/mainbloc/main_bloc.dart';
+import 'package:app/models/api_request/about_us/about_us_request.dart';
 import 'package:app/models/api_response/customer/customer_details_api_response.dart';
 import 'package:app/models/api_response/recent_view_list/recent_view_list_response.dart';
 import 'package:app/models/common/all_name_id_list.dart';
@@ -79,16 +80,24 @@ class _AboutUsScreenState extends BaseState<AboutUsScreen>
   String _editModel;
   String _editModel2;
 
+  final TextEditingController edt_about_us = TextEditingController();
+
+
   @override
   void initState() {
     super.initState();
 
     _CustomerBloc = MainBloc(baseBloc);
+    edt_about_us.text  = "";
 
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
       _editModel2 = widget.arguments.editModel2;
     }
+
+    _CustomerBloc.add(AboutUsRequestEvent(AboutUsRequest(
+      firstName: ""
+    )));
     //_CustomerBloc.add(RecentListCallEvent());
   }
 
@@ -98,9 +107,18 @@ class _AboutUsScreenState extends BaseState<AboutUsScreen>
       create: (BuildContext context) => _CustomerBloc,
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
+
+          if(state is AboutUsResponseState)
+            {
+              _OnAboutUsResponseState(state);
+            }
           return super.build(context);
         },
         buildWhen: (oldState, currentState) {
+          if(currentState is AboutUsResponseState)
+            {
+              return true;
+            }
           return false;
         },
         listener: (BuildContext context, MainStates state) {
@@ -140,7 +158,7 @@ class _AboutUsScreenState extends BaseState<AboutUsScreen>
                         Container(
                           margin: EdgeInsets.all(10),
                           child: Text(
-                            "Who we are",
+                            "ABOUT US",
                             style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -155,7 +173,7 @@ class _AboutUsScreenState extends BaseState<AboutUsScreen>
                         Container(
                           margin: EdgeInsets.all(10),
                           child: Text(
-                              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                            edt_about_us.text,
                               style: TextStyle(
                                 fontSize: 13,
                               )),
@@ -328,5 +346,10 @@ class _AboutUsScreenState extends BaseState<AboutUsScreen>
     } else {
       throw 'Could not launch $url123';
     }
+  }
+
+  void _OnAboutUsResponseState(AboutUsResponseState state) {
+    edt_about_us.text = state.aboutUsResponse.data.toString();
+    print("dslkdjskfj" + state.aboutUsResponse.data);
   }
 }

@@ -102,10 +102,15 @@ class _WebViewRemotePageState extends State<WebViewRemotePage> {
             SizedBox(
               height: 30,
             ),
+            widget.arguments.Name=="Terms & Condition"?Container(
+              margin: EdgeInsets.all(20),
+              child: Text(
+                  "This Application  is designed to provide accurate and authoritative information regarding the workers’ compensation law and benefits.  This information is given with the understanding that this Application does not create an attorney client relationship.  Since the details of your situation are fact dependent; you should contact us to advise you how the law affects your particular circumstances."),
+            ):
             Container(
               margin: EdgeInsets.all(20),
               child: Text(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
+                  "Kaplan Morrell respects the privacy of our users.  This application does not request, collect, or store any information about or from our users except when the user voluntarily provides feedback.  In that limited case the user’s name and email address would be retained.    Any inputs in the benefit calculators is likewise not stored.   This Privacy Policy does not apply to the third-party online/mobile store from which you install the Application."),
             ),
             Visibility(
               visible: false,
