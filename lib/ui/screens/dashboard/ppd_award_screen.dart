@@ -1848,7 +1848,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
-                                              errorText: ISErrorrightUppervalue==true? LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
+                                             // errorText: ISErrorrightUppervalue==true? LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
                                               errorStyle: TextStyle(color: Colors.red),
                                               suffixIcon: Padding(
                                                 padding: const EdgeInsets.only(
@@ -1871,6 +1871,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   ],
                                 ),
                               ),
+
+                              ISErrorrightUppervalue==true?Text(
+                                  LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 12,color: Colors.red),
+                              ):Container(),
                               SizedBox(
                                 width: 20,
                               ),
@@ -1999,7 +2004,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                               const EdgeInsets.only(top: 10.0),
                                               border: UnderlineInputBorder(),
                                               labelText: 'Value of the Rating',
-                                              errorText: ISErrorleftUppervalue==true? LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
+                                             // errorText: ISErrorleftUppervalue==true? LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
                                               errorStyle: TextStyle(color: Colors.red),
                                               suffixIcon: Padding(
                                                 padding: const EdgeInsets.only(
@@ -2022,6 +2027,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   ],
                                 ),
                               ),
+
+                              ISErrorleftUppervalue==true?Text(
+                                  LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 12,color: Colors.red),
+                              ):Container(),
                               SizedBox(
                                 width: 20,
                               ),
@@ -2164,7 +2174,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                       color: Colors.black),
                                                 ),
                                               ),
-                                             errorText: ISErrorrightLowervalue==true? LessMore1<0? "Additional \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
+                                            // errorText: ISErrorrightLowervalue==true? LessMore1<0? "Additional \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
                                               hintText: "0.00"),
                                           style: TextStyle(
                                             fontSize: 15,
@@ -2174,6 +2184,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   ],
                                 ),
                               ),
+
+                              ISErrorrightLowervalue==true?Text(
+                                LessMore1<0? "Additional \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 12,color: Colors.red),
+                              ):Container(),
                               SizedBox(
                                 width: 20,
                               ),
@@ -2316,7 +2331,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                                       color: Colors.black),
                                                 ),
                                               ),
-                                              errorText: ISErrorleftLowervalue==true? LessMore2<0? "Additional \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
+                                            //  errorText: ISErrorleftLowervalue==true? LessMore2<0? "Additional \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
                                               errorStyle: TextStyle(color: Colors.red),
                                               hintText: "0.00"),
                                           style: TextStyle(
@@ -2327,6 +2342,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   ],
                                 ),
                               ),
+
+                              ISErrorleftLowervalue==true?Text(
+                                LessMore2<0? "Additional \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 12,color: Colors.red),
+                              ):Container(),
                               SizedBox(
                                 width: 20,
                               ),

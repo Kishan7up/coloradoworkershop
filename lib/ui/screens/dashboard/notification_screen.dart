@@ -204,6 +204,9 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
               HeaderPart(),
               Expanded(
                 child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
+
+
                   child: Container(
                     child: Column(
                       children: [
@@ -278,116 +281,47 @@ class _NotificationScreenState extends BaseState<NotificationScreen>
                                     color: colorLightGray,
                                   ),
                                   Container(
+
                                     margin: EdgeInsets.only(
                                         left: 10,
                                         right: 10,
                                         top: 5,
                                         bottom: 10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ListView.builder(
-                                            key: Key('selected $selected'),
-                                            itemBuilder: (context, index) {
-                                              //return _buildInquiryListItem(index);
+                                    child: notificationList.isNotEmpty? ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
 
-                                              return Text(
-                                                notificationList[index].description,
-                                                //arrRecent_view_list[index].customerName,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18),
-                                              );
-                                            },
-                                            shrinkWrap: true,
-                                            itemCount: notificationList
-                                                .length // arrRecent_view_list.length,
+                                        key: Key('selected $selected'),
+                                        itemBuilder: (context, index) {
+                                          //return _buildInquiryListItem(index);
+
+                                          return Container(
+                                           margin: EdgeInsets.all(10),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  notificationList[index].description,
+                                                  softWrap: true,
+                                                  //arrRecent_view_list[index].customerName,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                                SizedBox(height: 10,),
+                                                Container(
+                                                  height: 1,
+                                                  color: colorLightGray
+                                                )
+                                              ],
                                             ),
-                                        /*Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Text(
-                                              notificationList[0].body,
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.black),
-                                            )),*/
-                                        /* SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          height: 1,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Text(
-                                              "New App Version 1.5 available, Update now!",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.black),
-                                            )),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          height: 1,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Text(
-                                              "Check your Net Present Value to have more benefits. ",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.black),
-                                            )),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          height: 1,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Text(
-                                              "Calculate Net Present Value to have more benefits. ",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.black),
-                                            )),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          height: 1,
-                                          color: colorLightGray,
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Text(
-                                              "Now you can check Maximum Benefits Rates.",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.black),
-                                            )),
-                                        SizedBox(
-                                          height: 10,
-                                        ),*/
-                                      ],
-                                    ),
+                                          );
+                                        },
+                                        shrinkWrap: true,
+                                        itemCount: notificationList
+                                            .length // arrRecent_view_list.length,
+                                        ):Center(child: Text("No Notifications Available."),),
                                   ),
                                 ],
                               ),

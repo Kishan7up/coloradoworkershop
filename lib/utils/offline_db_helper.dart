@@ -171,8 +171,17 @@ class OfflineDbHelper {
 
        // List<String> clist = dropdownItem.split(",");
 
-        maps = await db.query(TABLE_RECENT_VIEW,
-            where: "category = ?", whereArgs: [dropdownItem]);
+       /* maps = await db.query(TABLE_RECENT_VIEW,
+            where: "category = ?", whereArgs: [dropdownItem]);*/
+
+       /* maps = await db.query(
+          TABLE_RECENT_VIEW,
+          where: "category IN ($dropdownItem)",
+            whereArgs:[dropdownItem]
+        );*/
+
+
+        maps = await db.rawQuery("SELECT title ,caseNo, caseDetailShort , caseDetailLong ,filter ,link , subTitle , category , judgeName FROM recent_view  WHERE  category IN ($dropdownItem)");
     /* maps = await db.query(TABLE_RECENT_VIEW,
             where: "category IN ($dropdownItem)");*/
       }

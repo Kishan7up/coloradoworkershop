@@ -392,7 +392,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     /* if (arrRecent_view_list.isEmpty) {
       return Container();
     }*/
-    return ListView.builder(
+    return arrRecent_view_list.isNotEmpty?ListView.builder(
         key: Key('selected $selected'),
         itemBuilder: (context, index) {
           //return _buildInquiryListItem(index);
@@ -492,7 +492,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
         },
         shrinkWrap: true,
         itemCount: arrRecent_view_list.length // arrRecent_view_list.length,
-        );
+        ):Center(child: Text("No Cases Found."),);
   }
 
   ///builds row item view of inquiry list
@@ -925,15 +925,17 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
                                   print("dsdkdfs45ddf" + " Checked : " +  checkboxDataList[i].checked.toString());
                                   if(checkboxDataList[i].checked==true)
                                     {
-                                      comastring.add(checkboxDataList[i].displayId);
-                                      _CustomerBloc.add(SearchRecentViewRetriveEvent(edt_searchDetails.text,checkboxDataList[i].displayId));
+                                      comastring.add("'"+checkboxDataList[i].displayId+"'");
+                                     // _CustomerBloc.add(SearchRecentViewRetriveEvent(edt_searchDetails.text,checkboxDataList[i].displayId));
                                     }
                                 }
 
                               String strarray = comastring.join(', ');
-                              print("fkdsfkd"+ strarray.toString());
+                              print("fkdsfkd"+ " CommaSeperated : "+strarray.toString());
+                             _CustomerBloc.add(SearchRecentViewRetriveEvent(edt_searchDetails.text,strarray));
+
                               Navigator.pop(context);
-                             // _CustomerBloc.add(SearchRecentViewRetriveEvent(edt_searchDetails.text,strarray));
+
                             },
                             child: Container(
                               width: double.infinity,
