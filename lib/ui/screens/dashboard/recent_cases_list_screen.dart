@@ -12,7 +12,6 @@ import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
 import 'package:app/ui/widgets/common_widgets.dart';
 import 'package:app/utils/date_time_extensions.dart';
 import 'package:app/utils/general_utils.dart';
-import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
@@ -495,10 +494,7 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
         ):Center(child: Text("No Cases Found."),);
   }
 
-  ///builds row item view of inquiry list
-  Widget _buildInquiryListItem(int index) {
-    return ExpantionCustomer(context, index);
-  }
+
 
   ///updates data of inquiry list
   void _onInquiryListCallSuccess(CustomerDetailsResponseState state) async {
@@ -510,44 +506,6 @@ class _RecentCasesListScreenState extends BaseState<RecentCasesListScreen>
     //arrRecent_view_list.add(state.response);
   }
 
-  ExpantionCustomer(BuildContext context, int index) {
-    RecentViewDBTable model = arrRecent_view_list[index];
-
-    return Container(
-        padding: EdgeInsets.all(15),
-        child: ExpansionTileCard(
-          // key:Key(index.toString()),
-          initialElevation: 5.0,
-          elevation: 5.0,
-          elevationCurve: Curves.easeInOut,
-          shadowColor: Color(0xFF504F4F),
-          baseColor: Color(0xFFFCFCFC),
-          expandedColor: Color(0xFFC1E0FA),
-          leading: CircleAvatar(
-              backgroundColor: Color(0xFF504F4F),
-              child: Image.network(
-                "http://demo.sharvayainfotech.in/images/profile.png",
-                height: 35,
-                fit: BoxFit.fill,
-                width: 35,
-              )),
-          title: Text(
-            model.title.toString(),
-            style: TextStyle(color: Colors.black),
-          ),
-
-          children: <Widget>[
-            Divider(
-              thickness: 1.0,
-              height: 1.0,
-            ),
-            Text(
-              model.title,
-              style: TextStyle(color: Colors.black),
-            ),
-          ],
-        ));
-  }
 
   Future<bool> _onBackPressed() {
     navigateTo(context, HomeScreen.routeName, clearAllStack: true);
