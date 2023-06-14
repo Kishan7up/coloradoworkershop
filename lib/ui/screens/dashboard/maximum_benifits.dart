@@ -167,6 +167,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
           if (state is MaxBenifitResponseState) {
+
             _onGetMAxBenifitAPIResponse(state);
           }
           return super.build(context);
@@ -1108,7 +1109,6 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
               state.maxBenifitResponse.data.details.s1cap;
           Whole_Person_Impairment_More_than.text =
               state.maxBenifitResponse.data.details.s2cap;
-
           Whole_Person_Impairment_More_than_19.text = "0.00";
           Whole_Person_Impairment_Less_than_19.text ="0.00";
 
@@ -1120,9 +1120,9 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
 
           print("kljdsjkds" + " After");
           Whole_Person_Impairment_More_than_19.text =
-              state.maxBenifitResponse.data.details.s1cap;
-          Whole_Person_Impairment_Less_than_19.text =
               state.maxBenifitResponse.data.details.s2cap;
+          Whole_Person_Impairment_Less_than_19.text =
+              state.maxBenifitResponse.data.details.s1cap;
 
           edt_Whole_Person_Impairment_Less.text = "0.00";
           Whole_Person_Impairment_More_than.text ="0.00";
