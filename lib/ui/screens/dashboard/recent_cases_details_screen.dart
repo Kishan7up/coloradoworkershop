@@ -175,12 +175,15 @@ class _RecentCasesDetailsScreenState extends BaseState<RecentCasesDetailsScreen>
                               SizedBox(
                                 height: 10,
                               ),
-                              Container(
-                                child: Text(
-                                  _editModel.caseDetailShort.toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black,
+                              Visibility(
+                                visible: false,
+                                child: Container(
+                                  child: Text(
+                                    _editModel.caseDetailShort.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),

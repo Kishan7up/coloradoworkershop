@@ -6,6 +6,7 @@ import 'package:app/models/api_request/notification/notification_activate_reques
 import 'package:app/models/api_request/notification/notification_list_request.dart';
 
 import 'package:app/models/api_request/view_recent_cases/view_recent_cases_request.dart';
+import 'package:app/models/api_response/CombineValue/CombineValueResponse.dart';
 import 'package:app/models/api_response/about_Us/about_us_response.dart';
 import 'package:app/models/api_response/contact_Us/contact_us_response.dart';
 
@@ -26,7 +27,6 @@ import 'api_client.dart';
 class Repository {
   SharedPrefHelper prefs = SharedPrefHelper.instance;
   final ApiClient apiClient;
-
   Repository({@required this.apiClient});
 
   static Repository getInstance() {
@@ -115,14 +115,7 @@ class Repository {
       ///ApiClient.END_POINT_CONTACT_US ma End_Point Decalre karvanu baki che e kari dejo
       Map<String, dynamic> json = await apiClient.apiCallPostrecentcase(
           ApiClient.END_POINT_VIEW_RECENT_CASES, request.toJson());
-
-
       ViewRecentCasesResponse response = ViewRecentCasesResponse.fromJson(json);
-
-
-
-
-
       return response;
     } on ErrorResponseException catch (e) {
       rethrow;

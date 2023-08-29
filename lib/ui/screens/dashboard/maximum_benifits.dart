@@ -133,7 +133,7 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
       var inputFormat = DateFormat('dd-MM-yyyy');
       var inputDate = inputFormat.parse(CurrentDate); // <-- dd/MM 24H format
 
-      var outputFormat = DateFormat('dd-MM-yyyy');
+      var outputFormat = DateFormat('MM-dd-yyyy');
       var outputDate = outputFormat.format(inputDate);
 
 
@@ -152,11 +152,16 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
 
       rev_edt_date_of_inquiry.text = RevCurrentDate;
     }
+    var inputFormat = DateFormat('MM-dd-yyyy');
+    var inputDate = inputFormat.parse(edt_date_of_inquiry.text); // <-- dd/MM 24H format
+
+    var outputFormat = DateFormat('dd-MM-yyyy');
+    var outputDate = outputFormat.format(inputDate);
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
     _firebaseMessaging.getToken().then((token){
       print("token is $token");
       _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
-          notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+          notification: "1", device_token: token,date:outputDate.toString())));
     });
   }
 
@@ -1009,12 +1014,9 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                             var inputFormat = DateFormat('dd-MM-yyyy');
                             var inputDate = inputFormat.parse(from_calendor); // <-- dd/MM 24H format
 
-                            var outputFormat = DateFormat('dd-MM-yyyy');
+                            var outputFormat = DateFormat('MM-dd-yyyy');
                             var outputDate = outputFormat.format(inputDate);
-
-
                             edt_date_of_inquiry.text = outputDate;
-
 
                             setState(() {
 
@@ -1027,11 +1029,16 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
                   Center(
                     child: ElevatedButton(
                         onPressed: ()  {
+                          var inputFormat = DateFormat('MM-dd-yyyy');
+                          var inputDate = inputFormat.parse(edt_date_of_inquiry.text); // <-- dd/MM 24H format
+
+                          var outputFormat = DateFormat('dd-MM-yyyy');
+                          var outputDate = outputFormat.format(inputDate);
                           FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
                           _firebaseMessaging.getToken().then((token){
                             print("token is $token");
                             _CustomerBloc.add(MaxBenifitRequestEvent(MaxBenifitRequest(
-                                notification: "1", device_token: token,date: edt_date_of_inquiry.text)));
+                                notification: "1", device_token: token,date: outputDate.toString())));
                           });
                           Navigator.pop(ctx);
 
@@ -1079,23 +1086,40 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
               ),
             ));
   }
+  String formatAmount(String price){
 
+    String priceInText = "";
+    int counter = 0;
+    for(int i = (price.length - 1);  i >= 0; i--){
+      counter++;
+      String str = price[i];
+      if((counter % 3) != 0 && i !=0){
+        priceInText = "$str$priceInText";
+      }else if(i == 0 ){
+        priceInText = "$str$priceInText";
+
+      }else{
+        priceInText = ",$str$priceInText";
+      }
+    }
+    return priceInText.trim();
+  }
   void _onGetMAxBenifitAPIResponse(MaxBenifitResponseState state) {
     edt_Ave_Weekly_Wage.text =
-        state.maxBenifitResponse.data.details.aww;
+    formatAmount(state.maxBenifitResponse.data.details.aww).replaceAll(",.", ".")+" \$";
     edt_PPD_Weekly_Rate.text =
-        state.maxBenifitResponse.data.details.ppf;
-    edt_TTD_Weekly_Rate.text =state.maxBenifitResponse.data.details.comp;
+        formatAmount(state.maxBenifitResponse.data.details.ppf).replaceAll(",.", ".")+" \$";;
+    edt_TTD_Weekly_Rate.text =formatAmount(state.maxBenifitResponse.data.details.comp).replaceAll(",.", ".")+" \$";;
     edt_Scheduled_Impairment_Weekly_Rate.text =
-        state.maxBenifitResponse.data.details.scheduled;
+        formatAmount(state.maxBenifitResponse.data.details.scheduled).replaceAll(",.", ".")+" \$";;
     edt_W_O_Extensive_Scar_or_Stumps.text =
-        state.maxBenifitResponse.data.details.disfigurement;
+        formatAmount(state.maxBenifitResponse.data.details.disfigurement).replaceAll(",.", ".")+" \$";;
     edt_W_Extensive_Scars_Stumps_or_Burns.text =
-        state.maxBenifitResponse.data.details.extensiveDisfigurement;
+        formatAmount(state.maxBenifitResponse.data.details.extensiveDisfigurement).replaceAll(",.", ".")+" \$";;
     edt_Whole_Person_Impairment_Less.text =
-        state.maxBenifitResponse.data.details.s1cap;
+        formatAmount(state.maxBenifitResponse.data.details.s1cap).replaceAll(",.", ".")+" \$";;
     Whole_Person_Impairment_More_than.text =
-        state.maxBenifitResponse.data.details.s2cap;
+        formatAmount(state.maxBenifitResponse.data.details.s2cap).replaceAll(",.", ".")+" \$";;
 
 
     DateTime datevalidate =   DateFormat("dd-MM-yyyy").parse(edt_date_of_inquiry.text);
@@ -1106,9 +1130,9 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
           print("kljdsjkds" + " before");
 
           edt_Whole_Person_Impairment_Less.text =
-              state.maxBenifitResponse.data.details.s1cap;
+              formatAmount(state.maxBenifitResponse.data.details.s1cap).replaceAll(",.", ".")+" \$";;
           Whole_Person_Impairment_More_than.text =
-              state.maxBenifitResponse.data.details.s2cap;
+              formatAmount(state.maxBenifitResponse.data.details.s2cap).replaceAll(",.", ".")+" \$";;
           Whole_Person_Impairment_More_than_19.text = "0.00";
           Whole_Person_Impairment_Less_than_19.text ="0.00";
 
@@ -1120,9 +1144,9 @@ class _MaximumBenefitsScreenState extends BaseState<MaximumBenefitsScreen>
 
           print("kljdsjkds" + " After");
           Whole_Person_Impairment_More_than_19.text =
-              state.maxBenifitResponse.data.details.s2cap;
+              formatAmount(state.maxBenifitResponse.data.details.s2cap).replaceAll(",.", ".")+" \$";;
           Whole_Person_Impairment_Less_than_19.text =
-              state.maxBenifitResponse.data.details.s1cap;
+              formatAmount(state.maxBenifitResponse.data.details.s1cap).replaceAll(",.", ".")+" \$";;
 
           edt_Whole_Person_Impairment_Less.text = "0.00";
           Whole_Person_Impairment_More_than.text ="0.00";

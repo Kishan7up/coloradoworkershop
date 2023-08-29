@@ -1,4 +1,5 @@
 import 'package:app/models/DB_Models/recent_view_list_db_tabel.dart';
+import 'package:app/models/common/CombineValueModel.dart';
 import 'package:app/models/common/inquiry_product_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,13 +11,14 @@ class OfflineDbHelper {
   static const TABLE_PRODUCT_CART = "product_cart";
   static const TABLE_INQUIRY_PRODUCT = "inquiry_product";
   static const TABLE_RECENT_VIEW = "recent_view";
+  static const TABLE_COMBINE_VALUES = "combine_value";
 
   static createInstance() async {
     _offlineDbHelper = OfflineDbHelper();
     database = await openDatabase(
         join(await getDatabasesPath(), 'grocery_shop_database.db'),
         onCreate: (db, version) => _createDb(db),
-        version: 4);
+        version: 5);
   }
 
   static void _createDb(Database db) {
@@ -28,6 +30,9 @@ class OfflineDbHelper {
     db.execute(
       'CREATE TABLE $TABLE_INQUIRY_PRODUCT(id INTEGER PRIMARY KEY AUTOINCREMENT, InquiryNo TEXT,LoginUserID TEXT, CompanyId TEXT, ProductName TEXT, ProductID TEXT, Quantity TEXT, UnitPrice TEXT,TotalAmount TEXT)',
     );
+    // db.execute(
+    //   'CREATE TABLE $TABLE_COMBINE_VALUES(id INTEGER PRIMARY KEY AUTOINCREMENT,row INTEGER,column INTEGER,value INTEGER)',
+    // );
 
     /* int id;
   String title;
@@ -45,7 +50,31 @@ class OfflineDbHelper {
   static OfflineDbHelper getInstance() {
     return _offlineDbHelper;
   }
+  // Future<int> insertCombineValues(CombineValueModel model) async {
+  //   final db = await database;
+  //
+  //   return await db.insert(
+  //     TABLE_COMBINE_VALUES,
+  //     model.toJson(),
+  //     conflictAlgorithm: ConflictAlgorithm.replace,
+  //   );
+  // }
 
+  // Future<List<CombineValueModel>> getCombineValues() async {
+  //   final db = await database;
+  //
+  //   final List<Map<String, dynamic>> maps =
+  //   await db.query(TABLE_COMBINE_VALUES);
+  //
+  //   return List.generate(maps.length, (i) {
+  //     return CombineValueModel(
+  //        maps[i]['row'],
+  //       maps[i]['column'],
+  //       maps[i]['value'],
+  //       id: maps[i]['id'],
+  //     );
+  //   });
+  // }
   ///Here InquiryProduct Table Implimentation
 
   Future<int> insertInquiryProduct(InquiryProductModel model) async {
