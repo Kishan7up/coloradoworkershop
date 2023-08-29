@@ -43,14 +43,13 @@ class PpdAwardScreen extends BaseStatefulWidget {
 class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     with BasicScreen, WidgetsBindingObserver {
   MainBloc _CustomerBloc;
-  double row = 0.00,
-      column = 0.00;
+  double row = 0.00, column = 0.00;
   int _pageNo = 0;
   Recent_view_list _inquiryListResponse;
   List<CustomerDetails> arrRecent_view_list = [];
   final TextEditingController edt_searchDetails = TextEditingController();
   final TextEditingController edt_FollowupEmployeeList =
-  TextEditingController();
+      TextEditingController();
 
   //
   List<ALL_Name_ID> arr_ALL_Name_ID_For_Folowup_EmplyeeList = [];
@@ -97,51 +96,51 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   final TextEditingController edt_total_ttd_tpd = TextEditingController();
 
   final TextEditingController edt_whole_person_impliment_rating =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_right_upper_extremity_rating =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_left_upper_extremity_rating =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_right_lower_extremity_rating =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_left_lower_extremity_rating =
-  TextEditingController();
+      TextEditingController();
   bool IS_TTD = false;
 
   final TextEditingController edt_Whole_Person_Rating = TextEditingController();
 
   final TextEditingController edt_Impairment_Rating_Right_Upper =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Value_of_the_Rating_Right_Upper =
-  TextEditingController();
+      TextEditingController();
 
   final TextEditingController edt_Impairment_Rating_Left_Upper =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Value_of_the_Rating_Left_Upper =
-  TextEditingController();
+      TextEditingController();
 
   final TextEditingController edt_Impairment_Rating_Right_Lower =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Value_of_the_Rating_Right_Lower =
-  TextEditingController();
+      TextEditingController();
 
   final TextEditingController edt_Impairment_Rating_Left_Lower =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Value_of_the_Rating_Left_Lower =
-  TextEditingController();
+      TextEditingController();
 
   //Impairment Rating
 
   final TextEditingController edt_Value_of_the_Rating = TextEditingController();
 
   final TextEditingController edt_Total_Scheduled_Rate =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Combined_Whole_Person_Rate =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Total_Award_Value_With_Current_Conversations =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Potential_Combined_Whole_Person_Rating =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController edt_Benefits_Cap = TextEditingController();
 
   final TextEditingController edt_Benefits_Cap1st = TextEditingController();
@@ -150,12 +149,12 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   final TextEditingController edt_COMP_RATE = TextEditingController();
 
   final TextEditingController Total_TTD_TPD_benefits_you_have_received =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController Amount_Remaining_to_Reach_Cap =
-  TextEditingController();
+      TextEditingController();
 
   final TextEditingController edt_schedule_rate_fromAPI =
-  TextEditingController();
+      TextEditingController();
 
   //Amount_Remaining_to_Reach_Cap
 
@@ -221,20 +220,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     if (widget.arguments != null) {
       _editModel = widget.arguments.editModel;
     } else {
-      String CurrentDate = DateTime
-          .now()
-          .day
-          .toString() +
+      String CurrentDate = DateTime.now().day.toString() +
           "-" +
-          DateTime
-              .now()
-              .month
-              .toString() +
+          DateTime.now().month.toString() +
           "-" +
-          DateTime
-              .now()
-              .year
-              .toString();
+          DateTime.now().year.toString();
 
       var inputFormat = DateFormat('MM-dd-yyyy');
       var inputDate = inputFormat.parse(CurrentDate); // <-- dd/MM 24H format
@@ -330,7 +320,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     return Container(
       height: 80,
       decoration: BoxDecoration(
-        /* border: Border.all(
+          /* border: Border.all(
             color: Colors.red[500],
           ),*/
 
@@ -470,20 +460,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     );
   }
 
-  _launchURL(String pdfURL) async {
-    var url123 = pdfURL;
-    if (await canLaunch(url123)) {
-      await launch(url123);
-    } else {
-      throw 'Could not launch $url123';
-    }
-  }
-
   void _showDateOfInquiry(ctx) {
     showCupertinoModalPopup(
         context: ctx,
-        builder: (_) =>
-            Container(
+        builder: (_) => Container(
               height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
@@ -493,9 +473,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                     child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
                         initialDateTime: DateTime.now(),
-                        maximumYear: DateTime
-                            .now()
-                            .year,
+                        maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
                             /* var monthwithzero  = val.month.bitLength>10?val.month.toString():"0"+val.month.toString();
@@ -526,7 +504,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                         onPressed: () {
                           var inputFormat = DateFormat('MM-dd-yyyy');
                           var inputDate =
-                          inputFormat.parse(edt_date_of_inquiry.text);
+                              inputFormat.parse(edt_date_of_inquiry.text);
 
                           var outputFormat = DateFormat('dd-MM-yyyy');
                           var outputDate = outputFormat.format(inputDate);
@@ -557,8 +535,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   void _showDateOfBirth(ctx) {
     showCupertinoModalPopup(
         context: ctx,
-        builder: (_) =>
-            Container(
+        builder: (_) => Container(
               height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
@@ -568,9 +545,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                     child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
                         initialDateTime: DateTime(1990, 01, 01),
-                        maximumYear: DateTime
-                            .now()
-                            .year,
+                        maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
                             /*edt_date_of_birth.text = val.day.toString() +
@@ -612,8 +587,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   void _showDateOfMMI(ctx) {
     showCupertinoModalPopup(
         context: ctx,
-        builder: (_) =>
-            Container(
+        builder: (_) => Container(
               height: 250,
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
@@ -623,9 +597,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                     child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
                         initialDateTime: DateTime.now(),
-                        maximumYear: DateTime
-                            .now()
-                            .year,
+                        maximumYear: DateTime.now().year,
                         onDateTimeChanged: (val) {
                           setState(() {
                             String from_calendor = val.day.toString() +
@@ -679,7 +651,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   calculateAge() {
     DateTime currentDate = DateFormat("MM-dd-yyyy").parse(edt_date_of_mmi.text);
     DateTime birthDate =
-    new DateFormat("MM-dd-yyyy").parse(edt_date_of_birth.text);
+        new DateFormat("MM-dd-yyyy").parse(edt_date_of_birth.text);
     int age = currentDate.year - birthDate.year;
     int month1 = currentDate.month;
     int month2 = birthDate.month;
@@ -713,21 +685,42 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     //  var b = DateTime.parse(edt_date_of_birth.text);
     // DateDuration duration;
     // DateTime start = DateFormat("MM-dd-yyyy").parse(edt_date_of_inquiry.text);
+
+    ///First A Veriable
     DateTime start = new DateFormat("dd-MM-yyyy").parse(edt_date_of_mmi.text);
     DateTime end = new DateFormat("dd-MM-yyyy").parse(edt_date_of_birth.text);
     print("Date of MMI " +
         edt_date_of_mmi.text +
         " DOB  " +
         edt_date_of_birth.text);
-    final year = start.year - end.year;
+    final year1 = start.year - end.year;
     final mth = start.month - end.month;
     final days = start.day - end.day;
     int y;
     // if (mth < 0) {
     /// negative month means it's still upcoming
-    print('you buns is ${year - 1}');
-    y = year - 1;
-    print('turning $year in ${mth.abs()} months and $days days');
+    print('you buns is ${year1 - 1}');
+    y = year1 - 1;
+    print('turning $year1 in ${mth.abs()} months and $days days');
+
+    /// Second B Veriable
+    DateTime start1 =
+        new DateFormat("dd-MM-yyyy").parse(edt_date_of_inquiry.text);
+    DateTime end1 = new DateFormat("dd-MM-yyyy").parse(edt_date_of_birth.text);
+    print("Date of MMI " +
+        edt_date_of_mmi.text +
+        " DOB  " +
+        edt_date_of_birth.text);
+    final year11 = start1.year - end1.year;
+    final mth1 = start1.month - end1.month;
+    final days1 = start1.day - end1.day;
+    int y11;
+    // if (mth < 0) {
+    /// negative month means it's still upcoming
+    print('you buns is ${year11 - 1}');
+    y11 = year11 - 1;
+    print('turning $year11 in ${mth1.abs()} months and $days1 days');
+
     // } else {
     //   print('your next bday is ${12 - mth}months and ${28 - days} days away');
     // }
@@ -752,60 +745,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     );
     // print("TotalYearMMI :- " + y.toString()+" "+years.inDays.toString());
     // print("TotalYearMMI :- " + calculateAge().toString());
-
-/*
-1.78;
-1.76;
-1.74;
-1.72;
-1.70;
-1.68;
-1.66;
-1.64;
-1.62;
-1.60;
-1.58;
-1.56;
-1.54;
-1.52;
-1.50;
-1.48;
-1.46;
-1.44;
-1.42;
-1.40;
-1.38;
-1.36;
-1.34;
-1.32;
-1.30;
-1.28;
-1.26;
-1.24;
-1.22;
-1.20;
-1.18;
-1.16;
-1.14;
-1.12;
-1.10;
-1.08;
-1.06;
-1.04;
-1.02;
-1.00;
-
-
-
-
-
-
-
-
-
-
-*/
-    //AgeFactor
 
     if (y < 21) {
       AgeFactorForInjury = 1.80;
@@ -894,161 +833,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     }
 
     print("AgeFactor:== " + AgeFactorForInjury.toString());
-    setState(() {});
-  }
-
-  calculateAgeMMI() {
-    // var a = DateTime.parse(edt_date_of_inquiry.text);
-    //  var b = DateTime.parse(edt_date_of_birth.text);
-
-    DateTime start = DateFormat("MM-dd-yyyy").parse(edt_date_of_mmi.text);
-    DateTime end = new DateFormat("MM-dd-yyyy").parse(edt_date_of_birth.text);
-
-    var years = start.difference(end);
-
-    int y = years.inDays ~/ 365;
-    print("TotalYear :- " + y.toString());
-
-/*
-1.78;
-1.76;
-1.74;
-1.72;
-1.70;
-1.68;
-1.66;
-1.64;
-1.62;
-1.60;
-1.58;
-1.56;
-1.54;
-1.52;
-1.50;
-1.48;
-1.46;
-1.44;
-1.42;
-1.40;
-1.38;
-1.36;
-1.34;
-1.32;
-1.30;
-1.28;
-1.26;
-1.24;
-1.22;
-1.20;
-1.18;
-1.16;
-1.14;
-1.12;
-1.10;
-1.08;
-1.06;
-1.04;
-1.02;
-1.00;
-
-
-
-
-
-
-
-
-
-
-*/
-    //AgeFactor
-
-    if (y < 21) {
-      AgeFactor = 1.80;
-    } else if (y == 21) {
-      AgeFactor = 1.78;
-    } else if (y == 22) {
-      AgeFactor = 1.76;
-    } else if (y == 23) {
-      AgeFactor = 1.74;
-    } else if (y == 24) {
-      AgeFactor = 1.72;
-    } else if (y == 25) {
-      AgeFactor = 1.70;
-    } else if (y == 26) {
-      AgeFactor = 1.68;
-    } else if (y == 27) {
-      AgeFactor = 1.66;
-    } else if (y == 28) {
-      AgeFactor = 1.64;
-    } else if (y == 29) {
-      AgeFactor = 1.62;
-    } else if (y == 30) {
-      AgeFactor = 1.60;
-    } else if (y == 31) {
-      AgeFactor = 1.58;
-    } else if (y == 32) {
-      AgeFactor = 1.56;
-    } else if (y == 33) {
-      AgeFactor = 1.54;
-    } else if (y == 34) {
-      AgeFactor = 1.52;
-    } else if (y == 35) {
-      AgeFactor = 1.50;
-    } else if (y == 36) {
-      AgeFactor = 1.48;
-    } else if (y == 37) {
-      AgeFactor = 1.46;
-    } else if (y == 38) {
-      AgeFactor = 1.44;
-    } else if (y == 39) {
-      AgeFactor = 1.42;
-    } else if (y == 40) {
-      AgeFactor = 1.40;
-    } else if (y == 41) {
-      AgeFactor = 1.38;
-    } else if (y == 42) {
-      AgeFactor = 1.36;
-    } else if (y == 43) {
-      AgeFactor = 1.34;
-    } else if (y == 44) {
-      AgeFactor = 1.32;
-    } else if (y == 45) {
-      AgeFactor = 1.30;
-    } else if (y == 46) {
-      AgeFactor = 1.28;
-    } else if (y == 47) {
-      AgeFactor = 1.26;
-    } else if (y == 48) {
-      AgeFactor = 1.24;
-    } else if (y == 49) {
-      AgeFactor = 1.22;
-    } else if (y == 50) {
-      AgeFactor = 1.20;
-    } else if (y == 51) {
-      AgeFactor = 1.18;
-    } else if (y == 52) {
-      AgeFactor = 1.16;
-    } else if (y == 53) {
-      AgeFactor = 1.14;
-    } else if (y == 54) {
-      AgeFactor = 1.12;
-    } else if (y == 55) {
-      AgeFactor = 1.10;
-    } else if (y == 56) {
-      AgeFactor = 1.08;
-    } else if (y == 57) {
-      AgeFactor = 1.06;
-    } else if (y == 58) {
-      AgeFactor = 1.04;
-    } else if (y == 59) {
-      AgeFactor = 1.02;
-    } else if (y == 60) {
-      AgeFactor = 1.00;
-    } else if (y > 60) {
-      AgeFactor = 1.00;
-    }
-
     setState(() {});
   }
 
@@ -1203,7 +987,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   enabled: false,
                                   decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     // border: UnderlineInputBorder(),
                                     labelText: 'Date of Injury',
                                     suffixIcon: Padding(
@@ -1234,7 +1018,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   enabled: false,
                                   decoration: InputDecoration(
                                       contentPadding:
-                                      const EdgeInsets.only(top: 10.0),
+                                          const EdgeInsets.only(top: 10.0),
                                       border: UnderlineInputBorder(),
                                       labelText: 'Date Of Birth',
                                       suffixIcon: Padding(
@@ -1271,7 +1055,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                   enabled: false,
                                   decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     // border: UnderlineInputBorder(),
                                     labelText: 'Date of MMI',
                                     suffixIcon: Padding(
@@ -1304,7 +1088,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 },
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     suffixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, bottom: 10.0),
@@ -1334,7 +1118,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                       margin: EdgeInsets.all(10),
                       child: TextFormField(
                           keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                              TextInputType.numberWithOptions(decimal: true),
                           /*onChanged: (value) {
                                         if (value.length >= 1) {
                                           setState(() {
@@ -1367,7 +1151,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                               ),
                               border: UnderlineInputBorder(),
                               labelText:
-                              'Total TTD/TPD benefits you have received',
+                                  'Total TTD/TPD benefits you have received',
                               hintText: "0.00"),
                           style: TextStyle(
                             fontSize: 15,
@@ -1427,7 +1211,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                       margin: EdgeInsets.all(10),
                       child: TextFormField(
                           keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                              TextInputType.numberWithOptions(decimal: true),
                           /*onChanged: (value) {
                                         if (value.length >= 1) {
                                           setState(() {
@@ -1476,7 +1260,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                       margin: EdgeInsets.all(10),
                       child: TextFormField(
                           keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                              TextInputType.numberWithOptions(decimal: true),
                           /*onChanged: (value) {
                                         if (value.length >= 1) {
                                           setState(() {
@@ -1521,7 +1305,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                       margin: EdgeInsets.all(10),
                       child: TextFormField(
                           keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                              TextInputType.numberWithOptions(decimal: true),
                           /*onChanged: (value) {
                                         if (value.length >= 1) {
                                           setState(() {
@@ -1566,7 +1350,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                       margin: EdgeInsets.all(10),
                       child: TextFormField(
                           keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                              TextInputType.numberWithOptions(decimal: true),
                           /*onChanged: (value) {
                                         if (value.length >= 1) {
                                           setState(() {
@@ -1611,7 +1395,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                       margin: EdgeInsets.all(10),
                       child: TextFormField(
                           keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                              TextInputType.numberWithOptions(decimal: true),
                           controller: edt_left_lower_extremity_rating,
                           onChanged: (value) {
                             leftlowerExtremlyRatecalculation(value);
@@ -1673,784 +1457,11 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
               SizedBox(
                 width: 10,
               ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Container(
-                    //margin: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text("Whole Person",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 10),
-                          height: 3,
-                          color: colorLightGray,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 10, left: 10, right: 10),
-                                child: Row(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          enabled: false,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          textInputAction: TextInputAction.next,
-                                          controller: edt_Whole_Person_Rating,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              // border: UnderlineInputBorder(),
-                                              labelText: 'Whole Person Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\%",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: TextFormField(
-                                          enabled: false,
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller: edt_Value_of_the_Rating,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              border: UnderlineInputBorder(),
-                                              labelText: 'Value of the Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\$",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Container(
-                    //margin: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text("Right Upper Extremity (Scheduled)",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 10),
-                          height: 3,
-                          color: colorLightGray,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CupertinoSwitch(
-                                    value: IsRightUpperState,
-                                    onChanged: (value) {
-                                      IsRightUpperState = value;
-
-                                      RightUpperExtremlyCovertFormula(value);
-
-                                      setState(
-                                            () {},
-                                      );
-                                    },
-                                    thumbColor: CupertinoColors.white,
-                                    activeColor: CupertinoColors.destructiveRed,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Convert Rating",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                      ))
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 10, left: 10, right: 10),
-                                child: Row(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Impairment_Rating_Right_Upper,
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              // border: UnderlineInputBorder(),
-                                              labelText: 'Impairment Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\%",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Value_of_the_Rating_Right_Upper,
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              border: UnderlineInputBorder(),
-                                              labelText: 'Value of the Rating',
-                                              // errorText: ISErrorrightUppervalue==true? LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
-                                              errorStyle:
-                                              TextStyle(color: Colors.red),
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\$",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ISErrorrightUppervalue == true
-                                  ? Text(
-                                LessMore4 < 0
-                                    ? "Additional \$" +
-                                    LessMore4.toStringAsFixed(2)
-                                        .replaceAll("-", "")
-                                    : "Less \$" +
-                                    LessMore4.toStringAsFixed(2)
-                                        .replaceAll("-", ""),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.red),
-                              )
-                                  : Container(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Container(
-                    //margin: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text("Left Upper Extremity (Scheduled)",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 10),
-                          height: 3,
-                          color: colorLightGray,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CupertinoSwitch(
-                                    value: IsLeftUpperState,
-                                    onChanged: (value) {
-                                      IsLeftUpperState = value;
-                                      LefttUpperExtremlyCovertFormula(value);
-
-                                      setState(
-                                            () {},
-                                      );
-                                    },
-                                    thumbColor: CupertinoColors.white,
-                                    activeColor: CupertinoColors.destructiveRed,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Convert Rating",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                      ))
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 10, left: 10, right: 10),
-                                child: Row(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Impairment_Rating_Left_Upper,
-                                          onChanged: (value) {},
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              // border: UnderlineInputBorder(),
-                                              labelText: 'Impairment Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\%",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Value_of_the_Rating_Left_Upper,
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              border: UnderlineInputBorder(),
-                                              labelText: 'Value of the Rating',
-                                              // errorText: ISErrorleftUppervalue==true? LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
-                                              errorStyle:
-                                              TextStyle(color: Colors.red),
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\$",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ISErrorleftUppervalue == true
-                                  ? Text(
-                                LessMore3 < 0
-                                    ? "Additional \$" +
-                                    LessMore3.toStringAsFixed(2)
-                                        .replaceAll("-", "")
-                                    : "Less \$" +
-                                    LessMore3.toStringAsFixed(2)
-                                        .replaceAll("-", ""),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.red),
-                              )
-                                  : Container(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Container(
-                    //margin: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text("Right Lower Extremity (Scheduled)",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 10),
-                          height: 3,
-                          color: colorLightGray,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CupertinoSwitch(
-                                    value: IsRightLowerState,
-                                    onChanged: (value) {
-                                      IsRightLowerState = value;
-
-                                      RightLowerExtremlyCovertFormula(value);
-                                      setState(
-                                            () {},
-                                      );
-                                    },
-                                    thumbColor: CupertinoColors.white,
-                                    activeColor: CupertinoColors.destructiveRed,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Convert Rating",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                      ))
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 10, left: 10, right: 10),
-                                child: Row(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Impairment_Rating_Right_Lower,
-                                          onChanged: (value) {},
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              // border: UnderlineInputBorder(),
-                                              labelText: 'Impairment Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\%",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Value_of_the_Rating_Right_Lower,
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              border: UnderlineInputBorder(),
-                                              labelText: 'Value of the Rating',
-                                              // errorText : "sdfds",
-                                              errorStyle:
-                                              TextStyle(color: Colors.red),
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\$",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              // errorText: ISErrorrightLowervalue==true? LessMore1<0? "Additional \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ISErrorrightLowervalue == true
-                                  ? Text(
-                                LessMore1 < 0
-                                    ? "Additional \$" +
-                                    LessMore1.toStringAsFixed(2)
-                                        .replaceAll("-", "")
-                                    : "Less \$" +
-                                    LessMore1.toStringAsFixed(2)
-                                        .replaceAll("-", ""),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.red),
-                              )
-                                  : Container(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Container(
-                    //margin: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text("Left Lower Extremity (Scheduled)",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 10),
-                          height: 3,
-                          color: colorLightGray,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CupertinoSwitch(
-                                    value: IsLeftLowerState,
-                                    onChanged: (value) {
-                                      IsLeftLowerState = value;
-
-                                      LefttLowerExtremlyCovertFormula(value);
-
-                                      setState(
-                                            () {},
-                                      );
-                                    },
-                                    thumbColor: CupertinoColors.white,
-                                    activeColor: CupertinoColors.destructiveRed,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Convert Rating",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                      ))
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 10, left: 10, right: 10),
-                                child: Row(
-                                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Impairment_Rating_Left_Lower,
-                                          enabled: false,
-                                          onChanged: (value) {},
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              // border: UnderlineInputBorder(),
-                                              labelText: 'Impairment Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\%",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: TextFormField(
-                                          textInputAction: TextInputAction.next,
-                                          keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                          controller:
-                                          edt_Value_of_the_Rating_Left_Lower,
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                              const EdgeInsets.only(
-                                                  top: 10.0),
-                                              border: UnderlineInputBorder(),
-                                              labelText: 'Value of the Rating',
-                                              suffixIcon: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10.0, bottom: 10.0),
-                                                child: Text(
-                                                  "\$",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              //  errorText: ISErrorleftLowervalue==true? LessMore2<0? "Additional \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
-                                              errorStyle:
-                                              TextStyle(color: Colors.red),
-                                              hintText: "0.00"),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF000000),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ISErrorleftLowervalue == true
-                                  ? Text(
-                                LessMore2 < 0
-                                    ? "Additional \$" +
-                                    LessMore2.toStringAsFixed(2)
-                                        .replaceAll("-", "")
-                                    : "Less \$" +
-                                    LessMore2.toStringAsFixed(2)
-                                        .replaceAll("-", ""),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.red),
-                              )
-                                  : Container(),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              Whole_Person_UI(),
+              Right_Upper_Extremity_UI(),
+              Left_Upper_Extremity_UI(),
+              Right_Lower_Extremity_UI(),
+              Left_Lower_Extremity_UI(),
               SizedBox(
                 width: 20,
               ),
@@ -2510,7 +1521,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 controller: edt_Total_Scheduled_Rate,
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Total Scheduled Rate',
                                     suffixIcon: Padding(
@@ -2543,7 +1554,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 controller: edt_Combined_Whole_Person_Rate,
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Combined Whole Person Rate',
                                     suffixIcon: Padding(
@@ -2585,13 +1596,13 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                       },*/
                                 enabled: false,
                                 controller:
-                                edt_Total_Award_Value_With_Current_Conversations,
+                                    edt_Total_Award_Value_With_Current_Conversations,
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText:
-                                    'Total Award Value With Current Conversion',
+                                        'Total Award Value With Current Conversion',
                                     suffixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, bottom: 10.0),
@@ -2629,15 +1640,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                         }
                                       },*/
                                 controller:
-                                edt_Potential_Combined_Whole_Person_Rating,
+                                    edt_Potential_Combined_Whole_Person_Rating,
                                 enabled: false,
                                 textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText:
-                                    'Potential Combined Whole Person Rating',
+                                        'Potential Combined Whole Person Rating',
                                     suffixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, bottom: 10.0),
@@ -2668,7 +1679,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Benefits Cap',
                                     suffixIcon: Padding(
@@ -2699,13 +1710,13 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
                                 controller:
-                                Total_TTD_TPD_benefits_you_have_received,
+                                    Total_TTD_TPD_benefits_you_have_received,
                                 decoration: InputDecoration(
                                   contentPadding:
-                                  const EdgeInsets.only(top: 10.0),
+                                      const EdgeInsets.only(top: 10.0),
                                   border: UnderlineInputBorder(),
                                   labelText:
-                                  'Total TTD/TPD benefits you have received',
+                                      'Total TTD/TPD benefits you have received',
                                   suffixIcon: Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10.0, bottom: 10.0),
@@ -2737,7 +1748,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
                                     contentPadding:
-                                    const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText: 'Amount Remaining to Reach Cap',
                                     suffixIcon: Padding(
@@ -2921,7 +1932,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double temp = Total_TTD_TPD_benefits_you_have_received.text.toString() == ""
         ? 0.00
         : double.parse(
-        Total_TTD_TPD_benefits_you_have_received.text.toString());
+            Total_TTD_TPD_benefits_you_have_received.text.toString());
 
     Total_TTD_TPD_benefits_you_have_received.text = ttd_tpd.toStringAsFixed(2);
 
@@ -2953,7 +1964,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double TTDRate = 0.00;
     if (edt_right_lower_extremity_rating.text.isNotEmpty) {
       if (value == true) {
-
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_right_lower_extremity_rating.text.toString() == ""
@@ -3313,8 +2323,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         radio_three_red_before_per = 0.00;
 
         radio_three_red_after_per = edt_right_lower_extremity_rating.text
-            .toString() ==
-            ""
+                    .toString() ==
+                ""
             ? 0.00
             : double.parse(edt_right_lower_extremity_rating.text.toString());
 
@@ -3335,7 +2345,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double TTDRate = 0.00;
     if (edt_left_lower_extremity_rating.text.isNotEmpty) {
       if (value == true) {
-
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_left_lower_extremity_rating.text.toString() == ""
@@ -3687,9 +2696,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         radio_four_red_before_per = 0.00;
 
         radio_four_red_after_per =
-        edt_left_lower_extremity_rating.text.toString() == ""
-            ? 0.00
-            : double.parse(edt_left_lower_extremity_rating.text.toString());
+            edt_left_lower_extremity_rating.text.toString() == ""
+                ? 0.00
+                : double.parse(edt_left_lower_extremity_rating.text.toString());
         leftlowerExtremlyRatecalculation(edt_left_lower_extremity_rating.text);
         ISErrorleftLowervalue = false;
       }
@@ -3705,7 +2714,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double TTDRate = 0.00;
     if (edt_left_upper_extremity_rating.text.isNotEmpty) {
       if (value == true) {
-
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_left_upper_extremity_rating.text.toString() == ""
@@ -4059,9 +3067,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         radio_two_red_before_per = 0.00;
 
         radio_two_red_after_per =
-        edt_left_upper_extremity_rating.text.toString() == ""
-            ? 0.00
-            : double.parse(edt_left_upper_extremity_rating.text.toString());
+            edt_left_upper_extremity_rating.text.toString() == ""
+                ? 0.00
+                : double.parse(edt_left_upper_extremity_rating.text.toString());
 
         leftupperExtremlyRatecalculation(edt_left_upper_extremity_rating.text);
         ISErrorleftUppervalue = false;
@@ -4078,7 +3086,6 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double TTDRate = 0.00;
     if (edt_right_upper_extremity_rating.text.isNotEmpty) {
       if (value == true) {
-
         // double a = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
 
         double test = edt_right_upper_extremity_rating.text.toString() == ""
@@ -4086,6 +3093,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
             : double.parse(edt_right_upper_extremity_rating.text.toString());
         radio_one_red_before_per = test;
         int test1 = test.toInt();
+
         if (test1 == 0) {
           edt_Impairment_Rating_Right_Upper.text = "0";
         }
@@ -4395,6 +3403,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
             : double.parse(edt_Impairment_Rating_Right_Upper.text.toString());
 
         radio_one_red_per = a;
+        print("Scenario_eight : max_aww : " +
+            edt_MAX_AWW.text.toString() +
+            " CompRate : " +
+            edt_COMP_RATE.text.toString());
 
         double avgweek = edt_avg_weekly_wage.text.toString() == ""
             ? 0.00
@@ -4405,15 +3417,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        // if(AgeFactorForInjury<21){
-        //   TTDRate = (max_aww * 2) / 3;
-        // }else{
-        if (avgweek > max_aww) {
-          TTDRate = compRate;
+        if (AgeFactorForInjury == 1.80) {
+          TTDRate = (max_aww * 2) / 3;
         } else {
-          TTDRate = (avgweek * 2) / 3;
+          if (avgweek > max_aww) {
+            TTDRate = compRate;
+          } else {
+            TTDRate = (avgweek * 2) / 3;
+          }
         }
-        // }
         double resultb1 = TTDRate * 400 * AgeFactorForInjury;
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
@@ -4432,8 +3444,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         radio_one_red_before_per = 0.00;
 
         radio_one_red_after_per = edt_right_upper_extremity_rating.text
-            .toString() ==
-            ""
+                    .toString() ==
+                ""
             ? 0.00
             : double.parse(edt_right_upper_extremity_rating.text.toString());
 
@@ -4517,24 +3529,24 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         radio_four_red_per != 0.00) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text ="";
+      edt_Combined_Whole_Person_Rate.text = "";
     }
     if (isRow_1 == true && isRow_2 == true && isRow_3 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text ="";
+      edt_Combined_Whole_Person_Rate.text = "";
     } else if (isRow_2 == true && isRow_3 == true && isRow_4 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text ="";
+      edt_Combined_Whole_Person_Rate.text = "";
     } else if (isRow_3 == true && isRow_4 == true && isRow_1 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text ="";
+      edt_Combined_Whole_Person_Rate.text = "";
     } else if (isRow_4 == true && isRow_1 == true && isRow_2 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text ="";
+      edt_Combined_Whole_Person_Rate.text = "";
     } else {
       notRepeat = false;
     }
@@ -9495,7 +8507,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     List<CombineValueResponse> books = list
         .map(
           (jsonObject) => CombineValueResponse.fromJson(jsonObject),
-    )
+        )
         .toList();
     if (notRepeat == false) {
       isCombine = true;
@@ -9526,17 +8538,16 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double f = edt_Impairment_Rating_Right_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Right_Lower.text.toString());
     double g = edt_Impairment_Rating_Left_Lower.text.toString() == "" ? 0.00 : double.parse(edt_Impairment_Rating_Left_Lower.text.toString());*/
 
-    double a = 0.00,
-        b = 0.00,
-        c = 0.00,
-        d = 0.00;
+    double a = 0.00, b = 0.00, c = 0.00, d = 0.00;
     double awardValue = 0.00;
-    if (isCombine || ttd!=0.00 || edt_Combined_Whole_Person_Rate.text!="0.00") {
+    if (isCombine ||
+        ttd != 0.00 ||
+        edt_Combined_Whole_Person_Rate.text != "0.00") {
       double resultb1 = ttd * 400 * AgeFactorForInjury;
 
       awardValue =
           (resultb1 * double.parse(edt_Combined_Whole_Person_Rate.text)) / 100;
-      print("AWARD VALUE1 === "+awardValue.toString());
+      print("AWARD VALUE1 === " + awardValue.toString());
     } else {
       if (edt_Value_of_the_Rating_Right_Upper.text != "") {
         a = double.parse(edt_Value_of_the_Rating_Right_Upper.text);
@@ -9551,15 +8562,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         d = double.parse(edt_Value_of_the_Rating_Left_Lower.text);
       }
       awardValue = a + b + c + d;
-      print("AWARD VALUE2 === "+awardValue.toString());
+      print("AWARD VALUE2 === " + awardValue.toString());
     }
     print("Total Award Value == " + awardValue.toString());
     edt_Total_Award_Value_With_Current_Conversations.text =
         awardValue.toStringAsFixed(2);
   }
 
-    void TotalScheduleRateee() {
-      /* final TextEditingController edt_right_upper_extremity_rating =
+  void TotalScheduleRateee() {
+    /* final TextEditingController edt_right_upper_extremity_rating =
       TextEditingController();
   final TextEditingController edt_left_upper_extremity_rating =
       TextEditingController();
@@ -9568,35 +8579,776 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   final TextEditingController edt_left_lower_extremity_rating =
       TextEditingController();*/
 
-      double d = edt_right_upper_extremity_rating.text.toString() == ""
-          ? 0.00
-          : double.parse(edt_right_upper_extremity_rating.text.toString());
-      double e = edt_left_upper_extremity_rating.text.toString() == ""
-          ? 0.00
-          : double.parse(edt_left_upper_extremity_rating.text.toString());
-      double f = edt_right_lower_extremity_rating.text.toString() == ""
-          ? 0.00
-          : double.parse(edt_right_lower_extremity_rating.text.toString());
-      double g = edt_left_lower_extremity_rating.text.toString() == ""
-          ? 0.00
-          : double.parse(edt_left_lower_extremity_rating.text.toString());
+    double d = edt_right_upper_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_right_upper_extremity_rating.text.toString());
+    double e = edt_left_upper_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_left_upper_extremity_rating.text.toString());
+    double f = edt_right_lower_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_right_lower_extremity_rating.text.toString());
+    double g = edt_left_lower_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_left_lower_extremity_rating.text.toString());
 
-      double t2 = d + e + f + g;
-      double t1 = radio_one_red_before_per +
-          radio_two_red_before_per +
-          radio_three_red_before_per +
-          radio_four_red_before_per;
-      // double t2 = radio_one_red_after_per+radio_two_red_after_per+radio_three_red_after_per+radio_four_red_after_per;
+    double t2 = d + e + f + g;
+    double t1 = radio_one_red_before_per +
+        radio_two_red_before_per +
+        radio_three_red_before_per +
+        radio_four_red_before_per;
+    // double t2 = radio_one_red_after_per+radio_two_red_after_per+radio_three_red_after_per+radio_four_red_after_per;
 
-      print("fdsdsfd33rt" +
-          " Before " +
-          t2.toString() +
-          " After : " +
-          t1.toString());
-      double total = t2 - t1;
+    print("fdsdsfd33rt" +
+        " Before " +
+        t2.toString() +
+        " After : " +
+        t1.toString());
+    double total = t2 - t1;
 
-      print("TotalScheduleRateee" + " Total : " + total.toString());
-      edt_Total_Scheduled_Rate.text = total.toStringAsFixed(2);
-    }
+    print("TotalScheduleRateee" + " Total : " + total.toString());
+    edt_Total_Scheduled_Rate.text = total.toStringAsFixed(2);
   }
 
+  Widget Whole_Person_UI() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          //margin: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Whole Person",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                                enabled: false,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                textInputAction: TextInputAction.next,
+                                controller: edt_Whole_Person_Rating,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Whole Person Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                                enabled: false,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Value_of_the_Rating,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Value of the Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget Right_Upper_Extremity_UI() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          //margin: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Right Upper Extremity (Scheduled)",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CupertinoSwitch(
+                          value: IsRightUpperState,
+                          onChanged: (value) {
+                            IsRightUpperState = value;
+
+                            RightUpperExtremlyCovertFormula(value);
+
+                            setState(
+                              () {},
+                            );
+                          },
+                          thumbColor: CupertinoColors.white,
+                          activeColor: CupertinoColors.destructiveRed,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Convert Rating",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Impairment_Rating_Right_Upper,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Impairment Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Value_of_the_Rating_Right_Upper,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Value of the Rating',
+                                    // errorText: ISErrorrightUppervalue==true? LessMore4<0? "Additional \$" +LessMore4.toStringAsFixed(2):"Less \$" +LessMore4.toStringAsFixed(2) :null,
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ISErrorrightUppervalue == true
+                        ? Text(
+                            LessMore4 < 0
+                                ? "Additional \$" +
+                                    LessMore4.toStringAsFixed(2)
+                                        .replaceAll("-", "")
+                                : "Less \$" +
+                                    LessMore4.toStringAsFixed(2)
+                                        .replaceAll("-", ""),
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          )
+                        : Container(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget Left_Upper_Extremity_UI() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          //margin: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Left Upper Extremity (Scheduled)",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CupertinoSwitch(
+                          value: IsLeftUpperState,
+                          onChanged: (value) {
+                            IsLeftUpperState = value;
+                            LefttUpperExtremlyCovertFormula(value);
+
+                            setState(
+                              () {},
+                            );
+                          },
+                          thumbColor: CupertinoColors.white,
+                          activeColor: CupertinoColors.destructiveRed,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Convert Rating",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Impairment_Rating_Left_Upper,
+                                onChanged: (value) {},
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Impairment Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Value_of_the_Rating_Left_Upper,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Value of the Rating',
+                                    // errorText: ISErrorleftUppervalue==true? LessMore3<0? "Additional \$" +LessMore3.toStringAsFixed(2):"Less \$" +LessMore3.toStringAsFixed(2) :null,
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ISErrorleftUppervalue == true
+                        ? Text(
+                            LessMore3 < 0
+                                ? "Additional \$" +
+                                    LessMore3.toStringAsFixed(2)
+                                        .replaceAll("-", "")
+                                : "Less \$" +
+                                    LessMore3.toStringAsFixed(2)
+                                        .replaceAll("-", ""),
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          )
+                        : Container(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget Right_Lower_Extremity_UI() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          //margin: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Right Lower Extremity (Scheduled)",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CupertinoSwitch(
+                          value: IsRightLowerState,
+                          onChanged: (value) {
+                            IsRightLowerState = value;
+
+                            RightLowerExtremlyCovertFormula(value);
+                            setState(
+                              () {},
+                            );
+                          },
+                          thumbColor: CupertinoColors.white,
+                          activeColor: CupertinoColors.destructiveRed,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Convert Rating",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Impairment_Rating_Right_Lower,
+                                onChanged: (value) {},
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Impairment Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Value_of_the_Rating_Right_Lower,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Value of the Rating',
+                                    // errorText : "sdfds",
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    // errorText: ISErrorrightLowervalue==true? LessMore1<0? "Additional \$" +LessMore1.toStringAsFixed(2):"Less \$" +LessMore1.toStringAsFixed(2) :null,
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ISErrorrightLowervalue == true
+                        ? Text(
+                            LessMore1 < 0
+                                ? "Additional \$" +
+                                    LessMore1.toStringAsFixed(2)
+                                        .replaceAll("-", "")
+                                : "Less \$" +
+                                    LessMore1.toStringAsFixed(2)
+                                        .replaceAll("-", ""),
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          )
+                        : Container(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget Left_Lower_Extremity_UI() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Container(
+          //margin: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text("Left Lower Extremity (Scheduled)",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5, bottom: 10),
+                height: 3,
+                color: colorLightGray,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CupertinoSwitch(
+                          value: IsLeftLowerState,
+                          onChanged: (value) {
+                            IsLeftLowerState = value;
+
+                            LefttLowerExtremlyCovertFormula(value);
+
+                            setState(
+                              () {},
+                            );
+                          },
+                          thumbColor: CupertinoColors.white,
+                          activeColor: CupertinoColors.destructiveRed,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Convert Rating",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ))
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Impairment_Rating_Left_Lower,
+                                enabled: false,
+                                onChanged: (value) {},
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    // border: UnderlineInputBorder(),
+                                    labelText: 'Impairment Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\%",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: edt_Value_of_the_Rating_Left_Lower,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(top: 10.0),
+                                    border: UnderlineInputBorder(),
+                                    labelText: 'Value of the Rating',
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10.0, bottom: 10.0),
+                                      child: Text(
+                                        "\$",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    //  errorText: ISErrorleftLowervalue==true? LessMore2<0? "Additional \$" +LessMore2.toStringAsFixed(2):"Less \$" +LessMore2.toStringAsFixed(2) :null,
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    hintText: "0.00"),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF000000),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ISErrorleftLowervalue == true
+                        ? Text(
+                            LessMore2 < 0
+                                ? "Additional \$" +
+                                    LessMore2.toStringAsFixed(2)
+                                        .replaceAll("-", "")
+                                : "Less \$" +
+                                    LessMore2.toStringAsFixed(2)
+                                        .replaceAll("-", ""),
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          )
+                        : Container(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
