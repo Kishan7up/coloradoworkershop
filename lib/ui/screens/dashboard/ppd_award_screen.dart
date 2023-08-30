@@ -211,6 +211,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
   double radio_three_red_value = 0.00;
   double radio_four_red_value = 0.00;
 
+  int tot_rating_without_convert = 0;
+
   @override
   void initState() {
     super.initState();
@@ -1228,8 +1230,39 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           onChanged: (value) {
                             wholePersonimperimentsCalculation();
 
-                            edt_Potential_Combined_Whole_Person_Rating.text =
-                                value.toString();
+                            /* int wholePerson = int.parse(value);
+                            int rightUpper =
+                                edt_right_upper_extremity_rating.text.isNotEmpty
+                                    ? int.parse(
+                                        edt_right_upper_extremity_rating.text)
+                                    : 0;
+                            int leftUpper =
+                                edt_left_upper_extremity_rating.text.isNotEmpty
+                                    ? int.parse(
+                                        edt_left_upper_extremity_rating.text)
+                                    : 0;
+                            int rightLowwer =
+                                edt_right_lower_extremity_rating.text.isNotEmpty
+                                    ? int.parse(
+                                        edt_right_lower_extremity_rating.text)
+                                    : 0;
+                            int leftLower =
+                                edt_left_lower_extremity_rating.text.isNotEmpty
+                                    ? int.parse(
+                                        edt_left_lower_extremity_rating.text)
+                                    : 0;
+
+                            tot_rating_without_convert = rightUpper +
+                                wholePerson +
+                                leftUpper +
+                                rightLowwer +
+                                leftLower;
+                            edt_Combined_Whole_Person_Rate.text =
+                                tot_rating_without_convert.toString();
+*/
+
+                            getTotRatingValue();
+
                             setState(() {});
                           },
                           controller: edt_whole_person_impliment_rating,
@@ -1278,6 +1311,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           textInputAction: TextInputAction.next,
                           onChanged: (value) {
                             rightupperExtremlyRatecalculation(value);
+
+                            getTotRatingValue();
                           },
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.only(top: 10.0),
@@ -1322,6 +1357,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           controller: edt_left_upper_extremity_rating,
                           onChanged: (value) {
                             leftupperExtremlyRatecalculation(value);
+
+                            getTotRatingValue();
+
+                            setState(() {});
                           },
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
@@ -1367,6 +1406,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           controller: edt_right_lower_extremity_rating,
                           onChanged: (value) {
                             rightlowerExtremlyRatecalculation(value);
+
+                            getTotRatingValue();
+
+                            setState(() {});
                           },
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
@@ -1401,6 +1444,10 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           controller: edt_left_lower_extremity_rating,
                           onChanged: (value) {
                             leftlowerExtremlyRatecalculation(value);
+
+                            getTotRatingValue();
+
+                            setState(() {});
                           },
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
@@ -2290,15 +2337,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        // if(AgeFactorForInjury<21){
-        //   TTDRate = (max_aww * 2) / 3;
-        // }else{
-        if (avgweek > max_aww) {
-          TTDRate = compRate;
+        if (AgeFactorForInjury == 1.80) {
+          TTDRate = (max_aww * 2) / 3;
         } else {
-          TTDRate = (avgweek * 2) / 3;
+          if (avgweek > max_aww) {
+            TTDRate = compRate;
+          } else {
+            TTDRate = (avgweek * 2) / 3;
+          }
         }
-        // }
         double resultb1 = TTDRate * 400 * AgeFactorForInjury;
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Right_Lower.text = resultb.toStringAsFixed(2);
@@ -2672,15 +2719,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
 
-        // if(AgeFactorForInjury<21){
-        //   TTDRate = (max_aww * 2) / 3;
-        // }else{
-        if (avgweek > max_aww) {
-          TTDRate = compRate;
+        if (AgeFactorForInjury == 1.80) {
+          TTDRate = (max_aww * 2) / 3;
         } else {
-          TTDRate = (avgweek * 2) / 3;
+          if (avgweek > max_aww) {
+            TTDRate = compRate;
+          } else {
+            TTDRate = (avgweek * 2) / 3;
+          }
         }
-        // }
         double resultb1 = TTDRate * 400 * AgeFactorForInjury;
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Left_Lower.text = resultb.toStringAsFixed(2);
@@ -3042,15 +3089,15 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        // if(AgeFactorForInjury<21){
-        //   TTDRate = (max_aww * 2) / 3;
-        // }else{
-        if (avgweek > max_aww) {
-          TTDRate = compRate;
+        if (AgeFactorForInjury == 1.80) {
+          TTDRate = (max_aww * 2) / 3;
         } else {
-          TTDRate = (avgweek * 2) / 3;
+          if (avgweek > max_aww) {
+            TTDRate = compRate;
+          } else {
+            TTDRate = (avgweek * 2) / 3;
+          }
         }
-        // }
         double resultb1 = TTDRate * 400 * AgeFactorForInjury;
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Left_Upper.text = resultb.toStringAsFixed(2);
@@ -3408,7 +3455,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         print("Scenario_eight : max_aww : " +
             edt_MAX_AWW.text.toString() +
             " CompRate : " +
-            edt_COMP_RATE.text.toString() + " Age Factor : " + AgeFactorForInjury.toString());
+            edt_COMP_RATE.text.toString() +
+            " Age Factor : " +
+            AgeFactorForInjury.toString());
 
         double avgweek = edt_avg_weekly_wage.text.toString() == ""
             ? 0.00
@@ -8772,6 +8821,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
 
                             RightUpperExtremlyCovertFormula(value);
 
+                            getTotRatingValue();
+
                             setState(
                               () {},
                             );
@@ -8926,6 +8977,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                           onChanged: (value) {
                             IsLeftUpperState = value;
                             LefttUpperExtremlyCovertFormula(value);
+
+                            getTotRatingValue();
 
                             setState(
                               () {},
@@ -9083,6 +9136,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             IsRightLowerState = value;
 
                             RightLowerExtremlyCovertFormula(value);
+
+                            getTotRatingValue();
                             setState(
                               () {},
                             );
@@ -9240,7 +9295,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                             IsLeftLowerState = value;
 
                             LefttLowerExtremlyCovertFormula(value);
-
+                            getTotRatingValue();
                             setState(
                               () {},
                             );
@@ -9353,5 +9408,58 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         ),
       ),
     );
+  }
+
+  void getTotRatingValue() {
+    double wholePersonRate = edt_Whole_Person_Rating.text.isNotEmpty
+        ? double.parse(edt_Whole_Person_Rating.text)
+        : 0;
+    double wholePersonValue = edt_Whole_Person_Rating.text.isNotEmpty
+        ? double.parse(edt_Whole_Person_Rating.text)
+        : 0.00;
+
+    double RU_Rating = edt_Impairment_Rating_Right_Upper.text.isNotEmpty
+        ? double.parse(edt_Impairment_Rating_Right_Upper.text)
+        : 0.00;
+    double RU_Value = edt_Value_of_the_Rating_Right_Upper.text.isNotEmpty
+        ? double.parse(edt_Value_of_the_Rating_Right_Upper.text)
+        : 0.00;
+
+    print("skljdshf" +
+        " Rating : " +
+        RU_Rating.toString() +
+        " RU_Value : " +
+        RU_Value.toString());
+
+    double LU_Rating = edt_Impairment_Rating_Left_Upper.text.isNotEmpty
+        ? double.parse(edt_Impairment_Rating_Left_Upper.text)
+        : 0.00;
+
+    double LU_Value = edt_Value_of_the_Rating_Left_Upper.text.isNotEmpty
+        ? double.parse(edt_Value_of_the_Rating_Left_Upper.text)
+        : 0.00;
+
+    double RL_Rating = edt_Impairment_Rating_Right_Lower.text.isNotEmpty
+        ? double.parse(edt_Impairment_Rating_Right_Lower.text)
+        : 0.00;
+    double RL_Value = edt_Value_of_the_Rating_Right_Lower.text.isNotEmpty
+        ? double.parse(edt_Value_of_the_Rating_Right_Lower.text)
+        : 0.00;
+    double LL_Rating = edt_Impairment_Rating_Left_Lower.text.isNotEmpty
+        ? double.parse(edt_Impairment_Rating_Left_Lower.text)
+        : 0.00;
+    double LL_Value = edt_Value_of_the_Rating_Left_Lower.text.isNotEmpty
+        ? double.parse(edt_Value_of_the_Rating_Left_Lower.text)
+        : 0.00;
+
+    double tot_rating =
+        wholePersonRate + RU_Rating + LU_Rating + RL_Rating + LL_Rating;
+
+    double tot_value =
+        wholePersonValue + RU_Value + LU_Value + RL_Value + LL_Value;
+
+    edt_Combined_Whole_Person_Rate.text = tot_rating.toStringAsFixed(2);
+    edt_Total_Award_Value_With_Current_Conversations.text =
+        tot_value.toStringAsFixed(2);
   }
 }
