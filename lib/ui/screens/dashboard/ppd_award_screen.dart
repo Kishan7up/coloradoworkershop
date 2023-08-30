@@ -745,93 +745,95 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     );
     // print("TotalYearMMI :- " + y.toString()+" "+years.inDays.toString());
     // print("TotalYearMMI :- " + calculateAge().toString());
-
-    if (y < 21) {
+    if (y < 21 || y11 < 21) {
       AgeFactorForInjury = 1.80;
-    } else if (y == 21) {
-      AgeFactorForInjury = 1.78;
-    } else if (y == 22) {
-      AgeFactorForInjury = 1.76;
-    } else if (y == 23) {
-      AgeFactorForInjury = 1.74;
-    } else if (y == 24) {
-      AgeFactorForInjury = 1.72;
-    } else if (y == 25) {
-      AgeFactorForInjury = 1.70;
-    } else if (y == 26) {
-      AgeFactorForInjury = 1.68;
-    } else if (y == 27) {
-      AgeFactorForInjury = 1.66;
-    } else if (y == 28) {
-      AgeFactorForInjury = 1.64;
-    } else if (y == 29) {
-      AgeFactorForInjury = 1.62;
-    } else if (y == 30) {
-      AgeFactorForInjury = 1.60;
-    } else if (y == 31) {
-      AgeFactorForInjury = 1.58;
-    } else if (y == 32) {
-      AgeFactorForInjury = 1.56;
-    } else if (y == 33) {
-      AgeFactorForInjury = 1.54;
-    } else if (y == 34) {
-      AgeFactorForInjury = 1.52;
-    } else if (y == 35) {
-      AgeFactorForInjury = 1.50;
-    } else if (y == 36) {
-      AgeFactorForInjury = 1.48;
-    } else if (y == 37) {
-      AgeFactorForInjury = 1.46;
-    } else if (y == 38) {
-      AgeFactorForInjury = 1.44;
-    } else if (y == 39) {
-      AgeFactorForInjury = 1.42;
-    } else if (y == 40) {
-      AgeFactorForInjury = 1.40;
-    } else if (y == 41) {
-      AgeFactorForInjury = 1.38;
-    } else if (y == 42) {
-      AgeFactorForInjury = 1.36;
-    } else if (y == 43) {
-      AgeFactorForInjury = 1.34;
-    } else if (y == 44) {
-      AgeFactorForInjury = 1.32;
-    } else if (y == 45) {
-      AgeFactorForInjury = 1.30;
-    } else if (y == 46) {
-      AgeFactorForInjury = 1.28;
-    } else if (y == 47) {
-      AgeFactorForInjury = 1.26;
-    } else if (y == 48) {
-      AgeFactorForInjury = 1.24;
-    } else if (y == 49) {
-      AgeFactorForInjury = 1.22;
-    } else if (y == 50) {
-      AgeFactorForInjury = 1.20;
-    } else if (y == 51) {
-      AgeFactorForInjury = 1.18;
-    } else if (y == 52) {
-      AgeFactorForInjury = 1.16;
-    } else if (y == 53) {
-      AgeFactorForInjury = 1.14;
-    } else if (y == 54) {
-      AgeFactorForInjury = 1.12;
-    } else if (y == 55) {
-      AgeFactorForInjury = 1.10;
-    } else if (y == 56) {
-      AgeFactorForInjury = 1.08;
-    } else if (y == 57) {
-      AgeFactorForInjury = 1.06;
-    } else if (y == 58) {
-      AgeFactorForInjury = 1.04;
-    } else if (y == 59) {
-      AgeFactorForInjury = 1.02;
-    } else if (y == 60) {
-      AgeFactorForInjury = 1.00;
-    } else if (y > 60) {
-      AgeFactorForInjury = 1.00;
+    } else {
+      if (y < 21) {
+        AgeFactorForInjury = 1.80;
+      } else if (y == 21) {
+        AgeFactorForInjury = 1.78;
+      } else if (y == 22) {
+        AgeFactorForInjury = 1.76;
+      } else if (y == 23) {
+        AgeFactorForInjury = 1.74;
+      } else if (y == 24) {
+        AgeFactorForInjury = 1.72;
+      } else if (y == 25) {
+        AgeFactorForInjury = 1.70;
+      } else if (y == 26) {
+        AgeFactorForInjury = 1.68;
+      } else if (y == 27) {
+        AgeFactorForInjury = 1.66;
+      } else if (y == 28) {
+        AgeFactorForInjury = 1.64;
+      } else if (y == 29) {
+        AgeFactorForInjury = 1.62;
+      } else if (y == 30) {
+        AgeFactorForInjury = 1.60;
+      } else if (y == 31) {
+        AgeFactorForInjury = 1.58;
+      } else if (y == 32) {
+        AgeFactorForInjury = 1.56;
+      } else if (y == 33) {
+        AgeFactorForInjury = 1.54;
+      } else if (y == 34) {
+        AgeFactorForInjury = 1.52;
+      } else if (y == 35) {
+        AgeFactorForInjury = 1.50;
+      } else if (y == 36) {
+        AgeFactorForInjury = 1.48;
+      } else if (y == 37) {
+        AgeFactorForInjury = 1.46;
+      } else if (y == 38) {
+        AgeFactorForInjury = 1.44;
+      } else if (y == 39) {
+        AgeFactorForInjury = 1.42;
+      } else if (y == 40) {
+        AgeFactorForInjury = 1.40;
+      } else if (y == 41) {
+        AgeFactorForInjury = 1.38;
+      } else if (y == 42) {
+        AgeFactorForInjury = 1.36;
+      } else if (y == 43) {
+        AgeFactorForInjury = 1.34;
+      } else if (y == 44) {
+        AgeFactorForInjury = 1.32;
+      } else if (y == 45) {
+        AgeFactorForInjury = 1.30;
+      } else if (y == 46) {
+        AgeFactorForInjury = 1.28;
+      } else if (y == 47) {
+        AgeFactorForInjury = 1.26;
+      } else if (y == 48) {
+        AgeFactorForInjury = 1.24;
+      } else if (y == 49) {
+        AgeFactorForInjury = 1.22;
+      } else if (y == 50) {
+        AgeFactorForInjury = 1.20;
+      } else if (y == 51) {
+        AgeFactorForInjury = 1.18;
+      } else if (y == 52) {
+        AgeFactorForInjury = 1.16;
+      } else if (y == 53) {
+        AgeFactorForInjury = 1.14;
+      } else if (y == 54) {
+        AgeFactorForInjury = 1.12;
+      } else if (y == 55) {
+        AgeFactorForInjury = 1.10;
+      } else if (y == 56) {
+        AgeFactorForInjury = 1.08;
+      } else if (y == 57) {
+        AgeFactorForInjury = 1.06;
+      } else if (y == 58) {
+        AgeFactorForInjury = 1.04;
+      } else if (y == 59) {
+        AgeFactorForInjury = 1.02;
+      } else if (y == 60) {
+        AgeFactorForInjury = 1.00;
+      } else if (y > 60) {
+        AgeFactorForInjury = 1.00;
+      }
     }
-
     print("AgeFactor:== " + AgeFactorForInjury.toString());
     setState(() {});
   }
@@ -3406,7 +3408,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         print("Scenario_eight : max_aww : " +
             edt_MAX_AWW.text.toString() +
             " CompRate : " +
-            edt_COMP_RATE.text.toString());
+            edt_COMP_RATE.text.toString() + " Age Factor : " + AgeFactorForInjury.toString());
 
         double avgweek = edt_avg_weekly_wage.text.toString() == ""
             ? 0.00
@@ -3426,6 +3428,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
             TTDRate = (avgweek * 2) / 3;
           }
         }
+
         double resultb1 = TTDRate * 400 * AgeFactorForInjury;
         double resultb = (resultb1 * a) / 100;
         edt_Value_of_the_Rating_Right_Upper.text = resultb.toStringAsFixed(2);
