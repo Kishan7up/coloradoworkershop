@@ -703,7 +703,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     /// negative month means it's still upcoming
     print('you buns is ${year1 - 1}');
     y = year1 - 1;
-    print('turning $year1 in ${mth.abs()} months and $days days');
+    print('turning from MMI $year1 in ${mth.abs()} months and $days days');
 
     /// Second B Veriable
     DateTime start1 =
@@ -747,6 +747,28 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     );
     // print("TotalYearMMI :- " + y.toString()+" "+years.inDays.toString());
     // print("TotalYearMMI :- " + calculateAge().toString());
+
+    DateTime a = new DateFormat("dd-MM-yyyy")
+        .parse(edt_date_of_birth.text); //edt_date_of_mmi.text);
+    DateTime b = new DateFormat("dd-MM-yyyy").parse(edt_date_of_mmi.text);
+    /* final differenceDays = date2.difference(date1).inDays;
+    final differenceDays1 = (date2.difference(date1).inHours / 24).round();
+    final differenceYears = (date2.difference(date1).inDays / 365).floor();*/
+
+    //  print("YearsOfActualFlutter" + differenceYears.toString());
+
+    /*  int totalDays = a.difference(b).inDays;
+    int years7up = totalDays ~/ 365;
+    int months7up = (totalDays - years7up * 365) ~/ 30;
+    int days7up = totalDays - years7up * 365 - months7up * 30;
+    print("YearsOfActualFlutter" + "$years7up $months7up $days7up $totalDays");
+
+    y = years7up - 1;*/
+
+    print("sdfdhfhfd45" + " Year  :" + calculateAge().toString());
+
+    y = calculateAge();
+
     if (y < 21 || y11 < 21) {
       AgeFactorForInjury = 1.80;
     } else {
@@ -837,6 +859,9 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
       }
     }
     print("AgeFactor:== " + AgeFactorForInjury.toString());
+
+    print("AgeFactor From :== " + AgeFactorForInjury.toString());
+
     setState(() {});
   }
 
@@ -1474,6 +1499,34 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
                     SizedBox(
                       width: 20,
                     ),
+                    /* InkWell(
+                      onTap: () {},
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: Card(
+                            elevation: 10,
+                            color: APPButtonRed,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Container(
+                              width: 100,
+                              height: 25,
+                              margin: EdgeInsets.only(
+                                  left: 20, right: 20, top: 10, bottom: 10),
+                              child: Center(
+                                child: Text("Calculate",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),*/
                   ],
                 ),
               )
@@ -9414,8 +9467,8 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
     double wholePersonRate = edt_Whole_Person_Rating.text.isNotEmpty
         ? double.parse(edt_Whole_Person_Rating.text)
         : 0;
-    double wholePersonValue = edt_Whole_Person_Rating.text.isNotEmpty
-        ? double.parse(edt_Whole_Person_Rating.text)
+    double wholePersonValue = edt_Value_of_the_Rating.text.isNotEmpty
+        ? double.parse(edt_Value_of_the_Rating.text)
         : 0.00;
 
     double RU_Rating = edt_Impairment_Rating_Right_Upper.text.isNotEmpty
