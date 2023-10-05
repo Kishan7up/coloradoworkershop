@@ -9478,7 +9478,7 @@ class _PpdAwardScreenState extends BaseState<PpdAwardScreen>
         ? double.parse(edt_Value_of_the_Rating_Right_Upper.text)
         : 0.00;
 
-    print("skljdshf" +
+    print("skljdsddddhf" +
         " Rating : " +
         RU_Rating.toString() +
         " RU_Value : " +
