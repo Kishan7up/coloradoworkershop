@@ -5,6 +5,7 @@ import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
 import 'package:app/ui/screens/dashboard/contact_us.dart';
 import 'package:app/ui/screens/dashboard/home_screen.dart';
 import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
+import 'package:app/ui/screens/dashboard/new_ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/notification_screen.dart';
 import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
@@ -88,7 +89,8 @@ class MyApp extends StatefulWidget {
 
       case WebViewRemotePage.routeName:
         return getMaterialPageRoute(WebViewRemotePage(settings.arguments));
-
+      case NewPpdAwardScreen.routeName:
+        return getMaterialPageRoute(NewPpdAwardScreen(settings.arguments));
 
       default:
         return null;

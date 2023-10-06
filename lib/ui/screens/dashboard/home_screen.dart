@@ -11,6 +11,7 @@ import 'package:app/ui/screens/dashboard/about_us.dart';
 import 'package:app/ui/screens/dashboard/calculate_net_present_value.dart';
 import 'package:app/ui/screens/dashboard/contact_us.dart';
 import 'package:app/ui/screens/dashboard/maximum_benifits.dart';
+import 'package:app/ui/screens/dashboard/new_ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/notification_screen.dart';
 import 'package:app/ui/screens/dashboard/ppd_award_screen.dart';
 import 'package:app/ui/screens/dashboard/recent_cases_details_screen.dart';
@@ -66,7 +67,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
         ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all")));
 
     _CustomerBloc.add(SearchRecentViewRetriveEvent("", "ALL"));
-
 
     FirebaseMessaging.instance.getToken().then((value) {
       print("TokenFCM" + " Token No : " + value);
@@ -125,8 +125,9 @@ class _HomeScreenState extends BaseState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => _CustomerBloc..add(
-          ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all"))),
+      create: (BuildContext context) => _CustomerBloc
+        ..add(
+            ViewRecentCasesRequestEvent(ViewRecentCasesRequest(filter: "all"))),
       child: BlocConsumer<MainBloc, MainStates>(
         builder: (BuildContext context, MainStates state) {
           if (state is ViewRecentCasesResponseState) {
@@ -245,7 +246,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 Flexible(
                     child: InkWell(
                   onTap: () {
-                    navigateTo(context, PpdAwardScreen.routeName);
+                    navigateTo(context, NewPpdAwardScreen.routeName);
                   },
                   child: Container(
                     height: 140,
@@ -281,7 +282,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 Flexible(
                     child: InkWell(
                   onTap: () {
-                    navigateTo(context, CalculateNetPresentValue.routeName);
+                    //navigateTo(context, CalculateNetPresentValue.routeName);
+                    navigateTo(context, MaximumBenefitsScreen.routeName);
                   },
                   child: Container(
                     height: 140,
@@ -298,14 +300,14 @@ class _HomeScreenState extends BaseState<HomeScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          PRESENT_VALUE_ICON,
-                          height: 40,
-                          width: 40,
+                          MAXIMUM_BENEFIT_ICON,
+                          height: 45,
+                          width: 45,
                         ),
                         SizedBox(
                           height: 22,
                         ),
-                        Text("Calculate Net\nPresent value",
+                        Text("Maximum\n Benefits",
                             style: TextStyle(
                                 fontSize: 15,
                                 letterSpacing: 1,
@@ -316,12 +318,12 @@ class _HomeScreenState extends BaseState<HomeScreen>
                 )),
               ],
             ),
-            SizedBox(
+            /*  SizedBox(
               height: 40,
             ),
             InkWell(
               onTap: () {
-                navigateTo(context, MaximumBenefitsScreen.routeName);
+                //  navigateTo(context, MaximumBenefitsScreen.routeName);
               },
               child: Row(
                 children: [
@@ -383,6 +385,46 @@ class _HomeScreenState extends BaseState<HomeScreen>
                         fontSize: 15, letterSpacing: 1, color: Colors.white),
                   )
                 ],
+              ),
+            )*/
+            SizedBox(
+              height: 25,
+            ),
+            InkWell(
+              onTap: () {
+                //navigateTo(context, CalculateNetPresentValue.routeName);
+                navigateTo(context, AboutUsScreen.routeName);
+              },
+              child: Center(
+                child: Container(
+                  height: 140,
+                  width: 155,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 0.3,
+                        color: Colors.white,
+                      ),
+                      color: colorPrimary,
+                      borderRadius: BorderRadius.all(Radius.circular(6))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        ABOUT_US,
+                        height: 45,
+                        width: 45,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("About Us",
+                          style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 1,
+                              color: Colors.white)),
+                    ],
+                  ),
+                ),
               ),
             )
           ],
@@ -455,15 +497,21 @@ class _HomeScreenState extends BaseState<HomeScreen>
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-
                         Text(
-                          arrRecent_view_list[index].subTitle.toString().replaceAll("\n", "") + " [" +  arrRecent_view_list[index].judgeName.toString().replaceAll("\n", "") +"]",
+                          arrRecent_view_list[index]
+                                  .subTitle
+                                  .toString()
+                                  .replaceAll("\n", "") +
+                              " [" +
+                              arrRecent_view_list[index]
+                                  .judgeName
+                                  .toString()
+                                  .replaceAll("\n", "") +
+                              "]",
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black),
+                          style: TextStyle(fontSize: 12, color: Colors.black),
                         ),
-                       /* Text(
+                        /* Text(
 
                           arrRecent_view_list[index].caseDetailShort,
                           overflow: TextOverflow.ellipsis,
@@ -520,9 +568,10 @@ class _HomeScreenState extends BaseState<HomeScreen>
         "API Response and Bind data details" +
         state.viewRecentCasesResponse.data.details[0].title);
 
-
     await OfflineDbHelper.getInstance().deleteALLRecentViewDBTable();
-    for (int i = 0; i <  state.viewRecentCasesResponse.data.details.length; i++) {
+    for (int i = 0;
+        i < state.viewRecentCasesResponse.data.details.length;
+        i++) {
       await OfflineDbHelper.getInstance()
           .insertRecentViewDBTable(RecentViewDBTable(
         state.viewRecentCasesResponse.data.details[i].title,
@@ -534,7 +583,6 @@ class _HomeScreenState extends BaseState<HomeScreen>
         state.viewRecentCasesResponse.data.details[i].subTitle,
         state.viewRecentCasesResponse.data.details[i].category,
         state.viewRecentCasesResponse.data.details[i].judgeName,
-
       ));
     }
 
