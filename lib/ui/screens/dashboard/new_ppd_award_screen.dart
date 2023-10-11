@@ -213,6 +213,8 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
   int tot_rating_without_convert = 0;
 
+  bool IS_Lost_Cap = false;
+
   @override
   void initState() {
     super.initState();
@@ -1722,6 +1724,13 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
                                   color: Color(0xFF000000),
                                 )),
                           ),
+                          IS_Lost_Cap == true
+                              ? Text(
+                                  "LOST DUE TO CAP",
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.red),
+                                )
+                              : Container(),
                           SizedBox(
                             width: 20,
                           ),
@@ -1884,29 +1893,32 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
             ),
           ),
 
-          InkWell(
-            onTap: () {},
-            child: Container(
-              margin: EdgeInsets.all(5),
-              child: Card(
-                  elevation: 10,
-                  color: APPButtonRed,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Container(
-                    width: 200,
-                    height: 35,
-                    margin: EdgeInsets.only(
-                        left: 20, right: 20, top: 10, bottom: 10),
-                    child: Center(
-                      child: Text("Calculate",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+          Visibility(
+            visible: false,
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                margin: EdgeInsets.all(5),
+                child: Card(
+                    elevation: 10,
+                    color: APPButtonRed,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  )),
+                    child: Container(
+                      width: 200,
+                      height: 35,
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: Center(
+                        child: Text("Calculate",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    )),
+              ),
             ),
           ),
           SizedBox(
@@ -8642,6 +8654,20 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
           (jsonObject) => CombineValueResponse.fromJson(jsonObject),
         )
         .toList();
+
+    print("notRepeatv" + notRepeat.toString());
+    for (int i = 0; i < books.length; i++) {
+      if (row.toInt() == books[i].row && column.toInt() == books[i].column) {
+        // Totalrate = books[i].value.toDouble();
+        print("RowColumValue " +
+            books[i].row.toString() +
+            " == " +
+            books[i].column.toString() +
+            " == " +
+            books[i].value.toString());
+      }
+    }
+
     if (notRepeat == false) {
       isCombine = true;
       for (int i = 0; i < books.length; i++) {
@@ -8653,7 +8679,11 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       }
       // Totalrate = row.toDouble() + column.toDouble();
       edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
-      print(row.toString() + "  " + column.toString());
+      print("sssssss4444" +
+          "   ----- > " +
+          row.toString() +
+          "  " +
+          Totalrate.toString());
     } else {
       isCombine = false;
       Totalrate = radio_one_red_per +
@@ -8663,6 +8693,13 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       print("ddfdff34" + " Total : " + Totalrate.toString());
       edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
     }
+
+    //Malhar
+
+    /// total award nu calculation ni formula muki ne value textfield ma set karvi
+
+    ///edt_Total_Award_Value_With_Current_Conversations.text aa controller ma value mukvi
+    setState(() {});
   }
 
   void totalawarvaluewithconvertion(double ttd) {
@@ -9542,5 +9579,1436 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
     edt_Combined_Whole_Person_Rate.text = tot_rating.toStringAsFixed(2);
     edt_Total_Award_Value_With_Current_Conversations.text =
         tot_value.toStringAsFixed(2);
+
+    //  Amount_Remaining_to_Reach_Cap.text = newcal.toStringAsFixed(2);
+
+    double amountcalculatetoreachcap =
+        Amount_Remaining_to_Reach_Cap.text.isNotEmpty
+            ? double.parse(Amount_Remaining_to_Reach_Cap.text)
+            : 0.00;
+
+    double NewTotalAwardvalueforLostCap = 0.00;
+
+    if (amountcalculatetoreachcap < 0) {
+      NewTotalAwardvalueforLostCap = tot_value - amountcalculatetoreachcap;
+      edt_Total_Award_Value_With_Current_Conversations.text =
+          NewTotalAwardvalueforLostCap.toStringAsFixed(2);
+      IS_Lost_Cap = true;
+    } else {
+      IS_Lost_Cap = false;
+    }
+
+    /* DateTime dt2 = DateTime.parse("09-07-2021");
+    DateTime dt1 = DateTime.parse(edt_date_of_inquiry.text.toString());
+*/
+
+    DateTime dt2 = new DateFormat("dd-MM-yyyy").parse("09-07-2021");
+    DateTime dt1 =
+        new DateFormat("dd-MM-yyyy").parse(edt_date_of_inquiry.text.toString());
+
+    if (dt1.compareTo(dt2) == 0) {
+      print("Both date time are at same moment.");
+
+      //  edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+    }
+
+    if (dt1.compareTo(dt2) < 0) {
+      print("DT1 is before DT2");
+
+      int RUE_Convert_Background = rightupperExtremlyRatecalculationBackground(
+          edt_right_upper_extremity_rating.text);
+      int LUE_Convert_Background = leftupperExtremlyRatecalculationBackground(
+          edt_left_upper_extremity_rating.text);
+      int RLE_Convert_Background = rightlowerExtremlyRatecalculationBackground(
+          edt_right_lower_extremity_rating.text);
+      int LLE_Convert_Background = leftlowerExtremlyRatecalculationBackground(
+          edt_left_lower_extremity_rating.text);
+
+      double totRateBackground = wholePersonRate +
+          RUE_Convert_Background +
+          LUE_Convert_Background +
+          RLE_Convert_Background +
+          LLE_Convert_Background;
+
+      if (totRateBackground >= 19) {
+        edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+      } else {
+        edt_Benefits_Cap.text = edt_Benefits_Cap2nd.text;
+      }
+
+      print("Banifitcond" +
+          "19%" +
+          "DT1 is before DT2" +
+          " WholePerson " +
+          wholePersonRate.toString() +
+          " RUE_Convert " +
+          RUE_Convert_Background.toString() +
+          " LUE_Convert " +
+          LUE_Convert_Background.toString() +
+          " RLE_Convert " +
+          RLE_Convert_Background.toString() +
+          " LLE_Convert " +
+          LLE_Convert_Background.toString());
+    }
+
+    if (dt1.compareTo(dt2) > 0) {
+      print("DT1 is after DT2");
+      print("Banifitcond" + "25%" + "DT1 is after DT2");
+
+      int RUE_Convert_Background = rightupperExtremlyRatecalculationBackground(
+          edt_right_upper_extremity_rating.text);
+      int LUE_Convert_Background = leftupperExtremlyRatecalculationBackground(
+          edt_left_upper_extremity_rating.text);
+      int RLE_Convert_Background = rightlowerExtremlyRatecalculationBackground(
+          edt_right_lower_extremity_rating.text);
+      int LLE_Convert_Background = leftlowerExtremlyRatecalculationBackground(
+          edt_left_lower_extremity_rating.text);
+
+      double totRateBackground = wholePersonRate +
+          RUE_Convert_Background +
+          LUE_Convert_Background +
+          RLE_Convert_Background +
+          LLE_Convert_Background;
+
+      if (totRateBackground >= 25) {
+        edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+      } else {
+        edt_Benefits_Cap.text = edt_Benefits_Cap2nd.text;
+      }
+
+      print("Banifitcond" +
+          "25%" +
+          "DT1 is before DT2" +
+          " WholePerson " +
+          wholePersonRate.toString() +
+          " RUE_Convert " +
+          RUE_Convert_Background.toString() +
+          " LUE_Convert " +
+          LUE_Convert_Background.toString() +
+          " RLE_Convert " +
+          RLE_Convert_Background.toString() +
+          " LLE_Convert " +
+          LLE_Convert_Background.toString());
+    }
+  }
+
+  int rightupperExtremlyRatecalculationBackground(String value) {
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+    // edt_Impairment_Rating_Right_Upper.text = value;
+
+    /* double a = value.toString() == "" ? 0.00 : double.parse(value);
+    double b = edt_schedule_rate_fromAPI.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_schedule_rate_fromAPI.text);
+    double result = 208 * b;
+
+    double resulta = result * a;
+    double resultb = resulta / 100;*/
+    double test = edt_right_upper_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_right_upper_extremity_rating.text.toString());
+    radio_one_red_before_per = test;
+    int test1 = test.toInt();
+
+    String rate = "";
+
+    if (test1 == 0) {
+      rate = "0";
+    }
+    if (test1 == 1) {
+      rate = "1";
+    }
+    if (test1 == 2) {
+      rate = "1";
+    }
+    if (test1 == 3) {
+      rate = "2";
+    }
+    if (test1 == 4) {
+      rate = "2";
+    }
+    if (test1 == 5) {
+      rate = "3";
+    }
+    if (test1 == 6) {
+      rate = "4";
+    }
+    if (test1 == 7) {
+      rate = "4";
+    }
+    if (test1 == 8) {
+      rate = "5";
+    }
+    if (test1 == 9) {
+      rate = "5";
+    }
+    if (test1 == 10) {
+      rate = "6";
+    }
+    if (test1 == 11) {
+      rate = "7";
+    }
+    if (test1 == 12) {
+      rate = "7";
+    }
+    if (test1 == 13) {
+      rate = "8";
+    }
+    if (test1 == 14) {
+      rate = "8";
+    }
+    if (test1 == 15) {
+      rate = "9";
+    }
+    if (test1 == 16) {
+      rate = "10";
+    }
+    if (test1 == 17) {
+      rate = "10";
+    }
+    if (test1 == 18) {
+      rate = "11";
+    }
+    if (test1 == 19) {
+      rate = "11";
+    }
+    if (test1 == 20) {
+      rate = "12";
+    }
+    if (test1 == 21) {
+      rate = "13";
+    }
+    if (test1 == 22) {
+      rate = "13";
+    }
+    if (test1 == 23) {
+      rate = "14";
+    }
+    if (test1 == 24) {
+      rate = "14";
+    }
+    if (test1 == 25) {
+      rate = "15";
+    }
+    if (test1 == 26) {
+      rate = "16";
+    }
+    if (test1 == 27) {
+      rate = "16";
+    }
+    if (test1 == 28) {
+      rate = "17";
+    }
+    if (test1 == 29) {
+      rate = "17";
+    }
+    if (test1 == 30) {
+      rate = "18";
+    }
+    if (test1 == 31) {
+      rate = "19";
+    }
+    if (test1 == 32) {
+      rate = "19";
+    }
+    if (test1 == 33) {
+      rate = "20";
+    }
+    if (test1 == 34) {
+      rate = "20";
+    }
+    if (test1 == 35) {
+      rate = "21";
+    }
+    if (test1 == 36) {
+      rate = "22";
+    }
+    if (test1 == 37) {
+      rate = "22";
+    }
+    if (test1 == 38) {
+      rate = "23";
+    }
+    if (test1 == 39) {
+      rate = "23";
+    }
+    if (test1 == 40) {
+      rate = "24";
+    }
+    if (test1 == 41) {
+      rate = "25";
+    }
+    if (test1 == 42) {
+      rate = "25";
+    }
+    if (test1 == 43) {
+      rate = "26";
+    }
+    if (test1 == 44) {
+      rate = "26";
+    }
+    if (test1 == 45) {
+      rate = "27";
+    }
+    if (test1 == 46) {
+      rate = "28";
+    }
+    if (test1 == 47) {
+      rate = "28";
+    }
+    if (test1 == 48) {
+      rate = "29";
+    }
+    if (test1 == 49) {
+      rate = "29";
+    }
+    if (test1 == 50) {
+      rate = "30";
+    }
+    if (test1 == 51) {
+      rate = "31";
+    }
+    if (test1 == 52) {
+      rate = "31";
+    }
+    if (test1 == 53) {
+      rate = "32";
+    }
+    if (test1 == 54) {
+      rate = "32";
+    }
+    if (test1 == 55) {
+      rate = "33";
+    }
+    if (test1 == 56) {
+      rate = "34";
+    }
+    if (test1 == 57) {
+      rate = "34";
+    }
+    if (test1 == 58) {
+      rate = "35";
+    }
+    if (test1 == 59) {
+      rate = "35";
+    }
+    if (test1 == 60) {
+      rate = "36";
+    }
+    if (test1 == 61) {
+      rate = "37";
+    }
+    if (test1 == 62) {
+      rate = "37";
+    }
+    if (test1 == 63) {
+      rate = "38";
+    }
+    if (test1 == 64) {
+      rate = "38";
+    }
+    if (test1 == 65) {
+      rate = "39";
+    }
+    if (test1 == 66) {
+      rate = "40";
+    }
+    if (test1 == 67) {
+      rate = "40";
+    }
+    if (test1 == 68) {
+      rate = "41";
+    }
+    if (test1 == 69) {
+      rate = "41";
+    }
+    if (test1 == 70) {
+      rate = "42";
+    }
+    if (test1 == 71) {
+      rate = "43";
+    }
+    if (test1 == 72) {
+      rate = "43";
+    }
+    if (test1 == 73) {
+      rate = "44";
+    }
+    if (test1 == 74) {
+      rate = "44";
+    }
+    if (test1 == 75) {
+      rate = "45";
+    }
+    if (test1 == 76) {
+      rate = "46";
+    }
+    if (test1 == 77) {
+      rate = "46";
+    }
+    if (test1 == 78) {
+      rate = "47";
+    }
+    if (test1 == 79) {
+      rate = "47";
+    }
+    if (test1 == 80) {
+      rate = "48";
+    }
+    if (test1 == 81) {
+      rate = "49";
+    }
+    if (test1 == 82) {
+      rate = "49";
+    }
+    if (test1 == 83) {
+      rate = "50";
+    }
+    if (test1 == 84) {
+      rate = "50";
+    }
+    if (test1 == 85) {
+      rate = "51";
+    }
+    if (test1 == 86) {
+      rate = "52";
+    }
+    if (test1 == 87) {
+      rate = "52";
+    }
+    if (test1 == 88) {
+      rate = "53";
+    }
+    if (test1 == 89) {
+      rate = "53";
+    }
+    if (test1 == 90) {
+      rate = "54";
+    }
+    if (test1 == 91) {
+      rate = "55";
+    }
+    if (test1 == 92) {
+      rate = "55";
+    }
+    if (test1 == 93) {
+      rate = "56";
+    }
+    if (test1 == 94) {
+      rate = "56";
+    }
+    if (test1 == 95) {
+      rate = "57";
+    }
+    if (test1 == 96) {
+      rate = "58";
+    }
+    if (test1 == 97) {
+      rate = "58";
+    }
+    if (test1 == 98) {
+      rate = "59";
+    }
+    if (test1 == 99) {
+      rate = "59";
+    }
+    if (test1 == 100) {
+      rate = "60";
+    }
+
+    return int.parse(rate);
+  }
+
+  int leftupperExtremlyRatecalculationBackground(String value) {
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+    double test = edt_left_upper_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_left_upper_extremity_rating.text.toString());
+    radio_two_red_before_per = test;
+
+    String rate = "";
+
+    int test1 = test.toInt();
+    if (test1 == 0) {
+      rate = "0";
+    }
+    if (test1 == 1) {
+      rate = "1";
+    }
+    if (test1 == 2) {
+      rate = "1";
+    }
+    if (test1 == 3) {
+      rate = "2";
+    }
+    if (test1 == 4) {
+      rate = "2";
+    }
+    if (test1 == 5) {
+      rate = "3";
+    }
+    if (test1 == 6) {
+      rate = "4";
+    }
+    if (test1 == 7) {
+      rate = "4";
+    }
+    if (test1 == 8) {
+      rate = "5";
+    }
+    if (test1 == 9) {
+      rate = "5";
+    }
+    if (test1 == 10) {
+      rate = "6";
+    }
+    if (test1 == 11) {
+      rate = "7";
+    }
+    if (test1 == 12) {
+      rate = "7";
+    }
+    if (test1 == 13) {
+      rate = "8";
+    }
+    if (test1 == 14) {
+      rate = "8";
+    }
+    if (test1 == 15) {
+      rate = "9";
+    }
+    if (test1 == 16) {
+      rate = "10";
+    }
+    if (test1 == 17) {
+      rate = "10";
+    }
+    if (test1 == 18) {
+      rate = "11";
+    }
+    if (test1 == 19) {
+      rate = "11";
+    }
+    if (test1 == 20) {
+      rate = "12";
+    }
+    if (test1 == 21) {
+      rate = "13";
+    }
+    if (test1 == 22) {
+      rate = "13";
+    }
+    if (test1 == 23) {
+      rate = "14";
+    }
+    if (test1 == 24) {
+      rate = "14";
+    }
+    if (test1 == 25) {
+      rate = "15";
+    }
+    if (test1 == 26) {
+      rate = "16";
+    }
+    if (test1 == 27) {
+      rate = "16";
+    }
+    if (test1 == 28) {
+      rate = "17";
+    }
+    if (test1 == 29) {
+      rate = "17";
+    }
+    if (test1 == 30) {
+      rate = "18";
+    }
+    if (test1 == 31) {
+      rate = "19";
+    }
+    if (test1 == 32) {
+      rate = "19";
+    }
+    if (test1 == 33) {
+      rate = "20";
+    }
+    if (test1 == 34) {
+      rate = "20";
+    }
+    if (test1 == 35) {
+      rate = "21";
+    }
+    if (test1 == 36) {
+      rate = "22";
+    }
+    if (test1 == 37) {
+      rate = "22";
+    }
+    if (test1 == 38) {
+      rate = "23";
+    }
+    if (test1 == 39) {
+      rate = "23";
+    }
+    if (test1 == 40) {
+      rate = "24";
+    }
+    if (test1 == 41) {
+      rate = "25";
+    }
+    if (test1 == 42) {
+      rate = "25";
+    }
+    if (test1 == 43) {
+      rate = "26";
+    }
+    if (test1 == 44) {
+      rate = "26";
+    }
+    if (test1 == 45) {
+      rate = "27";
+    }
+    if (test1 == 46) {
+      rate = "28";
+    }
+    if (test1 == 47) {
+      rate = "28";
+    }
+    if (test1 == 48) {
+      rate = "29";
+    }
+    if (test1 == 49) {
+      rate = "29";
+    }
+    if (test1 == 50) {
+      rate = "30";
+    }
+    if (test1 == 51) {
+      rate = "31";
+    }
+    if (test1 == 52) {
+      rate = "31";
+    }
+    if (test1 == 53) {
+      rate = "32";
+    }
+    if (test1 == 54) {
+      rate = "32";
+    }
+    if (test1 == 55) {
+      rate = "33";
+    }
+    if (test1 == 56) {
+      rate = "34";
+    }
+    if (test1 == 57) {
+      rate = "34";
+    }
+    if (test1 == 58) {
+      rate = "35";
+    }
+    if (test1 == 59) {
+      rate = "35";
+    }
+    if (test1 == 60) {
+      rate = "36";
+    }
+    if (test1 == 61) {
+      rate = "37";
+    }
+    if (test1 == 62) {
+      rate = "37";
+    }
+    if (test1 == 63) {
+      rate = "38";
+    }
+    if (test1 == 64) {
+      rate = "38";
+    }
+    if (test1 == 65) {
+      rate = "39";
+    }
+    if (test1 == 66) {
+      rate = "40";
+    }
+    if (test1 == 67) {
+      rate = "40";
+    }
+    if (test1 == 68) {
+      rate = "41";
+    }
+    if (test1 == 69) {
+      rate = "41";
+    }
+    if (test1 == 70) {
+      rate = "42";
+    }
+    if (test1 == 71) {
+      rate = "43";
+    }
+    if (test1 == 72) {
+      rate = "43";
+    }
+    if (test1 == 73) {
+      rate = "44";
+    }
+    if (test1 == 74) {
+      rate = "44";
+    }
+    if (test1 == 75) {
+      rate = "45";
+    }
+    if (test1 == 76) {
+      rate = "46";
+    }
+    if (test1 == 77) {
+      rate = "46";
+    }
+    if (test1 == 78) {
+      rate = "47";
+    }
+    if (test1 == 79) {
+      rate = "47";
+    }
+    if (test1 == 80) {
+      rate = "48";
+    }
+    if (test1 == 81) {
+      rate = "49";
+    }
+    if (test1 == 82) {
+      rate = "49";
+    }
+    if (test1 == 83) {
+      rate = "50";
+    }
+    if (test1 == 84) {
+      rate = "50";
+    }
+    if (test1 == 85) {
+      rate = "51";
+    }
+    if (test1 == 86) {
+      rate = "52";
+    }
+    if (test1 == 87) {
+      rate = "52";
+    }
+    if (test1 == 88) {
+      rate = "53";
+    }
+    if (test1 == 89) {
+      rate = "53";
+    }
+    if (test1 == 90) {
+      rate = "54";
+    }
+    if (test1 == 91) {
+      rate = "55";
+    }
+    if (test1 == 92) {
+      rate = "55";
+    }
+    if (test1 == 93) {
+      rate = "56";
+    }
+    if (test1 == 94) {
+      rate = "56";
+    }
+    if (test1 == 95) {
+      rate = "57";
+    }
+    if (test1 == 96) {
+      rate = "58";
+    }
+    if (test1 == 97) {
+      rate = "58";
+    }
+    if (test1 == 98) {
+      rate = "59";
+    }
+    if (test1 == 99) {
+      rate = "59";
+    }
+    if (test1 == 100) {
+      rate = "60";
+    }
+
+    return int.parse(rate);
+  }
+
+  int rightlowerExtremlyRatecalculationBackground(String value) {
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+    double test = edt_right_lower_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_right_lower_extremity_rating.text.toString());
+    radio_three_red_before_per = test;
+    int test1 = test.toInt();
+
+    String rate = "";
+
+    if (test1 == 0) {
+      rate = "0";
+    }
+    if (test1 == 1) {
+      rate = "0";
+    }
+    if (test1 == 2) {
+      rate = "1";
+    }
+    if (test1 == 3) {
+      rate = "1";
+    }
+    if (test1 == 4) {
+      rate = "2";
+    }
+    if (test1 == 5) {
+      rate = "2";
+    }
+    if (test1 == 6) {
+      rate = "2";
+    }
+    if (test1 == 7) {
+      rate = "3";
+    }
+    if (test1 == 8) {
+      rate = "3";
+    }
+    if (test1 == 9) {
+      rate = "4";
+    }
+    if (test1 == 10) {
+      rate = "4";
+    }
+    if (test1 == 11) {
+      rate = "4";
+    }
+    if (test1 == 12) {
+      rate = "5";
+    }
+    if (test1 == 13) {
+      rate = "5";
+    }
+    if (test1 == 14) {
+      rate = "6";
+    }
+    if (test1 == 15) {
+      rate = "6";
+    }
+    if (test1 == 16) {
+      rate = "6";
+    }
+    if (test1 == 17) {
+      rate = "7";
+    }
+    if (test1 == 18) {
+      rate = "7";
+    }
+    if (test1 == 19) {
+      rate = "8";
+    }
+    if (test1 == 20) {
+      rate = "8";
+    }
+    if (test1 == 21) {
+      rate = "8";
+    }
+    if (test1 == 22) {
+      rate = "9";
+    }
+    if (test1 == 23) {
+      rate = "9";
+    }
+    if (test1 == 24) {
+      rate = "10";
+    }
+    if (test1 == 25) {
+      rate = "10";
+    }
+    if (test1 == 26) {
+      rate = "10";
+    }
+    if (test1 == 27) {
+      rate = "11";
+    }
+    if (test1 == 28) {
+      rate = "11";
+    }
+    if (test1 == 29) {
+      rate = "12";
+    }
+    if (test1 == 30) {
+      rate = "12";
+    }
+    if (test1 == 31) {
+      rate = "12";
+    }
+    if (test1 == 32) {
+      rate = "13";
+    }
+    if (test1 == 33) {
+      rate = "13";
+    }
+    if (test1 == 34) {
+      rate = "14";
+    }
+    if (test1 == 35) {
+      rate = "14";
+    }
+    if (test1 == 36) {
+      rate = "14";
+    }
+    if (test1 == 37) {
+      rate = "15";
+    }
+    if (test1 == 38) {
+      rate = "15";
+    }
+    if (test1 == 39) {
+      rate = "16";
+    }
+    if (test1 == 40) {
+      rate = "16";
+    }
+    if (test1 == 41) {
+      rate = "16";
+    }
+    if (test1 == 42) {
+      rate = "17";
+    }
+    if (test1 == 43) {
+      rate = "17";
+    }
+    if (test1 == 44) {
+      rate = "18";
+    }
+    if (test1 == 45) {
+      rate = "18";
+    }
+    if (test1 == 46) {
+      rate = "18";
+    }
+    if (test1 == 47) {
+      rate = "19";
+    }
+    if (test1 == 48) {
+      rate = "19";
+    }
+    if (test1 == 49) {
+      rate = "20";
+    }
+    if (test1 == 50) {
+      rate = "20";
+    }
+    if (test1 == 51) {
+      rate = "20";
+    }
+    if (test1 == 52) {
+      rate = "21";
+    }
+    if (test1 == 53) {
+      rate = "21";
+    }
+    if (test1 == 54) {
+      rate = "22";
+    }
+    if (test1 == 55) {
+      rate = "22";
+    }
+    if (test1 == 56) {
+      rate = "22";
+    }
+    if (test1 == 57) {
+      rate = "23";
+    }
+    if (test1 == 58) {
+      rate = "23";
+    }
+    if (test1 == 59) {
+      rate = "24";
+    }
+    if (test1 == 60) {
+      rate = "24";
+    }
+    if (test1 == 61) {
+      rate = "24";
+    }
+    if (test1 == 62) {
+      rate = "25";
+    }
+    if (test1 == 63) {
+      rate = "25";
+    }
+    if (test1 == 64) {
+      rate = "26";
+    }
+    if (test1 == 65) {
+      rate = "26";
+    }
+    if (test1 == 66) {
+      rate = "28";
+    }
+    if (test1 == 67) {
+      rate = "27";
+    }
+    if (test1 == 68) {
+      rate = "27";
+    }
+    if (test1 == 69) {
+      rate = "28";
+    }
+    if (test1 == 70) {
+      rate = "28";
+    }
+    if (test1 == 71) {
+      rate = "28";
+    }
+    if (test1 == 72) {
+      rate = "29";
+    }
+    if (test1 == 73) {
+      rate = "29";
+    }
+    if (test1 == 74) {
+      rate = "30";
+    }
+    if (test1 == 75) {
+      rate = "30";
+    }
+    if (test1 == 76) {
+      rate = "30";
+    }
+    if (test1 == 77) {
+      rate = "31";
+    }
+    if (test1 == 78) {
+      rate = "31";
+    }
+    if (test1 == 79) {
+      rate = "32";
+    }
+    if (test1 == 80) {
+      rate = "32";
+    }
+    if (test1 == 81) {
+      rate = "32";
+    }
+    if (test1 == 82) {
+      rate = "33";
+    }
+    if (test1 == 83) {
+      rate = "33";
+    }
+    if (test1 == 84) {
+      rate = "34";
+    }
+    if (test1 == 85) {
+      rate = "34";
+    }
+    if (test1 == 86) {
+      rate = "34";
+    }
+    if (test1 == 87) {
+      rate = "35";
+    }
+    if (test1 == 88) {
+      rate = "35";
+    }
+    if (test1 == 89) {
+      rate = "36";
+    }
+    if (test1 == 90) {
+      rate = "36";
+    }
+    if (test1 == 91) {
+      rate = "36";
+    }
+    if (test1 == 92) {
+      rate = "37";
+    }
+    if (test1 == 93) {
+      rate = "37";
+    }
+    if (test1 == 94) {
+      rate = "38";
+    }
+    if (test1 == 95) {
+      rate = "38";
+    }
+    if (test1 == 96) {
+      rate = "38";
+    }
+    if (test1 == 97) {
+      rate = "39";
+    }
+    if (test1 == 98) {
+      rate = "39";
+    }
+    if (test1 == 99) {
+      rate = "40";
+    }
+    if (test1 == 100) {
+      rate = "40";
+    }
+
+    return int.parse(rate);
+  }
+
+  int leftlowerExtremlyRatecalculationBackground(String value) {
+    //edt_whole_person_impliment_rating
+    //edt_Whole_Person_Rating
+    //edt_Value_of_the_Rating
+
+    double test = edt_left_lower_extremity_rating.text.toString() == ""
+        ? 0.00
+        : double.parse(edt_left_lower_extremity_rating.text.toString());
+    radio_four_red_before_per = test;
+    int test1 = test.toInt();
+    String rate = "";
+    if (test1 == 0) {
+      rate = "0";
+    }
+    if (test1 == 1) {
+      rate = "0";
+    }
+    if (test1 == 2) {
+      rate = "1";
+    }
+    if (test1 == 3) {
+      rate = "1";
+    }
+    if (test1 == 4) {
+      rate = "2";
+    }
+    if (test1 == 5) {
+      rate = "2";
+    }
+    if (test1 == 6) {
+      rate = "2";
+    }
+    if (test1 == 7) {
+      rate = "3";
+    }
+    if (test1 == 8) {
+      rate = "3";
+    }
+    if (test1 == 9) {
+      rate = "4";
+    }
+    if (test1 == 10) {
+      rate = "4";
+    }
+    if (test1 == 11) {
+      rate = "4";
+    }
+    if (test1 == 12) {
+      rate = "5";
+    }
+    if (test1 == 13) {
+      rate = "5";
+    }
+    if (test1 == 14) {
+      rate = "6";
+    }
+    if (test1 == 15) {
+      rate = "6";
+    }
+    if (test1 == 16) {
+      rate = "6";
+    }
+    if (test1 == 17) {
+      rate = "7";
+    }
+    if (test1 == 18) {
+      rate = "7";
+    }
+    if (test1 == 19) {
+      rate = "8";
+    }
+    if (test1 == 20) {
+      rate = "8";
+    }
+    if (test1 == 21) {
+      rate = "8";
+    }
+    if (test1 == 22) {
+      rate = "9";
+    }
+    if (test1 == 23) {
+      rate = "9";
+    }
+    if (test1 == 24) {
+      rate = "10";
+    }
+    if (test1 == 25) {
+      rate = "10";
+    }
+    if (test1 == 26) {
+      rate = "10";
+    }
+    if (test1 == 27) {
+      rate = "11";
+    }
+    if (test1 == 28) {
+      rate = "11";
+    }
+    if (test1 == 29) {
+      rate = "12";
+    }
+    if (test1 == 30) {
+      rate = "12";
+    }
+    if (test1 == 31) {
+      rate = "12";
+    }
+    if (test1 == 32) {
+      rate = "13";
+    }
+    if (test1 == 33) {
+      rate = "13";
+    }
+    if (test1 == 34) {
+      rate = "14";
+    }
+    if (test1 == 35) {
+      rate = "14";
+    }
+    if (test1 == 36) {
+      rate = "14";
+    }
+    if (test1 == 37) {
+      rate = "15";
+    }
+    if (test1 == 38) {
+      rate = "15";
+    }
+    if (test1 == 39) {
+      rate = "16";
+    }
+    if (test1 == 40) {
+      rate = "16";
+    }
+    if (test1 == 41) {
+      rate = "16";
+    }
+    if (test1 == 42) {
+      rate = "17";
+    }
+    if (test1 == 43) {
+      rate = "17";
+    }
+    if (test1 == 44) {
+      rate = "18";
+    }
+    if (test1 == 45) {
+      rate = "18";
+    }
+    if (test1 == 46) {
+      rate = "18";
+    }
+    if (test1 == 47) {
+      rate = "19";
+    }
+    if (test1 == 48) {
+      rate = "19";
+    }
+    if (test1 == 49) {
+      rate = "20";
+    }
+    if (test1 == 50) {
+      rate = "20";
+    }
+    if (test1 == 51) {
+      rate = "20";
+    }
+    if (test1 == 52) {
+      rate = "21";
+    }
+    if (test1 == 53) {
+      rate = "21";
+    }
+    if (test1 == 54) {
+      rate = "22";
+    }
+    if (test1 == 55) {
+      rate = "22";
+    }
+    if (test1 == 56) {
+      rate = "22";
+    }
+    if (test1 == 57) {
+      rate = "23";
+    }
+    if (test1 == 58) {
+      rate = "23";
+    }
+    if (test1 == 59) {
+      rate = "24";
+    }
+    if (test1 == 60) {
+      rate = "24";
+    }
+    if (test1 == 61) {
+      rate = "24";
+    }
+    if (test1 == 62) {
+      rate = "25";
+    }
+    if (test1 == 63) {
+      rate = "25";
+    }
+    if (test1 == 64) {
+      rate = "26";
+    }
+    if (test1 == 65) {
+      rate = "26";
+    }
+    if (test1 == 66) {
+      rate = "28";
+    }
+    if (test1 == 67) {
+      rate = "27";
+    }
+    if (test1 == 68) {
+      rate = "27";
+    }
+    if (test1 == 69) {
+      rate = "28";
+    }
+    if (test1 == 70) {
+      rate = "28";
+    }
+    if (test1 == 71) {
+      rate = "28";
+    }
+    if (test1 == 72) {
+      rate = "29";
+    }
+    if (test1 == 73) {
+      rate = "29";
+    }
+    if (test1 == 74) {
+      rate = "30";
+    }
+    if (test1 == 75) {
+      rate = "30";
+    }
+    if (test1 == 76) {
+      rate = "30";
+    }
+    if (test1 == 77) {
+      rate = "31";
+    }
+    if (test1 == 78) {
+      rate = "31";
+    }
+    if (test1 == 79) {
+      rate = "32";
+    }
+    if (test1 == 80) {
+      rate = "32";
+    }
+    if (test1 == 81) {
+      rate = "32";
+    }
+    if (test1 == 82) {
+      rate = "33";
+    }
+    if (test1 == 83) {
+      rate = "33";
+    }
+    if (test1 == 84) {
+      rate = "34";
+    }
+    if (test1 == 85) {
+      rate = "34";
+    }
+    if (test1 == 86) {
+      rate = "34";
+    }
+    if (test1 == 87) {
+      rate = "35";
+    }
+    if (test1 == 88) {
+      rate = "35";
+    }
+    if (test1 == 89) {
+      rate = "36";
+    }
+    if (test1 == 90) {
+      rate = "36";
+    }
+    if (test1 == 91) {
+      rate = "36";
+    }
+    if (test1 == 92) {
+      rate = "37";
+    }
+    if (test1 == 93) {
+      rate = "37";
+    }
+    if (test1 == 94) {
+      rate = "38";
+    }
+    if (test1 == 95) {
+      rate = "38";
+    }
+    if (test1 == 96) {
+      rate = "38";
+    }
+    if (test1 == 97) {
+      rate = "39";
+    }
+    if (test1 == 98) {
+      rate = "39";
+    }
+    if (test1 == 99) {
+      rate = "40";
+    }
+    if (test1 == 100) {
+      rate = "40";
+    }
+    return int.parse(rate);
   }
 }
+/*
+
+if(09/07/2021 > DOI)
+{
+    19%
+
+    if(TotalRate>=19)
+    {
+      2ndCap
+    }
+    else
+    {
+        1stCap
+    }
+
+}
+
+else
+{
+    25%
+
+      if(TotalRate>=25)
+    {
+      2ndCap
+    }
+    else
+    {
+        1stCap
+    }
+
+
+}
+*/

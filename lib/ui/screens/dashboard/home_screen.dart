@@ -188,7 +188,7 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
   HeaderPart() {
     return Container(
-      height: 420,
+      height: 350,
       decoration: BoxDecoration(
           /* border: Border.all(
             color: Colors.red[500],
@@ -397,8 +397,8 @@ class _HomeScreenState extends BaseState<HomeScreen>
               },
               child: Center(
                 child: Container(
-                  height: 140,
-                  width: 155,
+                  height: 60,
+                  width: 340,
                   decoration: BoxDecoration(
                       border: Border.all(
                         width: 0.3,
@@ -406,16 +406,20 @@ class _HomeScreenState extends BaseState<HomeScreen>
                       ),
                       color: colorPrimary,
                       borderRadius: BorderRadius.all(Radius.circular(6))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(
+                        width: 10,
+                      ),
                       Image.asset(
                         ABOUT_US,
                         height: 45,
                         width: 45,
                       ),
                       SizedBox(
-                        height: 20,
+                        width: 10,
                       ),
                       Text("About Us",
                           style: TextStyle(
