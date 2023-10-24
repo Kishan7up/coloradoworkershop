@@ -1999,7 +1999,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
   wholePersonimperimentsCalculation() {
     double TTDRate = 0.00;
 
-    print("DateofInjuryAdge" + " AdgeFactor" + AgeFactorForInjury.toString());
+    debugPrint("DateofInjuryAdge" + " AdgeFactor" + AgeFactorForInjury.toString());
 
     double a = edt_whole_person_impliment_rating.text.toString() == ""
         ? 0.00
@@ -2029,10 +2029,15 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         " compRate : " +
         compRate.toString());
 
-    if (avgweek > max_aww) {
-      TTDRate = compRate;
+    if (AgeFactorForInjury == 1.8 || AgeFactorForInjury==1.80) {
+      TTDRate = (max_aww * 2) / 3;
+      print("MAX TTD" + TTDRate.toString());
     } else {
-      TTDRate = (avgweek * 2) / 3;
+      if (avgweek > max_aww) {
+        TTDRate = compRate;
+      } else {
+        TTDRate = (avgweek * 2) / 3;
+      }
     }
 
     print("dskfdsfl" + TTDRate.toString());
@@ -2078,8 +2083,8 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     Total_TTD_TPD_benefits_you_have_received.text = ttd_tpd.toStringAsFixed(2);
 
-    double newcal = banifitcap - resultb - ttd_tpd;
-
+    double newcal = banifitcap - tot_ttd_tpd_rec;
+    print("AMOUNT REMAIN  "+banifitcap.toString()+" "+ resultb.toString() + " "+ttd_tpd.toString() +" "+edt_Benefits_Cap.text.toString());
     Amount_Remaining_to_Reach_Cap.text = newcal.toStringAsFixed(2);
     updatetotalschedule();
     setState(() {});
@@ -3561,8 +3566,9 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        if (AgeFactorForInjury == 1.80) {
+        if (AgeFactorForInjury == 1.8 || AgeFactorForInjury==1.80) {
           TTDRate = (max_aww * 2) / 3;
+          print("MAX TTD" + TTDRate.toString());
         } else {
           if (avgweek > max_aww) {
             TTDRate = compRate;
@@ -3622,25 +3628,45 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     // Array<> first;
     int first = 0;
-
+    bool isRow_1 = false,
+        isRow_2 = false,
+        isRow_3 = false,
+        isRow_4 = false,
+        notRepeat = false;
     //
 
     if (radio_one_red_per != 0.00) {
       first = 1;
       row = radio_one_red_per;
       print("one input");
+      isRow_1 = true;
+      isRow_2 = false;
+      isRow_3 = false;
+      isRow_4 = false;
     } else if (radio_two_red_per != 0.00 && first == 0) {
       print("two input");
       first = 2;
       row = radio_two_red_per;
+      isRow_2 = true;
+      isRow_1 = false;
+      isRow_3 = false;
+      isRow_4 = false;
     } else if (radio_three_red_per != 0.00 && first == 0) {
       print("three input");
       first = 3;
       row = radio_three_red_per;
+      isRow_3 = true;
+      isRow_2 = false;
+      isRow_1 = false;
+      isRow_4 = false;
     } else if (radio_four_red_after_per != 0.00 && first == 0) {
       print("four input");
       first = 4;
       row = radio_four_red_per;
+      isRow_4 = true;
+      isRow_2 = false;
+      isRow_3 = false;
+      isRow_1 = false;
     }
     if (radio_two_red_per != 0.00 && first != 0 && first != 2) {
       print("Column two input");
@@ -3653,20 +3679,28 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       column = radio_four_red_per;
     }
 
-//
-    bool isRow_1 = false,
-        isRow_2 = false,
-        isRow_3 = false,
-        isRow_4 = false,
-        notRepeat = false;
+
+
     if (radio_one_red_per != 0.00) {
       isRow_1 = true;
+      isRow_2 = false;
+      isRow_3 = false;
+      isRow_4 = false;
     } else if (radio_two_red_per != 0.00) {
       isRow_2 = true;
+      isRow_1 = false;
+      isRow_3 = false;
+      isRow_4 = false;
     } else if (radio_three_red_per != 0.00) {
       isRow_3 = true;
+      isRow_2 = false;
+      isRow_1 = false;
+      isRow_4 = false;
     } else if (radio_four_red_per != 0.00) {
       isRow_4 = true;
+      isRow_2 = false;
+      isRow_3 = false;
+      isRow_1 = false;
     }
     if (radio_one_red_per != 0.00 &&
         radio_two_red_per != 0.00 &&
@@ -3674,24 +3708,24 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         radio_four_red_per != 0.00) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text = "";
+      edt_Combined_Whole_Person_Rate.text = "0.00";
     }
     if (isRow_1 == true && isRow_2 == true && isRow_3 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text = "";
+      edt_Combined_Whole_Person_Rate.text = "0.00";
     } else if (isRow_2 == true && isRow_3 == true && isRow_4 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text = "";
+      edt_Combined_Whole_Person_Rate.text = "0.00";
     } else if (isRow_3 == true && isRow_4 == true && isRow_1 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text = "";
+      edt_Combined_Whole_Person_Rate.text = "0.00";
     } else if (isRow_4 == true && isRow_1 == true && isRow_2 == true) {
       notRepeat = true;
       Totalrate = 0.00;
-      edt_Combined_Whole_Person_Rate.text = "";
+      edt_Combined_Whole_Person_Rate.text = "0.00";
     } else {
       notRepeat = false;
     }
@@ -8655,7 +8689,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         )
         .toList();
 
-    print("notRepeatv" + notRepeat.toString());
+    print("notRepeat" + notRepeat.toString());
     for (int i = 0; i < books.length; i++) {
       if (row.toInt() == books[i].row && column.toInt() == books[i].column) {
         // Totalrate = books[i].value.toDouble();
@@ -8673,12 +8707,15 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       for (int i = 0; i < books.length; i++) {
         if (row.toInt() == books[i].row && column.toInt() == books[i].column) {
           Totalrate = books[i].value.toDouble();
+          print(books[i].row.toString() + " == " + books[i].column.toString() +
+              " == " + books[i].value.toString());
+          edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
         }
-        // print(books[i].row.toString() + " == " + books[i].column.toString() +
-        //     " == " + books[i].value.toString());
+
+        // print("inLoop" + " Total : " + Totalrate.toString());
       }
       // Totalrate = row.toDouble() + column.toDouble();
-      edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
+
       print("sssssss4444" +
           "   ----- > " +
           row.toString() +
@@ -8693,7 +8730,11 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       print("ddfdff34" + " Total : " + Totalrate.toString());
       edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
     }
-
+    print("isCombine" +
+        "   ----- > " +
+        isCombine.toString() +
+        "  " +
+        Totalrate.toString());
     //Malhar
 
     /// total award nu calculation ni formula muki ne value textfield ma set karvi
@@ -8712,7 +8753,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
     double awardValue = 0.00;
     if (isCombine ||
         ttd != 0.00 ||
-        edt_Combined_Whole_Person_Rate.text != "0.00") {
+        edt_Combined_Whole_Person_Rate.text != "0.00" || edt_Combined_Whole_Person_Rate.text!="" ) {
       double resultb1 = ttd * 400 * AgeFactorForInjury;
 
       awardValue =
@@ -9576,7 +9617,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
     double tot_value =
         wholePersonValue + RU_Value + LU_Value + RL_Value + LL_Value;
 
-    edt_Combined_Whole_Person_Rate.text = tot_rating.toStringAsFixed(2);
+    // edt_Combined_Whole_Person_Rate.text = tot_rating.toStringAsFixed(2);
     edt_Total_Award_Value_With_Current_Conversations.text =
         tot_value.toStringAsFixed(2);
 
@@ -9590,9 +9631,11 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
     double NewTotalAwardvalueforLostCap = 0.00;
 
     if (amountcalculatetoreachcap < 0) {
-      NewTotalAwardvalueforLostCap = tot_value - amountcalculatetoreachcap;
-      edt_Total_Award_Value_With_Current_Conversations.text =
-          NewTotalAwardvalueforLostCap.toStringAsFixed(2);
+
+      // NewTotalAwardvalueforLostCap = tot_value - amountcalculatetoreachcap;
+      edt_Total_Award_Value_With_Current_Conversations.text = tot_value.toStringAsFixed(2);
+          // NewTotalAwardvalueforLostCap.toStringAsFixed(2);
+      print("Amount ==> "+amountcalculatetoreachcap.toString()+"===Total Value =>> "+tot_value.toString());
       IS_Lost_Cap = true;
     } else {
       IS_Lost_Cap = false;
