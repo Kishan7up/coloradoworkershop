@@ -214,6 +214,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
   int tot_rating_without_convert = 0;
 
   bool IS_Lost_Cap = false;
+  int y11 = 0;
 
   @override
   void initState() {
@@ -718,7 +719,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
     final year11 = start1.year - end1.year;
     final mth1 = start1.month - end1.month;
     final days1 = start1.day - end1.day;
-    int y11;
+
     // if (mth < 0) {
     /// negative month means it's still upcoming
     print('you buns is ${year11 - 1}');
@@ -771,9 +772,16 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     y = calculateAge();
 
-    if (y < 21 || y11 < 21) {
+    /*if (y < 21 || y11 < 21) {
+
+      print("khoti" + " Year  :" + calculateAge().toString() + " Y : " + y.toString() + " y11 : " + y11.toString());
+
       AgeFactorForInjury = 1.80;
-    } else {
+    } else {*/
+
+      print("sachi" + " Year  :" + calculateAge().toString());
+
+
       if (y < 21) {
         AgeFactorForInjury = 1.80;
       } else if (y == 21) {
@@ -859,7 +867,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       } else if (y > 60) {
         AgeFactorForInjury = 1.00;
       }
-    }
+
     print("AgeFactor:== " + AgeFactorForInjury.toString());
 
     print("AgeFactor From :== " + AgeFactorForInjury.toString());
@@ -1255,7 +1263,15 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
                                         }
                                       },*/
                           onChanged: (value) {
+
                             wholePersonimperimentsCalculation();
+
+                            double a = edt_whole_person_impliment_rating.text.toString() == ""
+                                ? 0.00
+                                : double.parse(edt_whole_person_impliment_rating.text.toString());
+
+                            edt_Potential_Combined_Whole_Person_Rating.text = a.toStringAsFixed(2);
+
 
                             /* int wholePerson = int.parse(value);
                             int rightUpper =
@@ -1759,7 +1775,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
                                         const EdgeInsets.only(top: 10.0),
                                     border: UnderlineInputBorder(),
                                     labelText:
-                                        'Potential Combined Whole Person Rating',
+                                        'Whole Person Rating',
                                     suffixIcon: Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, bottom: 10.0),
@@ -2001,6 +2017,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     debugPrint("DateofInjuryAdge" + " AdgeFactor" + AgeFactorForInjury.toString());
 
+
     double a = edt_whole_person_impliment_rating.text.toString() == ""
         ? 0.00
         : double.parse(edt_whole_person_impliment_rating.text.toString());
@@ -2029,7 +2046,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         " compRate : " +
         compRate.toString());
 
-    if (AgeFactorForInjury == 1.8 || AgeFactorForInjury==1.80) {
+    if(y11<21) {
       TTDRate = (max_aww * 2) / 3;
       print("MAX TTD" + TTDRate.toString());
     } else {
@@ -2067,6 +2084,9 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     double tot_ttd_tpd_rec = ttd_tpd + resultb;
 
+
+    print("ttttrrr"+ banifitcap.toString());
+
     if (tot_ttd_tpd_rec > banifitcap) {
       // Total_TTD_TPD_benefits_you_have_received.text = banifitcap.toStringAsFixed(2);
 
@@ -2083,8 +2103,65 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     Total_TTD_TPD_benefits_you_have_received.text = ttd_tpd.toStringAsFixed(2);
 
-    double newcal = banifitcap - tot_ttd_tpd_rec;
-    print("AMOUNT REMAIN  "+banifitcap.toString()+" "+ resultb.toString() + " "+ttd_tpd.toString() +" "+edt_Benefits_Cap.text.toString());
+   // double newcal = banifitcap - tot_ttd_tpd_rec;
+
+
+
+
+    double tempbenifitcap = 0.00;//edt_Benefits_Cap.text.isEmpty?0.00:double.parse(edt_Benefits_Cap.text);
+
+
+    DateTime dt2 = new DateFormat("dd-MM-yyyy").parse("09-07-2021");
+    DateTime dt1 =
+    new DateFormat("dd-MM-yyyy").parse(edt_date_of_inquiry.text.toString());
+
+
+
+    if (dt1.compareTo(dt2) == 0) {
+      print("Both date time are at same moment.");
+
+      //  edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+    }
+
+    if (dt1.compareTo(dt2) < 0) {
+      print("DT1 is before DT2");
+
+      double wholePersonRate1 = edt_Whole_Person_Rating.text.isNotEmpty
+          ? double.parse(edt_Whole_Person_Rating.text)
+          : 0;
+
+      if (wholePersonRate1 >= 19) {
+        edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+      } else {
+        edt_Benefits_Cap.text = edt_Benefits_Cap2nd.text;
+      }
+      tempbenifitcap = edt_Benefits_Cap.text.isEmpty?0.00:double.parse(edt_Benefits_Cap.text);
+
+
+    }
+
+    if (dt1.compareTo(dt2) > 0) {
+      print("DT1 is after DT2");
+      print("Banifitcond" + "25%" + "DT1 is after DT2");
+
+      double wholePersonRate1 = edt_Whole_Person_Rating.text.isNotEmpty
+          ? double.parse(edt_Whole_Person_Rating.text)
+          : 0;
+
+
+
+      if (wholePersonRate1 >= 25) {
+        edt_Benefits_Cap.text = edt_Benefits_Cap1st.text;
+      } else {
+        edt_Benefits_Cap.text = edt_Benefits_Cap2nd.text;
+      }
+
+      tempbenifitcap = edt_Benefits_Cap.text.isEmpty?0.00:double.parse(edt_Benefits_Cap.text);
+
+    }
+
+    double newcal = tempbenifitcap  - tot_ttd_tpd_rec;
+    print("AMOUNTREMAIN567  "+tempbenifitcap.toString()+" "+ resultb.toString() + " "+ttd_tpd.toString() +" "+edt_Benefits_Cap.text.toString());
     Amount_Remaining_to_Reach_Cap.text = newcal.toStringAsFixed(2);
     updatetotalschedule();
     setState(() {});
@@ -2435,7 +2512,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        if (AgeFactorForInjury == 1.80) {
+        if(y11<21) {
           TTDRate = (max_aww * 2) / 3;
         } else {
           if (avgweek > max_aww) {
@@ -2817,7 +2894,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
 
-        if (AgeFactorForInjury == 1.80) {
+        if(y11<21) {
           TTDRate = (max_aww * 2) / 3;
         } else {
           if (avgweek > max_aww) {
@@ -3187,7 +3264,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        if (AgeFactorForInjury == 1.80) {
+        if(y11<21) {
           TTDRate = (max_aww * 2) / 3;
         } else {
           if (avgweek > max_aww) {
@@ -3566,7 +3643,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
         double compRate = edt_COMP_RATE.text.toString() == ""
             ? 0.00
             : double.parse(edt_COMP_RATE.text);
-        if (AgeFactorForInjury == 1.8 || AgeFactorForInjury==1.80) {
+        if(y11<21) {
           TTDRate = (max_aww * 2) / 3;
           print("MAX TTD" + TTDRate.toString());
         } else {
@@ -8707,7 +8784,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       for (int i = 0; i < books.length; i++) {
         if (row.toInt() == books[i].row && column.toInt() == books[i].column) {
           Totalrate = books[i].value.toDouble();
-          print(books[i].row.toString() + " == " + books[i].column.toString() +
+          print("testsebnario12"+books[i].row.toString() + " == " + books[i].column.toString() +
               " == " + books[i].value.toString());
           edt_Combined_Whole_Person_Rate.text = Totalrate.toStringAsFixed(2);
         }
@@ -8751,13 +8828,15 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     double a = 0.00, b = 0.00, c = 0.00, d = 0.00;
     double awardValue = 0.00;
-    if (isCombine ||
-        ttd != 0.00 ||
-        edt_Combined_Whole_Person_Rate.text != "0.00" || edt_Combined_Whole_Person_Rate.text!="" ) {
+    if (isCombine || ttd != 0.00 || edt_Combined_Whole_Person_Rate.text != "0.00" || edt_Combined_Whole_Person_Rate.text!="" ) {
       double resultb1 = ttd * 400 * AgeFactorForInjury;
 
+
+      double tempwpvalue = edt_Combined_Whole_Person_Rate.text.toString().isEmpty? 0.00:double.parse(edt_Combined_Whole_Person_Rate.text);
+      print("AWA099aa" + tempwpvalue.toString());
+
       awardValue =
-          (resultb1 * double.parse(edt_Combined_Whole_Person_Rate.text)) / 100;
+          (resultb1 * tempwpvalue) / 100;
       print("AWARD VALUE1 === " + awardValue.toString());
     } else {
       if (edt_Value_of_the_Rating_Right_Upper.text != "") {
@@ -9734,6 +9813,9 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
           LLE_Convert_Background.toString());
     }
   }
+
+
+
 
   int rightupperExtremlyRatecalculationBackground(String value) {
     //edt_whole_person_impliment_rating
