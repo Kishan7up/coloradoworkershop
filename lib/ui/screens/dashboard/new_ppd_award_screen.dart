@@ -782,7 +782,7 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
       print("sachi" + " Year  :" + calculateAge().toString());
 
 
-      if (y < 21) {
+      if (y < 21 || y11 < 21) {
         AgeFactorForInjury = 1.80;
       } else if (y == 21) {
         AgeFactorForInjury = 1.78;
@@ -9711,8 +9711,8 @@ class _NewPpdAwardScreenState extends BaseState<NewPpdAwardScreen>
 
     if (amountcalculatetoreachcap < 0) {
 
-      // NewTotalAwardvalueforLostCap = tot_value - amountcalculatetoreachcap;
-      edt_Total_Award_Value_With_Current_Conversations.text = tot_value.toStringAsFixed(2);
+      NewTotalAwardvalueforLostCap = tot_value - amountcalculatetoreachcap.abs();
+      edt_Total_Award_Value_With_Current_Conversations.text = NewTotalAwardvalueforLostCap.toStringAsFixed(2);
           // NewTotalAwardvalueforLostCap.toStringAsFixed(2);
       print("Amount ==> "+amountcalculatetoreachcap.toString()+"===Total Value =>> "+tot_value.toString());
       IS_Lost_Cap = true;
